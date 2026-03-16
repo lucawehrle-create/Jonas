@@ -1138,25 +1138,26 @@
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
+        .news-ticker-track {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
         .news-ticker-content {
-            display: flex;
-            animation: tickerScroll var(--ticker-duration, 60s) linear infinite;
+            display: inline-flex;
             white-space: nowrap;
-            padding-left: 20px;
+            will-change: transform;
         }
         .news-ticker-item {
             padding: 0 40px;
             white-space: nowrap;
+            display: inline-block;
         }
         .news-ticker-item::before {
             content: '+++';
             margin-right: 10px;
             color: #c0392b;
             font-weight: bold;
-        }
-        @keyframes tickerScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
         }
         .news-ticker-close {
             background: none; border: none; color: #888;
@@ -1984,7 +1985,9 @@
     <!-- News Ticker -->
     <div class="news-ticker" id="newsTicker">
         <div class="news-ticker-label">EILMELDUNG</div>
-        <div class="news-ticker-content" id="tickerContent"></div>
+        <div class="news-ticker-track">
+            <div class="news-ticker-content" id="tickerContent"></div>
+        </div>
         <button class="news-ticker-close" id="tickerClose" title="Schliessen">&times;</button>
     </div>
 
@@ -3396,7 +3399,7 @@
 
             if (!ticker || !content) return;
 
-            // Build doubled content for seamless loop
+            // Build content — duplicate set for seamless loop
             let html = '';
             for (let r = 0; r < 2; r++) {
                 headlines.forEach(h => {
@@ -3405,14 +3408,29 @@
             }
             content.innerHTML = html;
 
-            // Adjust speed based on content width
-            const duration = headlines.length * 4;
-            content.style.setProperty('--ticker-duration', duration + 's');
-            ticker.style.setProperty('--ticker-duration', duration + 's');
-            content.style.animationDuration = duration + 's';
+            // Measure half-width (one full set of headlines)
+            const halfWidth = content.scrollWidth / 2;
+
+            // Smooth scrolling with requestAnimationFrame
+            const SPEED = 40; // pixels per second – nice and readable
+            let pos = 0;
+            let lastTime = 0;
+            let animId;
+
+            function tick(timestamp) {
+                if (!lastTime) lastTime = timestamp;
+                const delta = (timestamp - lastTime) / 1000;
+                lastTime = timestamp;
+                pos -= SPEED * delta;
+                if (pos <= -halfWidth) pos += halfWidth;
+                content.style.transform = 'translateX(' + pos + 'px)';
+                animId = requestAnimationFrame(tick);
+            }
+            animId = requestAnimationFrame(tick);
 
             // Close button
             closeBtn.addEventListener('click', () => {
+                cancelAnimationFrame(animId);
                 ticker.style.transform = 'translateY(100%)';
                 ticker.style.transition = 'transform 0.4s ease-in';
                 setTimeout(() => { ticker.style.display = 'none'; }, 400);
