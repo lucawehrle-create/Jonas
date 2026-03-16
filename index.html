@@ -899,6 +899,121 @@
             .hero-title { letter-spacing: 0.03em; }
             .popup-content { margin: 0 15px; padding: 30px 25px; }
         }
+        /* ============================================
+           PONG MINI-GAME
+           ============================================ */
+        .pong-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.97); z-index: 150000;
+            display: none; justify-content: center; align-items: center;
+            flex-direction: column; font-family: var(--font-label);
+        }
+        .pong-overlay.active { display: flex; }
+        .pong-overlay canvas {
+            border: 3px solid #1a1a1a; border-radius: 4px;
+            max-width: 95vw; max-height: 70vh;
+        }
+        .pong-score {
+            font-size: clamp(1rem, 3vw, 1.5rem); margin-bottom: 12px;
+            color: #1a1a1a; letter-spacing: 0.15em;
+        }
+        .pong-close {
+            margin-top: 15px; font-family: var(--font-hand);
+            font-size: 1.1rem; background: none; border: 2px solid #1a1a1a;
+            padding: 8px 24px; border-radius: 20px; cursor: pointer;
+            color: #1a1a1a; transition: background 0.2s;
+        }
+        .pong-close:hover { background: #1a1a1a; color: white; }
+        .pong-result {
+            font-family: var(--font-hand); font-size: 1.3rem;
+            margin-top: 10px; color: #1a1a1a; min-height: 2em;
+        }
+
+        /* ============================================
+           REMATCH BUTTON
+           ============================================ */
+        .rematch-btn {
+            font-family: var(--font-label); font-size: 1rem;
+            background: none; border: 2.5px solid #1a1a1a;
+            padding: 12px 32px; border-radius: 30px; cursor: pointer;
+            color: #1a1a1a; margin: 20px auto; display: block;
+            letter-spacing: 0.08em; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .rematch-btn:hover { background: #1a1a1a; color: white; }
+        .rematch-btn.loading {
+            pointer-events: none; color: transparent;
+        }
+        .rematch-btn.loading::after {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 20px; height: 20px; margin: -10px 0 0 -10px;
+            border: 2.5px solid #888; border-top-color: #1a1a1a;
+            border-radius: 50%; animation: rematchSpin 0.7s linear infinite;
+        }
+        @keyframes rematchSpin { to { transform: rotate(360deg); } }
+        .rematch-status {
+            font-family: var(--font-hand); font-size: 1.1rem;
+            color: #888; text-align: center; min-height: 1.5em;
+            margin-top: 8px; transition: opacity 0.3s;
+        }
+
+        /* ============================================
+           JONAS MODE (Rosa Toggle)
+           ============================================ */
+        .jonas-mode-btn {
+            position: fixed; top: 18px; left: 18px; z-index: 10000;
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 2.5px solid #1a1a1a; background: white;
+            cursor: pointer; font-size: 18px; display: flex;
+            align-items: center; justify-content: center;
+            transition: all 0.4s; box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+        }
+        .jonas-mode-btn:hover { transform: scale(1.1); }
+        .jonas-mode-btn.active {
+            background: #ff69b4; border-color: #ff1493;
+            box-shadow: 0 0 20px rgba(255,105,180,0.4);
+        }
+
+        body.jonas-mode {
+            background: #fff0f5 !important;
+        }
+        body.jonas-mode .hero { background: linear-gradient(to bottom, #ffe4f0, #fff0f5) !important; }
+        body.jonas-mode .section-title { color: #d63384 !important; }
+        body.jonas-mode .quote-card { border-color: #ff69b4 !important; }
+        body.jonas-mode .sketch-line { stroke: #d63384 !important; }
+        body.jonas-mode footer { background: #ffe4f0 !important; }
+        body.jonas-mode .bio-section { background: #fff5fa !important; }
+        body.jonas-mode .rematch-btn { border-color: #ff69b4 !important; color: #d63384 !important; }
+        body.jonas-mode .rematch-btn:hover { background: #ff69b4 !important; color: white !important; }
+
+        /* ============================================
+           LUCA TYPING EASTER EGG
+           ============================================ */
+        .luca-cry-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.92); z-index: 160000;
+            display: none; justify-content: center; align-items: center;
+            flex-direction: column; pointer-events: all;
+        }
+        .luca-cry-overlay.active { display: flex; }
+        .luca-cry-text {
+            font-family: var(--font-hand); font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #888; margin-top: 20px;
+        }
+
+        /* ============================================
+           SHAKE MESSAGE (Mobile)
+           ============================================ */
+        .shake-msg {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-family: var(--font-label); font-size: clamp(1rem, 4vw, 1.5rem);
+            color: #1a1a1a; background: white; border: 2.5px solid #1a1a1a;
+            padding: 20px 32px; border-radius: 12px; z-index: 170000;
+            text-align: center; box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+            opacity: 0; pointer-events: none; transition: opacity 0.4s;
+            max-width: 85vw;
+        }
+        .shake-msg.visible { opacity: 1; }
     </style>
 </head>
 <body>
@@ -1643,6 +1758,10 @@
         </div>
         <p class="rematch-text">REMATCH PENDING.</p>
 
+        <!-- Rematch Button -->
+        <button class="rematch-btn" id="rematchBtn">REMATCH ANFORDERN</button>
+        <div class="rematch-status" id="rematchStatus"></div>
+
         <!-- Besucherzaehler -->
         <div class="visitor-counter">
             Pilger an Jonas' Schrein: <span id="visitorCount">1.000.000+</span>
@@ -1740,6 +1859,53 @@
             </g>
         </svg>
     </div>
+
+    <!-- Jonas Mode Toggle -->
+    <button class="jonas-mode-btn" id="jonasModeBtn" title="Jonas Mode">&#9787;</button>
+
+    <!-- Pong Mini-Game Overlay -->
+    <div class="pong-overlay" id="pongOverlay">
+        <div class="pong-score" id="pongScore">JONAS 0 : 0 DU</div>
+        <canvas id="pongCanvas" width="500" height="320"></canvas>
+        <div class="pong-result" id="pongResult"></div>
+        <button class="pong-close" id="pongClose">Zurueck zur Huldigung</button>
+    </div>
+
+    <!-- Luca Cry Overlay (Typing Easter Egg) -->
+    <div class="luca-cry-overlay" id="lucaCryOverlay">
+        <svg width="120" height="180" viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="50" r="30" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+            <!-- Traurige Augen -->
+            <ellipse cx="48" cy="44" rx="5" ry="6" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="48" cy="46" r="3" fill="#1a1a1a"/>
+            <circle cx="49" cy="44" r="1" fill="white"/>
+            <ellipse cx="72" cy="44" rx="5" ry="6" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="72" cy="46" r="3" fill="#1a1a1a"/>
+            <circle cx="73" cy="44" r="1" fill="white"/>
+            <!-- Traurige Augenbrauen -->
+            <path d="M40,35 Q48,32 55,37" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M65,37 Q72,32 80,35" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Trauriger Mund -->
+            <path d="M48,64 Q60,56 72,64" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Traenen -->
+            <path d="M45,52 Q43,62 45,72" stroke="#1a1a1a" stroke-width="1.5" fill="none" opacity="0.6"/>
+            <circle cx="45" cy="74" r="2.5" fill="#1a1a1a" opacity="0.4"/>
+            <path d="M75,52 Q77,62 75,72" stroke="#1a1a1a" stroke-width="1.5" fill="none" opacity="0.6"/>
+            <circle cx="75" cy="74" r="2.5" fill="#1a1a1a" opacity="0.4"/>
+            <!-- Koerper -->
+            <line x1="60" y1="80" x2="60" y2="130" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <line x1="60" y1="95" x2="40" y2="115" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <line x1="60" y1="95" x2="80" y2="115" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <line x1="60" y1="130" x2="45" y2="165" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <line x1="60" y1="130" x2="75" y2="165" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <!-- Label -->
+            <text x="60" y="12" text-anchor="middle" font-family="Permanent Marker, cursive" font-size="11" fill="#888">LUCA</text>
+        </svg>
+        <div class="luca-cry-text">*schluchz*</div>
+    </div>
+
+    <!-- Shake Message -->
+    <div class="shake-msg" id="shakeMsg">Du kannst Jonas nicht abschuetteln.</div>
 
     <!-- ================================================
          JAVASCRIPT
@@ -2547,6 +2713,430 @@
             const ph = document.querySelector('.photo-placeholder');
             if (!ph) return;
             ph.title = 'Kein Foto noetig. Das mentale Bild genuegt.';
+        })();
+
+        /* ============================================
+           PONG MINI-GAME
+           Jonas gewinnt natuerlich immer
+           ============================================ */
+        (function initPong() {
+            const overlay = document.getElementById('pongOverlay');
+            const canvas = document.getElementById('pongCanvas');
+            const ctx = canvas.getContext('2d');
+            const scoreEl = document.getElementById('pongScore');
+            const resultEl = document.getElementById('pongResult');
+            const closeBtn = document.getElementById('pongClose');
+
+            let running = false;
+            let animId = null;
+            const W = 500, H = 320;
+            const PADDLE_H = 60, PADDLE_W = 10;
+            const BALL_R = 7;
+            const WIN_SCORE = 5;
+
+            let ball, playerY, jonasY, playerScore, jonasScore, ballSpeed;
+
+            function reset() {
+                playerScore = 0; jonasScore = 0;
+                ball = { x: W/2, y: H/2, vx: 3.5, vy: 2 };
+                playerY = H/2 - PADDLE_H/2;
+                jonasY = H/2 - PADDLE_H/2;
+                ballSpeed = 4;
+                resultEl.textContent = '';
+                updateScore();
+            }
+
+            function updateScore() {
+                scoreEl.textContent = 'JONAS ' + jonasScore + ' : ' + playerScore + ' DU';
+            }
+
+            function resetBall(dir) {
+                ball.x = W/2; ball.y = H/2;
+                ballSpeed = Math.min(ballSpeed + 0.3, 8);
+                const angle = (Math.random() - 0.5) * 1.2;
+                ball.vx = dir * ballSpeed * Math.cos(angle);
+                ball.vy = ballSpeed * Math.sin(angle);
+            }
+
+            function update() {
+                // Ball bewegen
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+
+                // Oben/unten abprallen
+                if (ball.y - BALL_R <= 0 || ball.y + BALL_R >= H) {
+                    ball.vy *= -1;
+                    ball.y = Math.max(BALL_R, Math.min(H - BALL_R, ball.y));
+                }
+
+                // Spieler-Paddle (links)
+                if (ball.x - BALL_R <= PADDLE_W + 15 && ball.x - BALL_R >= 12 &&
+                    ball.y >= playerY && ball.y <= playerY + PADDLE_H) {
+                    ball.vx = Math.abs(ball.vx) * 1.05;
+                    const rel = (ball.y - playerY - PADDLE_H/2) / (PADDLE_H/2);
+                    ball.vy += rel * 2;
+                }
+
+                // Jonas-Paddle (rechts) - KI: fast perfekt, aber mit Persoenlichkeit
+                const jonasTarget = ball.y - PADDLE_H/2;
+                const jonasSpeed = ball.vx > 0 ? 4.5 : 2.5; // Schneller wenn Ball kommt
+                if (jonasY < jonasTarget - 3) jonasY += jonasSpeed;
+                else if (jonasY > jonasTarget + 3) jonasY -= jonasSpeed;
+                jonasY = Math.max(0, Math.min(H - PADDLE_H, jonasY));
+
+                if (ball.x + BALL_R >= W - PADDLE_W - 15 && ball.x + BALL_R <= W - 12 &&
+                    ball.y >= jonasY && ball.y <= jonasY + PADDLE_H) {
+                    ball.vx = -Math.abs(ball.vx) * 1.05;
+                    const rel = (ball.y - jonasY - PADDLE_H/2) / (PADDLE_H/2);
+                    ball.vy += rel * 2;
+                    // Jonas schlaegt haerter zurueck
+                    ball.vx *= 1.08;
+                }
+
+                // Punkt fuer Jonas (Ball links raus)
+                if (ball.x < 0) {
+                    jonasScore++;
+                    updateScore();
+                    if (jonasScore >= WIN_SCORE) { endGame(); return; }
+                    resetBall(1);
+                }
+                // Punkt fuer Spieler (Ball rechts raus) - passiert selten
+                if (ball.x > W) {
+                    playerScore++;
+                    updateScore();
+                    if (playerScore >= WIN_SCORE) {
+                        // Jonas laesst nicht zu dass du gewinnst
+                        playerScore = WIN_SCORE - 1;
+                        jonasScore = WIN_SCORE;
+                        updateScore();
+                        endGame();
+                        return;
+                    }
+                    resetBall(-1);
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                // Hintergrund
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, W, H);
+                // Mittellinie
+                ctx.setLineDash([8, 6]);
+                ctx.strokeStyle = '#ccc';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(W/2, 0);
+                ctx.lineTo(W/2, H);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Paddles
+                ctx.fillStyle = '#1a1a1a';
+                ctx.fillRect(15, playerY, PADDLE_W, PADDLE_H);
+                ctx.fillRect(W - 15 - PADDLE_W, jonasY, PADDLE_W, PADDLE_H);
+
+                // Ball
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Labels
+                ctx.font = '13px "Permanent Marker", cursive';
+                ctx.fillStyle = '#ccc';
+                ctx.textAlign = 'center';
+                ctx.fillText('DU', W * 0.25, 20);
+                ctx.fillText('JONAS', W * 0.75, 20);
+            }
+
+            function gameLoop() {
+                if (!running) return;
+                update();
+                draw();
+                animId = requestAnimationFrame(gameLoop);
+            }
+
+            function endGame() {
+                running = false;
+                cancelAnimationFrame(animId);
+                const msgs = [
+                    'Jonas gewinnt. Wie immer.',
+                    'Hast du wirklich was anderes erwartet?',
+                    'JONAS DOMINIERT. Ueberraschung.',
+                    'GG. (Nicht wirklich.)',
+                    'Die Legende bleibt unbesiegt.'
+                ];
+                resultEl.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+            }
+
+            // Maus-Steuerung
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const scaleY = H / rect.height;
+                playerY = (e.clientY - rect.top) * scaleY - PADDLE_H / 2;
+                playerY = Math.max(0, Math.min(H - PADDLE_H, playerY));
+            });
+
+            // Touch-Steuerung
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const rect = canvas.getBoundingClientRect();
+                const scaleY = H / rect.height;
+                playerY = (e.touches[0].clientY - rect.top) * scaleY - PADDLE_H / 2;
+                playerY = Math.max(0, Math.min(H - PADDLE_H, playerY));
+            }, { passive: false });
+
+            // Starten: Doppelklick auf den Tischtennisball im Hero
+            const heroBall = document.querySelector('.hero-illustration svg circle[r="14"]');
+            if (heroBall) {
+                heroBall.style.cursor = 'pointer';
+                heroBall.addEventListener('dblclick', (e) => {
+                    e.stopPropagation();
+                    startPong();
+                });
+            }
+
+            // Auch ueber Kontext-Menu "Jonas bewundern" starten? Nein, eigener Trigger.
+            // Pong-Button als Text unter dem Turnier-Diagramm
+            const diagSection = document.querySelector('.diagram-section');
+            if (diagSection) {
+                const trigger = document.createElement('p');
+                trigger.style.cssText = 'text-align:center;margin-top:15px;font-family:Caveat,cursive;font-size:1.1rem;color:#888;cursor:pointer;';
+                trigger.textContent = '[ Doppelklick auf den Ball oben zum Spielen ]';
+                trigger.addEventListener('click', startPong);
+                diagSection.parentNode.insertBefore(trigger, diagSection.nextSibling);
+            }
+
+            function startPong() {
+                reset();
+                overlay.classList.add('active');
+                running = true;
+                gameLoop();
+            }
+
+            closeBtn.addEventListener('click', () => {
+                running = false;
+                cancelAnimationFrame(animId);
+                overlay.classList.remove('active');
+            });
+        })();
+
+        /* ============================================
+           REMATCH BUTTON (Fake Loading)
+           ============================================ */
+        (function initRematch() {
+            const btn = document.getElementById('rematchBtn');
+            const status = document.getElementById('rematchStatus');
+            if (!btn) return;
+
+            const messages = [
+                'Gegner wird gesucht...',
+                'Luca wurde gefunden...',
+                'Anfrage wird gesendet...',
+                'Luca liest die Nachricht...',
+                'Luca tippt...',
+                '...',
+                'Luca hat abgelehnt.',
+                'Verstaendlich.'
+            ];
+
+            let running = false;
+
+            btn.addEventListener('click', () => {
+                if (running) return;
+                running = true;
+                btn.classList.add('loading');
+                btn.textContent = '';
+                status.textContent = '';
+                status.style.opacity = '1';
+
+                let i = 0;
+                function showNext() {
+                    if (i >= messages.length) {
+                        setTimeout(() => {
+                            btn.classList.remove('loading');
+                            btn.textContent = 'NOCHMAL VERSUCHEN';
+                            running = false;
+                        }, 1500);
+                        return;
+                    }
+                    status.textContent = messages[i];
+                    i++;
+                    // Letzte Nachrichten etwas laenger anzeigen
+                    const delay = i >= messages.length - 2 ? 1800 : (800 + Math.random() * 1200);
+                    setTimeout(showNext, delay);
+                }
+                setTimeout(showNext, 600);
+            });
+        })();
+
+        /* ============================================
+           PARALLAX-SCROLL EFFEKT
+           ============================================ */
+        (function initParallax() {
+            const hero = document.querySelector('.hero');
+            const heroIllustration = document.querySelector('.hero-illustration');
+            const heroTitle = document.getElementById('heroTitle');
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            const heroCredit = document.querySelector('.hero-credit');
+            const scrollHint = document.querySelector('.scroll-hint');
+
+            if (!hero) return;
+
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const heroH = hero.offsetHeight;
+                    if (scrollY < heroH) {
+                        const ratio = scrollY / heroH;
+                        // Illustration bewegt sich langsamer (bleibt zurueck)
+                        if (heroIllustration) heroIllustration.style.transform = 'translateY(' + (scrollY * 0.3) + 'px)';
+                        // Titel bewegt sich etwas schneller
+                        if (heroTitle) heroTitle.style.transform = 'translateY(' + (scrollY * 0.15) + 'px)';
+                        // Subtitle noch schneller
+                        if (heroSubtitle) heroSubtitle.style.transform = 'translateY(' + (scrollY * 0.1) + 'px)';
+                        // Credit und Scroll-Hint faden aus
+                        if (heroCredit) heroCredit.style.opacity = Math.max(0, 1 - ratio * 2);
+                        if (scrollHint) scrollHint.style.opacity = Math.max(0, 1 - ratio * 3);
+                    }
+                    ticking = false;
+                });
+            });
+        })();
+
+        /* ============================================
+           JONAS MODE (Rosa Toggle)
+           ============================================ */
+        (function initJonasMode() {
+            const btn = document.getElementById('jonasModeBtn');
+            if (!btn) return;
+            let active = false;
+
+            btn.addEventListener('click', () => {
+                active = !active;
+                document.body.classList.toggle('jonas-mode', active);
+                btn.classList.toggle('active', active);
+                btn.innerHTML = active ? '&#9829;' : '&#9787;';
+                btn.title = active ? 'Zurueck zum Normal-Modus' : 'Jonas Mode';
+
+                // Kurze Partikel-Explosion beim Aktivieren
+                if (active) {
+                    for (let i = 0; i < 12; i++) {
+                        const heart = document.createElement('div');
+                        heart.textContent = '\u2665';
+                        heart.style.cssText = 'position:fixed;top:50%;left:50%;font-size:' + (14 + Math.random() * 18) + 'px;color:#ff69b4;pointer-events:none;z-index:200000;transition:all 1s ease-out;opacity:1;';
+                        document.body.appendChild(heart);
+                        const angle = (i / 12) * Math.PI * 2;
+                        const dist = 80 + Math.random() * 120;
+                        requestAnimationFrame(() => {
+                            heart.style.transform = 'translate(' + Math.cos(angle) * dist + 'px,' + Math.sin(angle) * dist + 'px)';
+                            heart.style.opacity = '0';
+                        });
+                        setTimeout(() => heart.remove(), 1100);
+                    }
+                }
+            });
+        })();
+
+        /* ============================================
+           TYPING DETECTOR: "luca" → trauriges Strichmaennchen
+           ============================================ */
+        (function initLucaDetector() {
+            const overlay = document.getElementById('lucaCryOverlay');
+            if (!overlay) return;
+            let buffer = '';
+            const target = 'luca';
+
+            document.addEventListener('keydown', (e) => {
+                // Ignoriere wenn in Input-Feld
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                buffer += e.key.toLowerCase();
+                if (buffer.length > 20) buffer = buffer.slice(-20);
+
+                if (buffer.includes(target)) {
+                    buffer = '';
+                    overlay.classList.add('active');
+
+                    // Traenen-Animation
+                    const tears = overlay.querySelectorAll('circle[opacity="0.4"]');
+                    tears.forEach(t => {
+                        t.style.animation = 'none';
+                        t.offsetHeight; // force reflow
+                        t.style.animation = '';
+                    });
+
+                    setTimeout(() => {
+                        overlay.classList.remove('active');
+                    }, 3000);
+                }
+            });
+
+            overlay.addEventListener('click', () => {
+                overlay.classList.remove('active');
+            });
+        })();
+
+        /* ============================================
+           SHAKE DETECTION (Mobile)
+           ============================================ */
+        (function initShakeDetection() {
+            const msg = document.getElementById('shakeMsg');
+            if (!msg) return;
+
+            let lastX = 0, lastY = 0, lastZ = 0;
+            let lastShake = 0;
+            const threshold = 20;
+
+            function handleMotion(e) {
+                const acc = e.accelerationIncludingGravity;
+                if (!acc || acc.x === null) return;
+
+                const dx = Math.abs(acc.x - lastX);
+                const dy = Math.abs(acc.y - lastY);
+                const dz = Math.abs(acc.z - lastZ);
+
+                if ((dx > threshold || dy > threshold || dz > threshold) && Date.now() - lastShake > 3000) {
+                    lastShake = Date.now();
+                    showShakeMsg();
+                }
+
+                lastX = acc.x;
+                lastY = acc.y;
+                lastZ = acc.z;
+            }
+
+            function showShakeMsg() {
+                const messages = [
+                    'Du kannst Jonas nicht abschuetteln.',
+                    'Netter Versuch. Jonas bleibt.',
+                    'Jonas ist wie Tischtennis-Karma: unausweichlich.',
+                    'Schuettel so viel du willst. Die Wahrheit bleibt.'
+                ];
+                msg.textContent = messages[Math.floor(Math.random() * messages.length)];
+                msg.classList.add('visible');
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                setTimeout(() => msg.classList.remove('visible'), 2500);
+            }
+
+            if (window.DeviceMotionEvent) {
+                // iOS 13+ braucht Permission
+                if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                    // Permission wird beim ersten Touch angefordert
+                    document.addEventListener('touchstart', function reqPerm() {
+                        DeviceMotionEvent.requestPermission().then(state => {
+                            if (state === 'granted') {
+                                window.addEventListener('devicemotion', handleMotion);
+                            }
+                        }).catch(() => {});
+                        document.removeEventListener('touchstart', reqPerm);
+                    }, { once: true });
+                } else {
+                    window.addEventListener('devicemotion', handleMotion);
+                }
+            }
         })();
     </script>
 
