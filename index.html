@@ -43,7 +43,12 @@
             --white: #ffffff;
             --grey: #888;
             --light-grey: #e0e0e0;
+            --gold: #f1c40f;
+            --gold-soft: rgba(241,196,15,0.15);
             --line-width: 2.5px;
+            --shadow-sketch: 3px 3px 0 rgba(0,0,0,0.12);
+            --shadow-hover: 5px 5px 0 rgba(0,0,0,0.15);
+            --transition-smooth: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             --font-hand: 'Caveat', cursive;
             --font-label: 'Permanent Marker', cursive;
             --font-body: 'Patrick Hand', cursive;
@@ -58,6 +63,7 @@
 
         body {
             background: var(--white);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
             color: var(--black);
             font-family: var(--font-body);
             font-size: 20px;
@@ -91,8 +97,9 @@
         }
 
         .music-btn:hover {
-            background: var(--black);
-            color: var(--white);
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
             transform: scale(1.1) rotate(-5deg);
         }
 
@@ -178,6 +185,7 @@
         .hero-title:hover {
             animation: wobble 0.4s ease-in-out;
             cursor: pointer;
+            text-shadow: 3px 3px 0 rgba(241,196,15,0.3);
         }
 
         @keyframes wobble {
@@ -237,9 +245,10 @@
             left: -5%;
             width: 110%;
             height: 3px;
-            background: var(--black);
+            background: var(--gold);
             border-radius: 2px;
             transform: rotate(-0.5deg);
+            transition: width 0.4s ease;
         }
 
         .section-subtitle {
@@ -257,20 +266,26 @@
 
         .divider svg {
             width: min(300px, 80vw);
-            height: 20px;
+            height: 30px;
         }
 
         /* Scroll-Animation */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(60px);
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Gestaffelte Reveal-Animation */
+        .reveal.visible:nth-child(2) { transition-delay: 0.1s; }
+        .reveal.visible:nth-child(3) { transition-delay: 0.2s; }
+        .reveal.visible:nth-child(4) { transition-delay: 0.3s; }
 
         /* ============================================
            BIOGRAPHIE SEKTION
@@ -314,8 +329,8 @@
         }
 
         .clickable-fact:hover {
-            background: var(--black);
-            color: var(--white);
+            background: var(--gold);
+            color: var(--black);
             padding: 0 4px;
             margin: 0 -4px;
         }
@@ -336,6 +351,7 @@
             color: var(--grey);
             position: relative;
             transform: rotate(-1deg);
+            box-shadow: var(--shadow-sketch);
         }
 
         .photo-placeholder::before {
@@ -365,12 +381,19 @@
             padding: 25px 30px;
             padding-left: 50px;
             border-left: 3px solid var(--black);
+            background: #fafafa;
+            border-radius: 0 4px 4px 0;
             transform: rotate(var(--rotation, 0deg));
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-smooth),
+                        box-shadow var(--transition-smooth),
+                        border-color var(--transition-smooth);
+            box-shadow: var(--shadow-sketch);
         }
 
         .quote-card:hover {
-            transform: rotate(0deg) translateX(5px);
+            transform: rotate(0deg) translateX(5px) translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-left-color: var(--gold);
         }
 
         .quote-card::before {
@@ -430,6 +453,7 @@
             padding: 60px 30px;
             border-top: 2.5px solid var(--black);
             position: relative;
+            background: linear-gradient(180deg, #fafafa 0%, var(--white) 100%);
         }
 
         footer .footer-text {
@@ -528,7 +552,8 @@
             z-index: 50000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.25s;
+            transition: opacity var(--transition-smooth);
+            backdrop-filter: blur(2px);
         }
 
         .popup-overlay.active {
@@ -545,13 +570,14 @@
             width: 90vw;
             background: var(--white);
             position: relative;
-            transform: scale(0.9) rotate(-1deg);
-            transition: transform 0.25s;
+            transform: scale(0.9) rotate(-1deg) translateY(20px);
+            transition: transform var(--transition-smooth);
             overflow: visible;
+            box-shadow: var(--shadow-sketch);
         }
 
         .popup-overlay.active .popup-content {
-            transform: scale(1) rotate(0deg);
+            transform: scale(1) rotate(0deg) translateY(0);
         }
 
         .popup-illustration {
@@ -674,7 +700,8 @@
             font-family: var(--font-hand);
             font-size: 1.1rem;
             display: none;
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-hover);
+            border-radius: 3px;
         }
 
         .custom-context-menu.show {
@@ -691,8 +718,8 @@
         }
 
         .ctx-item:hover {
-            background: #1a1a1a;
-            color: #fff;
+            background: var(--gold);
+            color: var(--black);
         }
 
         .ctx-separator {
@@ -718,7 +745,8 @@
             text-align: center;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.25s;
+            transition: all var(--transition-smooth);
+            box-shadow: var(--shadow-sketch);
         }
 
         .copy-popup.show {
@@ -798,8 +826,9 @@
         }
 
         .training-popup .close-training:hover {
-            background: #1a1a1a;
-            color: #fff;
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
         }
 
         /* ============================================
@@ -911,6 +940,62 @@
             animation: drawIn 0.4s ease-out;
         }
 
+        /* ============================================
+           SVG/Bild sanftes Einblenden
+           ============================================ */
+        .hero-illustration,
+        .bio-illustration,
+        .diagram-section svg,
+        .footer-drawing {
+            opacity: 0;
+            animation: fadeInSVG 1.2s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInSVG {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ============================================
+           Gold-Akzent Hover für Buttons
+           ============================================ */
+        .rate-btn:hover {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            border-color: var(--gold) !important;
+            transform: rotate(-2deg);
+        }
+
+        .rematch-btn:hover {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            border-color: var(--gold) !important;
+        }
+
+        .music-btn:hover {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            border-color: var(--gold) !important;
+        }
+
+        /* ============================================
+           Verbesserte Countdown-Bar
+           ============================================ */
+        .countdown-bar {
+            box-shadow: var(--shadow-sketch);
+        }
+
+        /* ============================================
+           Verbesserte Divider
+           ============================================ */
+        .divider svg path {
+            transition: stroke 0.4s ease;
+        }
+
+        .divider:hover svg path {
+            stroke: var(--gold) !important;
+        }
+
         @media (max-width: 768px) {
             body { font-size: 18px; }
             section { padding: 40px 20px; }
@@ -957,7 +1042,7 @@
             padding: 8px 24px; border-radius: 20px; cursor: pointer;
             color: #1a1a1a; transition: background 0.2s;
         }
-        .pong-close:hover { background: #1a1a1a; color: white; }
+        .pong-close:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
         .pong-result {
             font-family: var(--font-hand); font-size: 1.3rem;
             margin-top: 10px; color: #1a1a1a; min-height: 2em;
@@ -1120,9 +1205,10 @@
             transition: all 0.3s;
         }
         .thankyou-name:hover {
-            transform: translateY(-2px) rotate(-2deg);
-            border-color: var(--black);
-            box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+            transform: translateY(-3px) rotate(-2deg);
+            border-color: var(--gold);
+            background: var(--gold-soft);
+            box-shadow: var(--shadow-sketch);
         }
 
         body.jonas-mode .thankyou-compact { border-top-color: #ffb6d5 !important; }
@@ -1832,8 +1918,11 @@
          Wellenlinien-Trenner
          ================================================ -->
     <div class="divider">
-        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        <svg viewBox="0 0 300 30" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,15 Q20,5 40,15 Q60,25 80,15 Q100,5 120,15 L125,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M135,8 L142,15 L135,22 L128,15 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
+            <circle cx="135" cy="15" r="2" fill="#f1c40f"/>
+            <path d="M145,15 Q165,5 185,15 Q205,25 225,15 Q245,5 265,15 Q285,25 300,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
     </div>
 
@@ -2080,8 +2169,11 @@
 
     <!-- Trenner -->
     <div class="divider">
-        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        <svg viewBox="0 0 300 30" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,15 Q20,5 40,15 Q60,25 80,15 Q100,5 120,15 L125,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M135,8 L142,15 L135,22 L128,15 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
+            <circle cx="135" cy="15" r="2" fill="#f1c40f"/>
+            <path d="M145,15 Q165,5 185,15 Q205,25 225,15 Q245,5 265,15 Q285,25 300,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
     </div>
 
@@ -2185,8 +2277,11 @@
 
     <!-- Trenner -->
     <div class="divider">
-        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        <svg viewBox="0 0 300 30" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,15 Q20,5 40,15 Q60,25 80,15 Q100,5 120,15 L125,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M135,8 L142,15 L135,22 L128,15 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
+            <circle cx="135" cy="15" r="2" fill="#f1c40f"/>
+            <path d="M145,15 Q165,5 185,15 Q205,25 225,15 Q245,5 265,15 Q285,25 300,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
     </div>
 
@@ -2234,8 +2329,11 @@
 
     <!-- Trenner -->
     <div class="divider">
-        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        <svg viewBox="0 0 300 30" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,15 Q20,5 40,15 Q60,25 80,15 Q100,5 120,15 L125,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M135,8 L142,15 L135,22 L128,15 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
+            <circle cx="135" cy="15" r="2" fill="#f1c40f"/>
+            <path d="M145,15 Q165,5 185,15 Q205,25 225,15 Q245,5 265,15 Q285,25 300,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
     </div>
 
@@ -3638,7 +3736,9 @@
                     const heroH = hero.offsetHeight;
                     if (scrollY < heroH) {
                         const ratio = scrollY / heroH;
-                        if (heroIllustration) heroIllustration.style.transform = 'translateY(' + (scrollY * 0.25) + 'px)';
+                        if (heroIllustration) heroIllustration.style.transform = 'translateY(' + (scrollY * 0.3) + 'px) scale(' + (1 - ratio * 0.08) + ')';
+                        var heroTitle = document.getElementById('heroTitle');
+                        if (heroTitle) heroTitle.style.transform = 'translateY(' + (scrollY * 0.15) + 'px)';
                         if (heroSubtitle) heroSubtitle.style.opacity = Math.max(0, 1 - ratio * 2.5);
                         if (scrollHint) scrollHint.style.opacity = Math.max(0, 1 - ratio * 3);
                     } else {
