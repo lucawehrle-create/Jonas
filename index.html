@@ -2762,10 +2762,10 @@
 
             function reset() {
                 playerScore = 0; jonasScore = 0;
-                ball = { x: W/2, y: H/2, vx: 3.5, vy: 2 };
+                ball = { x: W/2, y: H/2, vx: 5, vy: 3 };
                 playerY = H/2 - PADDLE_H/2;
                 jonasY = H/2 - PADDLE_H/2;
-                ballSpeed = 4;
+                ballSpeed = 6;
                 resultEl.textContent = '';
                 updateScore();
             }
@@ -2776,7 +2776,7 @@
 
             function resetBall(dir) {
                 ball.x = W/2; ball.y = H/2;
-                ballSpeed = Math.min(ballSpeed + 0.3, 8);
+                ballSpeed = Math.min(ballSpeed + 0.4, 11);
                 const angle = (Math.random() - 0.5) * 1.2;
                 ball.vx = dir * ballSpeed * Math.cos(angle);
                 ball.vy = ballSpeed * Math.sin(angle);
@@ -2804,7 +2804,7 @@
 
                 // Jonas-Paddle (rechts) - KI: fast perfekt
                 const jonasTarget = ball.y - PADDLE_H/2;
-                const jonasSpeed = ball.vx > 0 ? 4.2 : 2;
+                const jonasSpeed = ball.vx > 0 ? 6 : 3;
                 if (jonasY < jonasTarget - 2) jonasY += jonasSpeed;
                 else if (jonasY > jonasTarget + 2) jonasY -= jonasSpeed;
                 jonasY = Math.max(0, Math.min(H - PADDLE_H, jonasY));
