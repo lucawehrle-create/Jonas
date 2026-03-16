@@ -516,13 +516,15 @@
         .popup-content {
             border: 2.5px solid var(--black);
             border-radius: 3px;
-            padding: 40px 45px;
+            padding: 40px 35px 30px;
             text-align: center;
-            max-width: 380px;
+            max-width: 340px;
+            width: 90vw;
             background: var(--white);
             position: relative;
             transform: scale(0.9) rotate(-1deg);
             transition: transform 0.25s;
+            overflow: visible;
         }
 
         .popup-overlay.active .popup-content {
@@ -534,7 +536,7 @@
         }
 
         .popup-illustration svg {
-            width: 120px;
+            width: min(140px, 40vw);
         }
 
         .popup-text {
@@ -1120,7 +1122,7 @@
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup('popupFussnagel')">x</button>
             <div class="popup-illustration">
-                <svg viewBox="0 0 140 130" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
                     <!-- Fuss (organisch, detailliert) -->
                     <path d="M32,110 Q22,80 25,55 Q28,35 38,22 Q45,15 55,12 Q62,10 68,14 Q72,10 78,13 Q82,10 87,15 Q92,11 96,18 Q102,25 98,40 Q95,50 92,58 L95,110 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
                     <!-- Sohlen-Woelbung -->
@@ -1149,6 +1151,44 @@
                 </svg>
             </div>
             <p class="popup-text">Die Wissenschaft hat noch keine Erklaerung.<br><em>Manche Dinge sind jenseits menschlichen Verstaendnisses.</em></p>
+        </div>
+    </div>
+
+    <!-- Pop-up: Flexibilitaet (Zeh in den Mund) -->
+    <div class="popup-overlay" id="popupFlexibilitaet">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup('popupFlexibilitaet')">x</button>
+            <div class="popup-illustration">
+                <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Strichmaennchen in Yoga-Pose: Fuss zum Mund -->
+                    <!-- Kopf -->
+                    <circle cx="70" cy="28" r="18" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+                    <!-- Augen (erstaunt/konzentriert) -->
+                    <circle cx="64" cy="25" r="2" fill="#1a1a1a"/>
+                    <circle cx="76" cy="25" r="2" fill="#1a1a1a"/>
+                    <!-- Offener Mund (Zeh drin!) -->
+                    <ellipse cx="70" cy="34" rx="5" ry="4" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+                    <!-- Koerper -->
+                    <path d="M70,46 Q70,65 68,80" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+                    <!-- Linker Arm (stuetzt sich ab) -->
+                    <path d="M70,56 Q50,62 38,75" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Rechter Arm (haelt Fuss) -->
+                    <path d="M70,56 Q85,50 88,40" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Linkes Bein (normal) -->
+                    <path d="M68,80 Q55,100 48,120" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Rechtes Bein (hochgezogen zum Mund!) -->
+                    <path d="M68,80 Q90,72 95,55 Q98,42 90,36 Q86,34 80,35" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Fuss am Mund -->
+                    <path d="M80,35 Q76,32 74,35" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Stink-/Staunenlinien -->
+                    <path d="M105,50 L115,48" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M107,58 L117,58" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M105,66 L115,68" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+                    <!-- Label -->
+                    <text x="8" y="130" font-family="Permanent Marker, cursive" font-size="10" fill="#888">IMPOSSIBLE</text>
+                </svg>
+            </div>
+            <p class="popup-text">Zeh. Mund. Kein Problem.<br><em>Yogameister hassen diesen Trick.</em></p>
         </div>
     </div>
 
@@ -1519,7 +1559,7 @@
 
             <p class="reveal">Besondere Erwaehnung verdienen auch <span class="clickable-fact" onclick="openPopup('popupFussnagel')">seine rosa lackierten Fussnaegel</span> &ndash; ein Zeichen seiner Unerschrockenheit gegenueber gesellschaftlichen Konventionen. Waehrend andere sich hinter grauer Konformitaet verstecken, schreitet Jonas mit der Kuehnheit eines Loewen und der Aesthetik eines Renaissance-Fuersten durch die Welt. Rosa ist nicht nur eine Farbe &ndash; es ist eine Haltung. <span class="latin">Audaces fortuna iuvat.</span></p>
 
-            <p class="reveal">Und als waere dies nicht genug der Wunder, besitzt Jonas eine <span class="clickable-fact" onclick="openPopup('popupFussnagel')">uebernatuerliche koerperliche Begabung</span>, die Wissenschaftler bis heute raetseln laesst: die Faehigkeit, seinen Fusszeh zum Munde zu fuehren &ndash; eine Demonstration purer Flexibilitaet, die in der Geschichte der Menschheit ihresgleichen sucht. Yogameister verneigen sich. Anatomen schuetteln unglaeubig den Kopf. <span class="latin">Corpus mirabile.</span></p>
+            <p class="reveal">Und als waere dies nicht genug der Wunder, besitzt Jonas eine <span class="clickable-fact" onclick="openPopup('popupFlexibilitaet')">uebernatuerliche koerperliche Begabung</span>, die Wissenschaftler bis heute raetseln laesst: die Faehigkeit, seinen Fusszeh zum Munde zu fuehren &ndash; eine Demonstration purer Flexibilitaet, die in der Geschichte der Menschheit ihresgleichen sucht. Yogameister verneigen sich. Anatomen schuetteln unglaeubig den Kopf. <span class="latin">Corpus mirabile.</span></p>
 
             <!-- Illustration: Flexibilitäts-Diagramm im Duck/Rabbit Stil -->
             <div class="bio-illustration reveal">
