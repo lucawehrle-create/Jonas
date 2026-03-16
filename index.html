@@ -5,120 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JONAS – Der Tischtennis-Gott | Eine Hommage</title>
 
-    <!-- Google Fonts: Dramatische Serif-Fonts -->
+    <!-- Google Fonts: Handschrift-Stil -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+    <!-- SVG Filter für handgezeichneten Effekt -->
+    <svg style="position:absolute;width:0;height:0;">
+        <defs>
+            <filter id="sketchy">
+                <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="4" result="noise" seed="1"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <filter id="sketchyText">
+                <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="3" result="noise" seed="2"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>
+    </svg>
 
     <style>
         /* ============================================
-           🎨 CSS VARIABLEN & GRUNDLAGEN
+           VARIABLEN – Minimalistisch Schwarz auf Weiß
            ============================================ */
         :root {
-            --gold: #D4AF37;
-            --gold-glow: #D4AF3788;
-            --black: #0a0a0a;
-            --dark: #1a1a1a;
-            --medium: #3a3a3a;
-            --light: #c8c8c8;
-            --white: #e8e4df;
-            --paper: #d4cfc6;
-            --font-display: 'Cinzel', serif;
-            --font-fraktur: 'UnifrakturMaguntia', cursive;
-            --font-body: 'IM Fell English', serif;
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --grey: #888;
+            --light-grey: #e0e0e0;
+            --line-width: 2.5px;
+            --font-hand: 'Caveat', cursive;
+            --font-label: 'Permanent Marker', cursive;
+            --font-body: 'Patrick Hand', cursive;
         }
 
         /* ============================================
-           📜 PAPIER-TEXTUR & NOISE HINTERGRUND
+           GRUNDLAGEN
            ============================================ */
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--paper);
-            color: var(--dark);
+            background: var(--white);
+            color: var(--black);
             font-family: var(--font-body);
-            font-size: 18px;
+            font-size: 20px;
             line-height: 1.7;
             overflow-x: hidden;
-            /* Custom Cursor: Tischtennis-Schläger */
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><ellipse cx='14' cy='12' rx='10' ry='11' fill='%23222' stroke='%23D4AF37' stroke-width='1.5'/><rect x='12' y='22' width='5' height='10' rx='2' fill='%23555' stroke='%23333' stroke-width='1'/><circle cx='20' cy='6' r='3' fill='%23D4AF37' opacity='0.8'/></svg>") 14 12, auto;
-        }
-
-        /* Noise-Textur über alles */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.06;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 256px 256px;
-        }
-
-        /* Zweite Texturschicht für Leinwand-Gefühl */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9998;
-            opacity: 0.03;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0,0,0,0.1) 2px,
-                rgba(0,0,0,0.1) 3px
-            ),
-            repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 2px,
-                rgba(0,0,0,0.05) 2px,
-                rgba(0,0,0,0.05) 3px
-            );
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><circle cx='14' cy='14' r='10' fill='none' stroke='%231a1a1a' stroke-width='2.5'/><circle cx='14' cy='14' r='3' fill='%231a1a1a'/></svg>") 14 14, auto;
         }
 
         /* ============================================
-           🎵 MUSIK-BUTTON
+           🎵 MUSIK-BUTTON – handgezeichnet
            ============================================ */
         .music-btn {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 10000;
-            background: var(--dark);
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            font-family: var(--font-display);
-            font-size: 14px;
-            padding: 8px 16px;
+            background: var(--white);
+            border: 2.5px solid var(--black);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-family: var(--font-label);
+            font-size: 18px;
             cursor: pointer;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .music-btn:hover {
-            background: var(--gold);
-            color: var(--dark);
-            box-shadow: 0 0 20px var(--gold-glow);
+            background: var(--black);
+            color: var(--white);
+            transform: scale(1.1) rotate(-5deg);
         }
 
         /* ============================================
-           🏛 HERO SEKTION
+           HERO SEKTION
            ============================================ */
         .hero {
             min-height: 100vh;
@@ -128,190 +95,152 @@
             align-items: center;
             text-align: center;
             position: relative;
-            background: linear-gradient(180deg, var(--dark) 0%, var(--medium) 40%, var(--paper) 100%);
             padding: 40px 20px;
             overflow: hidden;
         }
 
-        /* Schwebende Tischtennis-Bälle im Hintergrund */
-        .floating-balls {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .ball {
-            position: absolute;
-            font-family: monospace;
-            color: rgba(212, 175, 55, 0.15);
-            font-size: 24px;
-            animation: floatBall 12s ease-in-out infinite;
-            user-select: none;
-        }
-
-        @keyframes floatBall {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-30px) rotate(90deg); }
-            50% { transform: translateY(-10px) rotate(180deg); }
-            75% { transform: translateY(-40px) rotate(270deg); }
+        .hero-illustration {
+            width: min(600px, 90vw);
+            margin-bottom: 30px;
         }
 
         .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(4rem, 15vw, 12rem);
-            font-weight: 900;
-            color: var(--gold);
-            letter-spacing: 0.3em;
-            text-shadow:
-                0 0 40px var(--gold-glow),
-                0 0 80px rgba(212, 175, 55, 0.3),
-                4px 4px 0 var(--black);
+            font-family: var(--font-label);
+            font-size: clamp(4rem, 14vw, 10rem);
+            color: var(--black);
+            letter-spacing: 0.08em;
             margin: 0;
             line-height: 1;
-            /* Buchstaben werden per JS animiert */
-            overflow: hidden;
+            position: relative;
         }
 
         .hero-title span {
             display: inline-block;
             opacity: 0;
-            transform: translateY(60px);
-            animation: chiselIn 0.6s ease-out forwards;
+            transform: translateY(40px);
+            animation: drawIn 0.5s ease-out forwards;
         }
 
-        @keyframes chiselIn {
-            0% {
-                opacity: 0;
-                transform: translateY(60px) scale(1.3);
-                text-shadow: 0 0 0 transparent;
-            }
-            50% {
-                opacity: 0.5;
-                text-shadow: 0 0 60px var(--gold);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                text-shadow:
-                    0 0 40px var(--gold-glow),
-                    0 0 80px rgba(212, 175, 55, 0.3),
-                    4px 4px 0 var(--black);
-            }
+        @keyframes drawIn {
+            0% { opacity: 0; transform: translateY(40px) rotate(-5deg); }
+            60% { opacity: 1; transform: translateY(-5px) rotate(1deg); }
+            100% { opacity: 1; transform: translateY(0) rotate(0deg); }
         }
 
         .hero-subtitle {
-            font-family: var(--font-display);
-            font-size: clamp(1rem, 3vw, 1.8rem);
-            color: var(--light);
-            letter-spacing: 0.2em;
-            margin-top: 20px;
+            font-family: var(--font-hand);
+            font-size: clamp(1.2rem, 3.5vw, 2rem);
+            color: var(--black);
+            margin-top: 10px;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 2s forwards;
+            animation: fadeIn 0.8s ease-out 1.8s forwards;
         }
 
         .hero-credit {
-            font-family: var(--font-body);
-            font-style: italic;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            color: rgba(200, 200, 200, 0.6);
-            margin-top: 30px;
+            font-family: var(--font-hand);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--grey);
+            margin-top: 25px;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 2.8s forwards;
+            animation: fadeIn 0.8s ease-out 2.5s forwards;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Hover auf Jonas: Schüttel-Animation + Gold-Aufleuchten */
+        /* Hover auf JONAS */
         .hero-title:hover {
-            animation: shake 0.5s ease-in-out;
-            text-shadow:
-                0 0 60px var(--gold),
-                0 0 120px var(--gold),
-                0 0 180px rgba(212, 175, 55, 0.5),
-                4px 4px 0 var(--black);
+            animation: wobble 0.4s ease-in-out;
             cursor: pointer;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10% { transform: translateX(-8px) rotate(-1deg); }
-            20% { transform: translateX(8px) rotate(1deg); }
-            30% { transform: translateX(-6px) rotate(-0.5deg); }
-            40% { transform: translateX(6px) rotate(0.5deg); }
-            50% { transform: translateX(-4px); }
-            60% { transform: translateX(4px); }
-            70% { transform: translateX(-2px); }
-            80% { transform: translateX(2px); }
+        @keyframes wobble {
+            0%, 100% { transform: rotate(0deg); }
+            15% { transform: rotate(-3deg); }
+            30% { transform: rotate(3deg); }
+            45% { transform: rotate(-2deg); }
+            60% { transform: rotate(2deg); }
+            75% { transform: rotate(-1deg); }
         }
 
-        /* Scroll-Pfeil */
-        .scroll-arrow {
+        /* Scroll-Hinweis */
+        .scroll-hint {
             position: absolute;
-            bottom: 40px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            color: var(--gold);
-            font-size: 2rem;
-            animation: bounce 2s ease-in-out infinite;
+            font-family: var(--font-hand);
+            font-size: 1rem;
+            color: var(--grey);
             opacity: 0;
-            animation: bounce 2s ease-in-out infinite, fadeInUp 1s ease-out 3.5s forwards;
+            animation: fadeIn 0.8s ease-out 3.2s forwards, bobbing 2s ease-in-out infinite 3.2s;
         }
 
-        @keyframes bounce {
+        @keyframes bobbing {
             0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(15px); }
+            50% { transform: translateX(-50%) translateY(8px); }
         }
 
         /* ============================================
-           📖 SEKTIONEN ALLGEMEIN
+           SEKTIONEN ALLGEMEIN
            ============================================ */
         section {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 80px 30px;
+            padding: 60px 30px;
         }
 
-        .section-title {
-            font-family: var(--font-fraktur);
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            color: var(--gold);
+        .section-header {
             text-align: center;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
-        }
-
-        .section-subtitle {
-            font-family: var(--font-display);
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            color: var(--medium);
-            text-align: center;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
             margin-bottom: 50px;
         }
 
-        /* Dekorative Trennlinie */
+        .section-title {
+            font-family: var(--font-label);
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            color: var(--black);
+            display: inline-block;
+            position: relative;
+        }
+
+        /* Handgezeichnete Unterstreichung */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: -5%;
+            width: 110%;
+            height: 3px;
+            background: var(--black);
+            border-radius: 2px;
+            transform: rotate(-0.5deg);
+        }
+
+        .section-subtitle {
+            font-family: var(--font-hand);
+            font-size: 1.1rem;
+            color: var(--grey);
+            margin-top: 10px;
+        }
+
+        /* Trennlinie: handgezeichnete Wellenlinie */
         .divider {
             text-align: center;
-            margin: 60px auto;
-            color: var(--gold);
-            font-size: 1.5rem;
-            letter-spacing: 1em;
-            opacity: 0.6;
+            padding: 30px 0;
+        }
+
+        .divider svg {
+            width: min(300px, 80vw);
+            height: 20px;
         }
 
         /* Scroll-Animation */
         .reveal {
             opacity: 0;
-            transform: translateY(60px);
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .reveal.visible {
@@ -320,274 +249,247 @@
         }
 
         /* ============================================
-           📜 BIOGRAPHIE SEKTION
+           BIOGRAPHIE SEKTION
            ============================================ */
-        .bio-section {
-            position: relative;
-        }
-
-        .bio-section::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, transparent, var(--gold), transparent);
-            transform: translateX(-50%);
-            opacity: 0.3;
-        }
-
         .bio-text {
-            font-size: 1.1rem;
-            line-height: 1.9;
-            text-align: justify;
-            color: var(--dark);
-            position: relative;
-            filter: contrast(1.1);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            max-width: 650px;
+            margin: 0 auto;
         }
 
         .bio-text p {
-            margin-bottom: 1.5em;
-        }
-
-        .bio-text .drop-cap::first-letter {
-            font-family: var(--font-fraktur);
-            font-size: 4em;
-            float: left;
-            line-height: 0.8;
-            margin-right: 10px;
-            margin-top: 5px;
-            color: var(--gold);
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            margin-bottom: 1.8em;
+            position: relative;
         }
 
         .bio-text .latin {
+            font-family: var(--font-hand);
             font-style: italic;
-            color: var(--medium);
+            font-weight: 700;
+            color: var(--grey);
         }
 
-        /* Klickbare Elemente in der Bio */
+        .bio-illustration {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .bio-illustration svg {
+            width: min(400px, 85vw);
+        }
+
+        /* Klickbare Elemente */
         .clickable-fact {
-            color: var(--gold);
-            border-bottom: 1px dashed var(--gold);
+            font-weight: 700;
+            border-bottom: 2.5px solid var(--black);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             position: relative;
         }
 
         .clickable-fact:hover {
-            text-shadow: 0 0 10px var(--gold-glow);
+            background: var(--black);
+            color: var(--white);
+            padding: 0 4px;
+            margin: 0 -4px;
         }
 
-        /* 📸 Foto-Platzhalter */
+        /* Foto-Platzhalter – als handgezeichneter Rahmen */
         .photo-placeholder {
-            width: 280px;
-            height: 350px;
+            width: 240px;
+            height: 300px;
             margin: 40px auto;
-            border: 3px solid var(--gold);
-            background: var(--dark);
+            border: 2.5px solid var(--black);
+            border-radius: 3px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: var(--light);
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
+            font-family: var(--font-hand);
+            font-size: 1rem;
+            color: var(--grey);
             position: relative;
-            filter: grayscale(100%) contrast(1.2);
-            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+            transform: rotate(-1deg);
         }
 
         .photo-placeholder::before {
-            content: '🏓';
-            font-size: 4rem;
-            margin-bottom: 15px;
-            filter: grayscale(0%);
-        }
-
-        .photo-placeholder::after {
-            content: '« IMAGO JONASIUS »';
-            font-family: var(--font-display);
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            color: var(--gold);
-            position: absolute;
-            bottom: 15px;
-        }
-
-        /* ============================================
-           💬 ZITATE / ZEUGENAUSSAGEN
-           ============================================ */
-        .quotes-section {
-            background: linear-gradient(180deg, var(--paper) 0%, rgba(26,26,26,0.05) 50%, var(--paper) 100%);
-        }
-
-        .quotes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .quote-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(212,207,198,0.8));
-            border: 1px solid rgba(0,0,0,0.15);
-            padding: 30px 25px;
-            position: relative;
-            transform: rotate(var(--rotation, 0deg));
-            transition: all 0.4s ease;
-            box-shadow: 4px 4px 15px rgba(0,0,0,0.15);
-            filter: contrast(1.05) grayscale(20%);
-        }
-
-        .quote-card:hover {
-            transform: rotate(0deg) scale(1.03);
-            box-shadow: 6px 6px 25px rgba(0,0,0,0.2);
-            filter: contrast(1.1) grayscale(0%);
-        }
-
-        .quote-card::before {
-            content: '❝';
-            font-size: 4rem;
-            color: var(--gold);
-            opacity: 0.3;
-            position: absolute;
-            top: -10px;
-            left: 10px;
-            font-family: serif;
-        }
-
-        .quote-card::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--gold);
-            opacity: 0.6;
-        }
-
-        .quote-text {
-            font-family: var(--font-body);
-            font-style: italic;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-
-        .quote-author {
-            font-family: var(--font-display);
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            color: var(--medium);
-            text-align: right;
-            text-transform: uppercase;
+            top: 8px;
+            left: 8px;
+            right: -8px;
+            bottom: -8px;
+            border: 1.5px solid var(--light-grey);
+            z-index: -1;
         }
 
         /* ============================================
-           🏆 FOOTER
+           ZITATE SEKTION
            ============================================ */
-        footer {
-            background: var(--dark);
-            color: var(--light);
-            text-align: center;
-            padding: 60px 30px;
-            font-family: var(--font-body);
-            position: relative;
-        }
-
-        footer .footer-text {
-            font-size: 1rem;
-            line-height: 1.8;
+        .quotes-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
             max-width: 600px;
             margin: 0 auto;
         }
 
-        footer .rematch-text {
-            font-family: var(--font-display);
+        .quote-card {
+            position: relative;
+            padding: 25px 30px;
+            padding-left: 50px;
+            border-left: 3px solid var(--black);
+            transform: rotate(var(--rotation, 0deg));
+            transition: transform 0.3s ease;
+        }
+
+        .quote-card:hover {
+            transform: rotate(0deg) translateX(5px);
+        }
+
+        .quote-card::before {
+            content: '"';
+            font-family: var(--font-label);
+            font-size: 4rem;
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            color: var(--light-grey);
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-family: var(--font-hand);
+            font-size: 1.25rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .quote-author {
+            font-family: var(--font-label);
             font-size: 0.8rem;
-            color: var(--gold);
-            letter-spacing: 0.3em;
+            color: var(--grey);
+            letter-spacing: 0.05em;
+        }
+
+        /* Kleine Illustration neben manchen Zitaten */
+        .quote-doodle {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            opacity: 0.15;
+        }
+
+        /* ============================================
+           DIAGRAMM SEKTION – im Stil des Duck/Rabbit
+           ============================================ */
+        .diagram-section {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .diagram-section svg {
+            width: min(500px, 90vw);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer {
+            text-align: center;
+            padding: 60px 30px;
+            border-top: 2.5px solid var(--black);
+            position: relative;
+        }
+
+        footer .footer-text {
+            font-family: var(--font-hand);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        footer .rematch-text {
+            font-family: var(--font-label);
+            font-size: 0.85rem;
+            color: var(--grey);
+            letter-spacing: 0.15em;
+            margin-top: 25px;
+        }
+
+        footer .footer-drawing {
             margin-top: 30px;
-            text-transform: uppercase;
         }
 
-        footer .footer-ornament {
-            color: var(--gold);
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            letter-spacing: 0.5em;
-            opacity: 0.5;
+        footer .footer-drawing svg {
+            width: min(250px, 60vw);
         }
 
-        /* Easter Egg: Verstecktes Rematch-Element */
+        /* Easter Egg */
         .easter-egg {
             position: fixed;
-            bottom: 15px;
-            left: 15px;
-            font-size: 8px;
-            color: rgba(100,100,100,0.3);
+            bottom: 12px;
+            left: 12px;
+            font-family: var(--font-hand);
+            font-size: 9px;
+            color: rgba(0,0,0,0.08);
             cursor: pointer;
-            font-family: var(--font-body);
             z-index: 10000;
-            transition: color 0.3s;
             user-select: none;
+            transition: color 0.3s;
         }
 
         .easter-egg:hover {
-            color: rgba(100,100,100,0.6);
+            color: rgba(0,0,0,0.25);
         }
 
-        /* Dramatisches NEIN Overlay */
+        /* NEIN Overlay */
         .nein-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--black);
+            background: var(--white);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 99999;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: opacity 0.15s;
         }
 
         .nein-overlay.active {
             opacity: 1;
             pointer-events: all;
-            animation: screenShake 0.6s ease-in-out;
+            animation: pageshake 0.5s ease-in-out;
         }
 
         .nein-overlay .nein-text {
-            font-family: var(--font-display);
-            font-size: clamp(5rem, 20vw, 15rem);
-            font-weight: 900;
-            color: var(--gold);
-            text-shadow: 0 0 80px var(--gold), 0 0 160px var(--gold-glow);
-            letter-spacing: 0.2em;
+            font-family: var(--font-label);
+            font-size: clamp(5rem, 22vw, 16rem);
+            color: var(--black);
         }
 
-        @keyframes screenShake {
+        @keyframes pageshake {
             0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-10px, -5px); }
-            20% { transform: translate(10px, 5px); }
-            30% { transform: translate(-8px, 3px); }
-            40% { transform: translate(8px, -3px); }
-            50% { transform: translate(-5px, 5px); }
-            60% { transform: translate(5px, -2px); }
-            70% { transform: translate(-3px, 3px); }
-            80% { transform: translate(3px, -1px); }
+            10% { transform: translate(-8px, -4px); }
+            20% { transform: translate(8px, 4px); }
+            30% { transform: translate(-6px, 2px); }
+            40% { transform: translate(6px, -2px); }
+            50% { transform: translate(-4px, 4px); }
         }
 
         /* ============================================
-           🎭 POP-UPS
+           POP-UPS – im Sketch-Stil
            ============================================ */
         .popup-overlay {
             position: fixed;
@@ -595,14 +497,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 10, 0.85);
+            background: rgba(255,255,255,0.92);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 50000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.25s;
         }
 
         .popup-overlay.active {
@@ -611,113 +513,112 @@
         }
 
         .popup-content {
-            background: var(--paper);
-            border: 3px solid var(--gold);
-            padding: 40px 50px;
+            border: 2.5px solid var(--black);
+            border-radius: 3px;
+            padding: 40px 45px;
             text-align: center;
-            max-width: 400px;
-            font-family: var(--font-body);
+            max-width: 380px;
+            background: var(--white);
             position: relative;
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
+            transform: scale(0.9) rotate(-1deg);
+            transition: transform 0.25s;
         }
 
         .popup-overlay.active .popup-content {
-            transform: scale(1);
+            transform: scale(1) rotate(0deg);
         }
 
-        .popup-emoji {
-            font-size: 4rem;
-            display: block;
+        .popup-illustration {
             margin-bottom: 15px;
-            animation: popBounce 0.6s ease-out;
         }
 
-        @keyframes popBounce {
-            0% { transform: scale(0); }
-            60% { transform: scale(1.3); }
-            100% { transform: scale(1); }
+        .popup-illustration svg {
+            width: 120px;
         }
 
         .popup-text {
-            font-size: 1.1rem;
-            color: var(--dark);
-            line-height: 1.6;
+            font-family: var(--font-hand);
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .popup-text em {
+            font-family: var(--font-label);
+            font-size: 0.85rem;
+            color: var(--grey);
         }
 
         .popup-close {
             position: absolute;
             top: 10px;
             right: 15px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            color: var(--medium);
+            color: var(--black);
             background: none;
             border: none;
-            font-family: serif;
+            font-family: var(--font-label);
+            transition: transform 0.2s;
+        }
+
+        .popup-close:hover {
+            transform: rotate(90deg);
         }
 
         /* ============================================
-           📱 RESPONSIVE
+           SVG Stil-Klasse – Strichzeichnung
+           ============================================ */
+        .sketch-line {
+            fill: none;
+            stroke: var(--black);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .sketch-fill {
+            fill: var(--black);
+            stroke: none;
+        }
+
+        .sketch-label {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 16px;
+            fill: var(--black);
+        }
+
+        .sketch-label-small {
+            font-family: 'Caveat', cursive;
+            font-size: 14px;
+            fill: #888;
+        }
+
+        /* Path-Drawing-Animation */
+        .draw-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawPath 2s ease-out forwards;
+        }
+
+        @keyframes drawPath {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* ============================================
+           RESPONSIVE
            ============================================ */
         @media (max-width: 768px) {
-            body {
-                font-size: 16px;
-            }
-
-            section {
-                padding: 50px 20px;
-            }
-
-            .hero {
-                padding: 30px 15px;
-            }
-
-            .quotes-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .quote-card {
-                transform: rotate(0deg) !important;
-            }
-
-            .bio-section::before {
-                display: none;
-            }
-
-            .photo-placeholder {
-                width: 200px;
-                height: 260px;
-            }
-
-            .music-btn {
-                top: 10px;
-                right: 10px;
-                font-size: 11px;
-                padding: 6px 10px;
-            }
+            body { font-size: 18px; }
+            section { padding: 40px 20px; }
+            .quote-card { padding-left: 40px; }
+            .quote-doodle { display: none; }
+            .music-btn { top: 12px; right: 12px; width: 42px; height: 42px; font-size: 15px; }
         }
 
         @media (max-width: 480px) {
-            .hero-title {
-                letter-spacing: 0.15em;
-            }
-
-            .popup-content {
-                margin: 0 20px;
-                padding: 30px 25px;
-            }
+            .hero-title { letter-spacing: 0.03em; }
+            .popup-content { margin: 0 15px; padding: 30px 25px; }
         }
-
-        /* ============================================
-           ✨ UTILITY-KLASSEN
-           ============================================ */
-        .gold { color: var(--gold); }
-        .text-center { text-align: center; }
-        .mt-2 { margin-top: 2rem; }
-        .sketch-filter { filter: grayscale(80%) contrast(1.3) brightness(1.05); }
     </style>
 </head>
 <body>
@@ -730,14 +631,14 @@
 
     <!-- 🎵 Jubel-Soundeffekt beim Laden -->
     <audio id="applauseSound" preload="auto">
-        <!-- 🎵 APPLAUS: Kurzer Jubel/Applaus-Sound hier einfügen, oder Web Audio API wird als Fallback genutzt -->
+        <!-- 🎵 APPLAUS: Kurzer Jubel/Applaus-Sound hier einfügen -->
         <source src="sounds/applause.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Musik Play/Pause Button -->
-    <button class="music-btn" id="musicBtn" title="Musik abspielen/pausieren">♫ Musik</button>
+    <button class="music-btn" id="musicBtn" title="Musik abspielen/pausieren">&#9835;</button>
 
-    <!-- Dramatisches NEIN Overlay (Easter Egg) -->
+    <!-- NEIN Overlay (Easter Egg) -->
     <div class="nein-overlay" id="neinOverlay">
         <div class="nein-text">NEIN.</div>
     </div>
@@ -745,146 +646,451 @@
     <!-- Pop-up: Ukulele -->
     <div class="popup-overlay" id="popupUkulele">
         <div class="popup-content">
-            <button class="popup-close" onclick="closePopup('popupUkulele')">&times;</button>
-            <span class="popup-emoji">🎵🎸🎶</span>
-            <p class="popup-text">Ein Künstler in seiner reinsten Form.<br><em class="gold">Die Ukulele weint vor Freude.</em></p>
+            <button class="popup-close" onclick="closePopup('popupUkulele')">x</button>
+            <div class="popup-illustration">
+                <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Ukulele Zeichnung -->
+                    <ellipse cx="60" cy="100" rx="35" ry="30" class="sketch-line"/>
+                    <ellipse cx="60" cy="100" rx="8" ry="8" class="sketch-line"/>
+                    <line x1="55" y1="70" x2="55" y2="15" class="sketch-line"/>
+                    <line x1="65" y1="70" x2="65" y2="15" class="sketch-line"/>
+                    <line x1="55" y1="15" x2="65" y2="15" class="sketch-line"/>
+                    <line x1="55" y1="25" x2="50" y2="20" class="sketch-line"/>
+                    <line x1="55" y1="35" x2="50" y2="30" class="sketch-line"/>
+                    <line x1="65" y1="25" x2="70" y2="20" class="sketch-line"/>
+                    <line x1="65" y1="35" x2="70" y2="30" class="sketch-line"/>
+                    <!-- Saiten -->
+                    <line x1="56" y1="70" x2="56" y2="125" class="sketch-line" stroke-width="1"/>
+                    <line x1="60" y1="70" x2="60" y2="127" class="sketch-line" stroke-width="1"/>
+                    <line x1="64" y1="70" x2="64" y2="125" class="sketch-line" stroke-width="1"/>
+                    <!-- Noten -->
+                    <text x="80" y="55" class="sketch-label" transform="rotate(15, 80, 55)">~&#9834;~</text>
+                </svg>
+            </div>
+            <p class="popup-text">Ein Kuenstler in seiner reinsten Form.<br><em>Die Ukulele weint vor Freude.</em></p>
         </div>
     </div>
 
-    <!-- Pop-up: Fußnagel -->
+    <!-- Pop-up: Fussnagel -->
     <div class="popup-overlay" id="popupFussnagel">
         <div class="popup-content">
-            <button class="popup-close" onclick="closePopup('popupFussnagel')">&times;</button>
-            <span class="popup-emoji">🦶🔬❓</span>
-            <p class="popup-text">Die Wissenschaft hat noch keine Erklärung.<br><em class="gold">Manche Dinge sind jenseits menschlichen Verständnisses.</em></p>
+            <button class="popup-close" onclick="closePopup('popupFussnagel')">x</button>
+            <div class="popup-illustration">
+                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Fuß Zeichnung -->
+                    <path d="M30,100 Q20,60 30,40 Q35,20 50,15 Q60,12 65,18 Q70,12 75,16 Q80,12 83,18 Q88,14 90,22 Q95,30 85,45 L90,100 Z" class="sketch-line"/>
+                    <!-- Zehennägel -->
+                    <ellipse cx="50" cy="17" rx="6" ry="4" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <ellipse cx="65" cy="15" rx="5" ry="3.5" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <ellipse cx="76" cy="16" rx="4.5" ry="3" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <ellipse cx="85" cy="20" rx="4" ry="2.8" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <!-- Fragezeichen -->
+                    <text x="10" y="30" class="sketch-label">?!</text>
+                    <text x="95" y="55" class="sketch-label-small">SCIENCE<tspan x="95" dy="14">HAS NO</tspan><tspan x="95" dy="14">ANSWER</tspan></text>
+                    <!-- Pfeil -->
+                    <line x1="95" y1="25" x2="88" y2="22" class="sketch-line" stroke-width="1.5"/>
+                    <polyline points="90,18 88,22 92,22" class="sketch-fill"/>
+                </svg>
+            </div>
+            <p class="popup-text">Die Wissenschaft hat noch keine Erklaerung.<br><em>Manche Dinge sind jenseits menschlichen Verstaendnisses.</em></p>
         </div>
     </div>
 
     <!-- ================================================
-         🏛 HERO SEKTION
+         HERO SEKTION
          ================================================ -->
     <header class="hero">
-        <!-- Schwebende Tischtennis-Bälle als ASCII-Art / SVGs -->
-        <div class="floating-balls" id="floatingBalls"></div>
+
+        <!-- Haupt-Illustration: Jonas als Line-Drawing-Figur mit TT-Schlaeger -->
+        <div class="hero-illustration">
+            <svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg">
+                <!-- Figur: Jonas -->
+                <!-- Kopf -->
+                <circle cx="300" cy="100" r="55" class="sketch-line" stroke-width="3"/>
+                <!-- Augen: einfache Punkte -->
+                <circle cx="282" cy="92" r="4" class="sketch-fill"/>
+                <circle cx="318" cy="92" r="4" class="sketch-fill"/>
+                <!-- Lächeln -->
+                <path d="M285,112 Q300,128 315,112" class="sketch-line" fill="none" stroke-width="2.5"/>
+                <!-- Haare: ein paar Striche -->
+                <path d="M260,65 Q270,40 300,35 Q330,30 345,55" class="sketch-line" fill="none" stroke-width="2"/>
+                <path d="M270,55 Q285,35 310,33" class="sketch-line" fill="none" stroke-width="1.5"/>
+                <!-- Körper -->
+                <line x1="300" y1="155" x2="300" y2="270" class="sketch-line" stroke-width="3"/>
+                <!-- Arme -->
+                <path d="M300,190 Q340,200 370,180 Q390,170 410,175" class="sketch-line" stroke-width="3" fill="none"/>
+                <path d="M300,190 Q260,210 240,250" class="sketch-line" stroke-width="3" fill="none"/>
+                <!-- Hand links -->
+                <circle cx="240" cy="253" r="8" class="sketch-line" stroke-width="2"/>
+                <!-- Beine -->
+                <path d="M300,270 Q310,320 330,370" class="sketch-line" stroke-width="3" fill="none"/>
+                <path d="M300,270 Q290,320 270,370" class="sketch-line" stroke-width="3" fill="none"/>
+                <!-- Füße -->
+                <path d="M330,370 Q340,375 350,370" class="sketch-line" stroke-width="2.5" fill="none"/>
+                <path d="M270,370 Q260,375 250,370" class="sketch-line" stroke-width="2.5" fill="none"/>
+
+                <!-- Tischtennis-Schläger in der rechten Hand -->
+                <ellipse cx="430" cy="160" rx="32" ry="38" class="sketch-line" stroke-width="3" transform="rotate(-15, 430, 160)"/>
+                <line x1="410" y1="175" x2="415" y2="193" class="sketch-line" stroke-width="4"/>
+                <!-- Ball -->
+                <circle cx="480" cy="110" r="10" class="sketch-line" stroke-width="2"/>
+                <!-- Ball-Flugbahn (gestrichelt) -->
+                <path d="M470,115 Q450,130 435,140" class="sketch-line" stroke-width="1.5" stroke-dasharray="4,4" fill="none"/>
+                <!-- Bewegungslinien am Ball -->
+                <line x1="493" y1="105" x2="505" y2="100" class="sketch-line" stroke-width="1.5"/>
+                <line x1="492" y1="112" x2="504" y2="112" class="sketch-line" stroke-width="1.5"/>
+                <line x1="490" y1="120" x2="502" y2="124" class="sketch-line" stroke-width="1.5"/>
+
+                <!-- Krone über dem Kopf -->
+                <path d="M270,42 L278,20 L290,35 L300,10 L310,35 L322,20 L330,42" class="sketch-line" stroke-width="2.5" fill="none"/>
+
+                <!-- Labels mit Pfeilen -->
+                <!-- LEGEND -->
+                <text x="450" y="65" class="sketch-label" font-size="18" transform="rotate(-8, 450, 65)">LEGEND</text>
+                <line x1="445" y1="70" x2="355" y2="85" class="sketch-line" stroke-width="1.5"/>
+                <polygon points="355,85 360,80 362,87" class="sketch-fill"/>
+
+                <!-- POWER -->
+                <text x="450" y="200" class="sketch-label" font-size="14">POWER</text>
+                <line x1="448" y1="195" x2="435" y2="180" class="sketch-line" stroke-width="1.5"/>
+                <polygon points="435,180 438,186 432,185" class="sketch-fill"/>
+
+                <!-- FOCUS -->
+                <text x="135" y="85" class="sketch-label" font-size="14">FOCUS</text>
+                <line x1="185" y1="88" x2="275" y2="93" class="sketch-line" stroke-width="1.5"/>
+                <polygon points="275,93 268,89 269,96" class="sketch-fill"/>
+
+                <!-- ROSA NAILS -->
+                <text x="130" y="395" class="sketch-label" font-size="13">ROSA NAILS</text>
+                <line x1="210" y1="388" x2="253" y2="373" class="sketch-line" stroke-width="1.5"/>
+                <polygon points="253,373 246,372 249,378" class="sketch-fill"/>
+
+                <!-- STYLE -->
+                <text x="360" y="400" class="sketch-label" font-size="13">STYLE</text>
+                <line x1="375" y1="392" x2="343" y2="373" class="sketch-line" stroke-width="1.5"/>
+                <polygon points="343,373 348,378 346,371" class="sketch-fill"/>
+
+                <!-- 📸 FOTO Jonas: Optional – ersetze die SVG-Figur oben mit einem Bild:
+                     <image href="pfad/zu/jonas-foto.jpg" x="200" y="20" width="200" height="380"/> -->
+            </svg>
+        </div>
 
         <h1 class="hero-title" id="heroTitle">JONAS</h1>
 
         <p class="hero-subtitle">Der Mann. Die Legende. Der Tischtennis-Gott.</p>
 
         <p class="hero-credit">
-            Eine Website errichtet von Luca –<br>
+            Eine Website errichtet von Luca &ndash;<br>
             in Anerkennung seiner vernichtenden Niederlage
         </p>
 
-        <div class="scroll-arrow">⬇</div>
+        <div class="scroll-hint">&#8595; scroll &#8595;</div>
     </header>
 
     <!-- ================================================
-         📖 BIOGRAPHIE SEKTION
+         Wellenlinien-Trenner
          ================================================ -->
-    <div class="divider reveal">⚜ ⚜ ⚜</div>
+    <div class="divider">
+        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
 
+    <!-- ================================================
+         BIOGRAPHIE SEKTION
+         ================================================ -->
     <section class="bio-section">
-        <div class="reveal">
+        <div class="section-header reveal">
             <h2 class="section-title">Vita Jonasius Magnus</h2>
-            <p class="section-subtitle">Die Heilige Biographie · Liber Primus</p>
-        </div>
-
-        <!-- 📸 FOTO Jonas: Optional, src hier einfügen -->
-        <div class="reveal">
-            <div class="photo-placeholder">
-                <!-- 📸 FOTO: Ersetze dieses Element mit einem <img> Tag:
-                     <img src="pfad/zu/jonas-foto.jpg" alt="Jonas, der Champion"> -->
-                <span>[ Hier Abbild einfügen ]</span>
-            </div>
+            <p class="section-subtitle">Die Heilige Biographie</p>
         </div>
 
         <!-- ✏️ BIOGRAPHIE: Text hier anpassen -->
-        <div class="bio-text reveal">
-            <p class="drop-cap">Geboren unter einem günstigen Stern, in einer Nacht, da der Mond besonders hell über dem Tischtennisraum leuchtete, war Jonas von Anfang an kein gewöhnlicher Mensch. Schon als Kind, so berichtet die Überlieferung, griff er nicht nach dem Schnuller, sondern nach einem Tischtennisschläger – und schlug den Brei zurück. <span class="latin">„Natus ad victoriam"</span> – geboren zum Sieg.</p>
+        <div class="bio-text">
 
-            <p>In den Hallen seiner Jugend perfektionierte Jonas jene Künste, die gewöhnliche Sterbliche nur aus der Ferne bewundern können. Sein Aufschlag – ein Donnerschlag der Götter. Seine Rückhand – ein Werk der Präzision, als hätte Michelangelo selbst den Schläger geführt. Sein Blick über das Netz – kalt, entschlossen, unerbittlich. <span class="latin">Magnus Iuvenis</span>, der Große Jüngling, so nannten ihn die Chronisten bereits früh.</p>
+            <p class="reveal">Geboren unter einem guenstigen Stern, in einer Nacht, da der Mond besonders hell ueber dem Tischtennisraum leuchtete, war Jonas von Anfang an kein gewoehnlicher Mensch. Schon als Kind, so berichtet die Ueberlieferung, griff er nicht nach dem Schnuller, sondern nach einem Tischtennisschlaeger &ndash; und schlug den Brei zurueck. <span class="latin">&bdquo;Natus ad victoriam&ldquo;</span> &ndash; geboren zum Sieg.</p>
 
-            <p>Doch Jonas' Genialität beschränkt sich nicht auf den grünen Tisch allein. Er beherrscht zudem <span class="clickable-fact" onclick="openPopup('popupUkulele')">die Ukulele</span> – ein Instrument, das nur die Sensibelsten der Krieger meistern. Wo andere zum Schwert greifen, greift Jonas zu vier Saiten und erschafft Melodien, die selbst die Härtesten unter uns zum Weinen bringen. <span class="latin">Musica est medicina animae.</span></p>
+            <!-- Illustration: Baby mit Schläger -->
+            <div class="bio-illustration reveal">
+                <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Baby -->
+                    <circle cx="180" cy="80" r="35" class="sketch-line"/>
+                    <circle cx="170" cy="75" r="3" class="sketch-fill"/>
+                    <circle cx="190" cy="75" r="3" class="sketch-fill"/>
+                    <path d="M175,90 Q180,96 185,90" class="sketch-line" fill="none" stroke-width="2"/>
+                    <!-- Baby-Körper -->
+                    <ellipse cx="180" cy="140" rx="30" ry="35" class="sketch-line"/>
+                    <!-- Arm mit Schläger -->
+                    <path d="M210,130 L260,110" class="sketch-line" stroke-width="2.5" fill="none"/>
+                    <ellipse cx="275" cy="100" rx="18" ry="22" class="sketch-line" stroke-width="2.5" transform="rotate(-20, 275, 100)"/>
+                    <!-- Brei-Spritzer -->
+                    <circle cx="310" cy="75" r="5" class="sketch-line" stroke-width="1.5"/>
+                    <circle cx="325" cy="90" r="3" class="sketch-line" stroke-width="1.5"/>
+                    <circle cx="320" cy="65" r="4" class="sketch-line" stroke-width="1.5"/>
+                    <!-- Flugbahn -->
+                    <path d="M293,95 Q300,85 308,78" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="3,3" fill="none"/>
+                    <!-- Label -->
+                    <text x="30" y="90" class="sketch-label" font-size="15" transform="rotate(-90, 55, 90)">AGE: 0</text>
+                    <text x="290" y="50" class="sketch-label-small" font-size="13">BREI</text>
+                    <line x1="305" y1="53" x2="310" y2="68" stroke="#888" stroke-width="1.2"/>
+                    <polygon points="310,68 307,63 313,64" fill="#888"/>
+                </svg>
+            </div>
 
-            <p>Besondere Erwähnung verdienen auch <span class="clickable-fact" onclick="openPopup('popupFussnagel')">seine rosa lackierten Fußnägel</span> – ein Zeichen seiner Unerschrockenheit gegenüber gesellschaftlichen Konventionen. Während andere sich hinter grauer Konformität verstecken, schreitet Jonas mit der Kühnheit eines Löwen und der Ästhetik eines Renaissance-Fürsten durch die Welt. Rosa ist nicht nur eine Farbe – es ist eine Haltung. <span class="latin">Audaces fortuna iuvat.</span></p>
+            <p class="reveal">In den Hallen seiner Jugend perfektionierte Jonas jene Kuenste, die gewoehnliche Sterbliche nur aus der Ferne bewundern koennen. Sein Aufschlag &ndash; ein Donnerschlag der Goetter. Seine Rueckhand &ndash; ein Werk der Praezision, als haette Michelangelo selbst den Schlaeger gefuehrt. Sein Blick ueber das Netz &ndash; kalt, entschlossen, unerbittlich. <span class="latin">Magnus Iuvenis</span>, der Grosse Juengling, so nannten ihn die Chronisten bereits frueh.</p>
 
-            <p>Und als wäre dies nicht genug der Wunder, besitzt Jonas eine <span class="clickable-fact" onclick="openPopup('popupFussnagel')">übernatürliche körperliche Begabung</span>, die Wissenschaftler bis heute rätseln lässt: die Fähigkeit, seinen Fußzeh zum Munde zu führen – eine Demonstration purer Flexibilität, die in der Geschichte der Menschheit ihresgleichen sucht. Yogameister verneigen sich. Anatomen schütteln ungläubig den Kopf. <span class="latin">Corpus mirabile.</span></p>
+            <p class="reveal">Doch Jonas' Genialitaet beschraenkt sich nicht auf den gruenen Tisch allein. Er beherrscht zudem <span class="clickable-fact" onclick="openPopup('popupUkulele')">die Ukulele</span> &ndash; ein Instrument, das nur die Sensibelsten der Krieger meistern. Wo andere zum Schwert greifen, greift Jonas zu vier Saiten und erschafft Melodien, die selbst die Haertesten unter uns zum Weinen bringen. <span class="latin">Musica est medicina animae.</span></p>
 
-            <p>So steht Jonas vor uns: Tischtennis-Gott, Ukulelen-Virtuose, Stilikone, anatomisches Wunder – und, vor allem, der ungeschlagene Champion des Büroturniers. <span class="latin">Victoriam aeternam.</span> Ewiger Sieg.</p>
+            <!-- Illustration: Jonas mit Ukulele -->
+            <div class="bio-illustration reveal">
+                <svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Figur sitzend -->
+                    <circle cx="200" cy="60" r="35" class="sketch-line"/>
+                    <circle cx="190" cy="55" r="3" class="sketch-fill"/>
+                    <circle cx="210" cy="55" r="3" class="sketch-fill"/>
+                    <!-- Geschlossene Augen (selig) -->
+                    <path d="M186,54 Q190,50 194,54" class="sketch-line" fill="none" stroke-width="2"/>
+                    <path d="M206,54 Q210,50 214,54" class="sketch-line" fill="none" stroke-width="2"/>
+                    <path d="M193,72 Q200,78 207,72" class="sketch-line" fill="none" stroke-width="2"/>
+                    <!-- Körper -->
+                    <line x1="200" y1="95" x2="200" y2="170" class="sketch-line" stroke-width="3"/>
+                    <!-- Beine (sitzend) -->
+                    <path d="M200,170 Q230,180 250,210 Q260,230 250,245" class="sketch-line" stroke-width="3" fill="none"/>
+                    <path d="M200,170 Q170,180 150,210 Q140,230 150,245" class="sketch-line" stroke-width="3" fill="none"/>
+                    <!-- Arme halten Ukulele -->
+                    <path d="M200,120 Q230,115 250,130" class="sketch-line" stroke-width="2.5" fill="none"/>
+                    <path d="M200,120 Q220,140 240,150" class="sketch-line" stroke-width="2.5" fill="none"/>
+                    <!-- Ukulele -->
+                    <ellipse cx="260" cy="155" rx="22" ry="18" class="sketch-line" stroke-width="2.5"/>
+                    <ellipse cx="260" cy="155" rx="5" ry="5" class="sketch-line" stroke-width="1.5"/>
+                    <line x1="255" y1="137" x2="255" y2="100" class="sketch-line" stroke-width="2.5"/>
+                    <line x1="265" y1="137" x2="265" y2="100" class="sketch-line" stroke-width="2.5"/>
+                    <line x1="255" y1="100" x2="265" y2="100" class="sketch-line" stroke-width="2.5"/>
+                    <!-- Noten -->
+                    <text x="290" y="100" class="sketch-label" font-size="22">&#9834;</text>
+                    <text x="310" y="80" class="sketch-label" font-size="16">&#9835;</text>
+                    <text x="285" y="70" class="sketch-label" font-size="18">&#9833;</text>
+                    <!-- Label -->
+                    <text x="20" y="65" class="sketch-label" font-size="14">VIBES</text>
+                    <line x1="68" y1="62" x2="163" y2="60" class="sketch-line" stroke-width="1.5"/>
+                    <polygon points="163,60 157,56 157,64" class="sketch-fill"/>
+                    <!-- Wellenlinien (Musik) -->
+                    <path d="M100,130 Q105,120 110,130 Q115,140 120,130" stroke="#888" stroke-width="1.5" fill="none"/>
+                    <path d="M90,145 Q95,135 100,145 Q105,155 110,145" stroke="#888" stroke-width="1.5" fill="none"/>
+                </svg>
+            </div>
+
+            <p class="reveal">Besondere Erwaehnung verdienen auch <span class="clickable-fact" onclick="openPopup('popupFussnagel')">seine rosa lackierten Fussnaegel</span> &ndash; ein Zeichen seiner Unerschrockenheit gegenueber gesellschaftlichen Konventionen. Waehrend andere sich hinter grauer Konformitaet verstecken, schreitet Jonas mit der Kuehnheit eines Loewen und der Aesthetik eines Renaissance-Fuersten durch die Welt. Rosa ist nicht nur eine Farbe &ndash; es ist eine Haltung. <span class="latin">Audaces fortuna iuvat.</span></p>
+
+            <p class="reveal">Und als waere dies nicht genug der Wunder, besitzt Jonas eine <span class="clickable-fact" onclick="openPopup('popupFussnagel')">uebernatuerliche koerperliche Begabung</span>, die Wissenschaftler bis heute raetseln laesst: die Faehigkeit, seinen Fusszeh zum Munde zu fuehren &ndash; eine Demonstration purer Flexibilitaet, die in der Geschichte der Menschheit ihresgleichen sucht. Yogameister verneigen sich. Anatomen schuetteln unglaeubig den Kopf. <span class="latin">Corpus mirabile.</span></p>
+
+            <!-- Illustration: Flexibilitäts-Diagramm im Duck/Rabbit Stil -->
+            <div class="bio-illustration reveal">
+                <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Achsen -->
+                    <line x1="80" y1="260" x2="350" y2="260" class="sketch-line" stroke-width="2.5"/>
+                    <line x1="80" y1="260" x2="80" y2="40" class="sketch-line" stroke-width="2.5"/>
+                    <!-- Pfeilspitzen -->
+                    <polygon points="350,260 340,254 340,266" class="sketch-fill"/>
+                    <polygon points="80,40 74,50 86,50" class="sketch-fill"/>
+                    <!-- Achsenbeschriftungen -->
+                    <text x="45" y="55" class="sketch-label" font-size="14" transform="rotate(-90, 45, 150)">FLEXIBILITY</text>
+                    <text x="300" y="285" class="sketch-label" font-size="14">SKILL</text>
+                    <!-- Datenpunkte & Labels -->
+                    <circle cx="120" cy="230" r="5" class="sketch-fill"/>
+                    <text x="105" y="250" class="sketch-label-small" font-size="11">LUCA</text>
+                    <circle cx="160" cy="200" r="5" class="sketch-fill"/>
+                    <text x="135" y="215" class="sketch-label-small" font-size="11">AVERAGE<tspan x="135" dy="13">HUMAN</tspan></text>
+                    <circle cx="210" cy="160" r="5" class="sketch-fill"/>
+                    <text x="218" y="165" class="sketch-label-small" font-size="11">YOGA<tspan x="218" dy="13">MASTER</tspan></text>
+                    <!-- Jonas: Oben rechts, extragroß -->
+                    <circle cx="310" cy="65" r="10" class="sketch-fill"/>
+                    <text x="280" y="50" class="sketch-label" font-size="18">JONAS</text>
+                    <!-- Gestrichelte Linie zum Trend -->
+                    <path d="M120,230 Q200,180 310,65" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="6,4" fill="none"/>
+                    <!-- Ausrufezeichen bei Jonas -->
+                    <text x="325" y="60" class="sketch-label" font-size="20">!</text>
+                    <text x="325" y="80" class="sketch-label-small" font-size="10">(off the<tspan x="325" dy="12">charts)</tspan></text>
+                </svg>
+            </div>
+
+            <p class="reveal">So steht Jonas vor uns: Tischtennis-Gott, Ukulelen-Virtuose, Stilikone, anatomisches Wunder &ndash; und, vor allem, der ungeschlagene Champion des Bueroturniers. <span class="latin">Victoriam aeternam.</span> Ewiger Sieg.</p>
         </div>
     </section>
 
-    <!-- ================================================
-         💬 ZEUGENAUSSAGEN
-         ================================================ -->
-    <div class="divider reveal">⚜ ⚜ ⚜</div>
+    <!-- Trenner -->
+    <div class="divider">
+        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
 
+    <!-- ================================================
+         DIAGRAMM: Das grosse Turnier
+         ================================================ -->
+    <section class="diagram-section reveal">
+        <svg viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+            <!-- Tischtennis-Tisch von oben (vereinfacht) -->
+            <rect x="100" y="50" width="300" height="180" rx="3" class="sketch-line" stroke-width="2.5" fill="none"/>
+            <!-- Mittellinie -->
+            <line x1="100" y1="140" x2="400" y2="140" class="sketch-line" stroke-width="1.5" stroke-dasharray="8,5"/>
+            <!-- Netz -->
+            <line x1="250" y1="45" x2="250" y2="235" class="sketch-line" stroke-width="3"/>
+
+            <!-- Jonas (rechte Seite) – Strichmännchen von oben -->
+            <circle cx="370" cy="285" r="20" class="sketch-line" stroke-width="2.5"/>
+            <circle cx="365" cy="281" r="2.5" class="sketch-fill"/>
+            <circle cx="375" cy="281" r="2.5" class="sketch-fill"/>
+            <path d="M363,291 Q370,296 377,291" class="sketch-line" fill="none" stroke-width="2"/>
+            <!-- Schläger -->
+            <ellipse cx="330" cy="250" rx="12" ry="15" class="sketch-line" stroke-width="2"/>
+            <line x1="337" y1="261" x2="350" y2="275" class="sketch-line" stroke-width="2.5"/>
+            <!-- Arm -->
+            <path d="M360,300 Q350,285 340,265" class="sketch-line" stroke-width="2" fill="none"/>
+
+            <!-- Luca (linke Seite) – Strichmännchen, ängstlich -->
+            <circle cx="130" cy="285" r="20" class="sketch-line" stroke-width="2.5"/>
+            <circle cx="125" cy="280" r="2.5" class="sketch-fill"/>
+            <circle cx="135" cy="280" r="2.5" class="sketch-fill"/>
+            <!-- Offener Mund (Angst) -->
+            <ellipse cx="130" cy="293" rx="5" ry="6" class="sketch-line" fill="none" stroke-width="1.5"/>
+            <!-- Schweißtropfen -->
+            <path d="M152,272 Q155,265 158,272 Q155,278 152,272" class="sketch-fill"/>
+            <!-- Schläger (schlaff) -->
+            <ellipse cx="95" cy="310" rx="12" ry="15" class="sketch-line" stroke-width="2"/>
+            <line x1="102" y1="298" x2="118" y2="298" class="sketch-line" stroke-width="2.5"/>
+            <path d="M140,300 Q125,298 115,298" class="sketch-line" stroke-width="2" fill="none"/>
+
+            <!-- Ball-Flugbahn -->
+            <circle cx="285" cy="120" r="7" class="sketch-line" stroke-width="2"/>
+            <path d="M320,190 Q300,150 285,125" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="4,4" fill="none"/>
+            <!-- Geschwindigkeitslinien -->
+            <line x1="295" y1="118" x2="305" y2="113" class="sketch-line" stroke-width="1.5"/>
+            <line x1="293" y1="125" x2="303" y2="125" class="sketch-line" stroke-width="1.5"/>
+
+            <!-- Labels -->
+            <text x="345" y="340" class="sketch-label" font-size="16">JONAS</text>
+            <text x="345" y="356" class="sketch-label-small" font-size="11">(calm, collected)</text>
+
+            <text x="85" y="340" class="sketch-label" font-size="16">LUCA</text>
+            <text x="85" y="356" class="sketch-label-small" font-size="11">(terrified)</text>
+
+            <!-- Titel -->
+            <text x="155" y="30" class="sketch-label" font-size="20">DAS GROSSE TURNIER</text>
+            <path d="M155,33 Q250,38 390,33" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
+
+            <!-- Scoreboard -->
+            <text x="420" y="100" class="sketch-label" font-size="12">SCORE:</text>
+            <text x="420" y="118" class="sketch-label" font-size="14">JONAS: &#8734;</text>
+            <text x="420" y="136" class="sketch-label-small" font-size="14">LUCA: 0</text>
+        </svg>
+    </section>
+
+    <!-- Trenner -->
+    <div class="divider">
+        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <!-- ================================================
+         ZEUGENAUSSAGEN
+         ================================================ -->
     <section class="quotes-section">
-        <div class="reveal">
+        <div class="section-header reveal">
             <h2 class="section-title">Testimonia Gloriae</h2>
-            <p class="section-subtitle">Was die Welt über Jonas sagt</p>
+            <p class="section-subtitle">Was die Welt ueber Jonas sagt</p>
         </div>
 
         <div class="quotes-grid">
-            <div class="quote-card reveal" style="--rotation: -2deg;">
-                <p class="quote-text">„Ich habe viele Tischtennis-Spieler gesehen. Jonas ist... anders. Man spürt eine Kraft, die jenseits des Irdischen liegt."</p>
-                <p class="quote-author">— Bundestrainer, anonym</p>
-            </div>
-
-            <div class="quote-card reveal" style="--rotation: 1.5deg;">
-                <p class="quote-text">„Als er seinen Aufschlag ausführte, weinte ich. Nicht aus Trauer – aus reiner, unverdünnter Angst."</p>
-                <p class="quote-author">— Luca, geschlagener Gegner</p>
-            </div>
-
             <div class="quote-card reveal" style="--rotation: -1deg;">
-                <p class="quote-text">„Seine Ukulele-Fähigkeiten sind fast so beeindruckend wie sein Rückhand-Topspin. Fast."</p>
-                <p class="quote-author">— Ein neidischer Kollege</p>
+                <p class="quote-text">&bdquo;Ich habe viele Tischtennis-Spieler gesehen. Jonas ist... anders. Man spuert eine Kraft, die jenseits des Irdischen liegt.&ldquo;</p>
+                <p class="quote-author">&mdash; Bundestrainer, anonym</p>
             </div>
 
-            <div class="quote-card reveal" style="--rotation: 2deg;">
-                <p class="quote-text">„Die rosa Fußnägel gaben ihm eine Aura. Ich konnte mich nicht konzentrieren. Es war, als spielte man gegen einen Halbgott in Sandalen."</p>
-                <p class="quote-author">— Unbekannter Turnierteilnehmer</p>
+            <div class="quote-card reveal" style="--rotation: 0.8deg;">
+                <p class="quote-text">&bdquo;Als er seinen Aufschlag ausfuehrte, weinte ich. Nicht aus Trauer &ndash; aus reiner, unverduennter Angst.&ldquo;</p>
+                <p class="quote-author">&mdash; Luca, geschlagener Gegner</p>
             </div>
 
-            <div class="quote-card reveal" style="--rotation: -1.5deg;">
-                <p class="quote-text">„Er steckte seinen Zeh in den Mund und ich wusste: Dieser Mann hat keine Grenzen. Weder physisch noch mental."</p>
-                <p class="quote-author">— Augenzeuge, möchte anonym bleiben</p>
+            <div class="quote-card reveal" style="--rotation: -0.5deg;">
+                <p class="quote-text">&bdquo;Seine Ukulele-Faehigkeiten sind fast so beeindruckend wie sein Rueckhand-Topspin. Fast.&ldquo;</p>
+                <p class="quote-author">&mdash; Ein neidischer Kollege</p>
             </div>
 
-            <div class="quote-card reveal" style="--rotation: 0.5deg;">
-                <p class="quote-text">„Ich habe gegen Maschinen gespielt, gegen Profis, gegen das Schicksal selbst. Nichts hat mich so gedemütigt wie Jonas an jenem Dienstag."</p>
-                <p class="quote-author">— Luca, immer noch in Therapie</p>
+            <div class="quote-card reveal" style="--rotation: 1.2deg;">
+                <p class="quote-text">&bdquo;Die rosa Fussnaegel gaben ihm eine Aura. Ich konnte mich nicht konzentrieren. Es war, als spielte man gegen einen Halbgott in Sandalen.&ldquo;</p>
+                <p class="quote-author">&mdash; Unbekannter Turnierteilnehmer</p>
+            </div>
+
+            <div class="quote-card reveal" style="--rotation: -0.8deg;">
+                <p class="quote-text">&bdquo;Er steckte seinen Zeh in den Mund und ich wusste: Dieser Mann hat keine Grenzen. Weder physisch noch mental.&ldquo;</p>
+                <p class="quote-author">&mdash; Augenzeuge, moechte anonym bleiben</p>
+            </div>
+
+            <div class="quote-card reveal" style="--rotation: 0.3deg;">
+                <p class="quote-text">&bdquo;Ich habe gegen Maschinen gespielt, gegen Profis, gegen das Schicksal selbst. Nichts hat mich so gedemuetigt wie Jonas an jenem Dienstag.&ldquo;</p>
+                <p class="quote-author">&mdash; Luca, immer noch in Therapie</p>
             </div>
         </div>
     </section>
 
-    <!-- ================================================
-         🏆 FOOTER
-         ================================================ -->
-    <div class="divider reveal">⚜ ⚜ ⚜</div>
+    <!-- Trenner -->
+    <div class="divider">
+        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
 
+    <!-- ================================================
+         FOOTER
+         ================================================ -->
     <footer>
-        <div class="footer-ornament">☩ ☩ ☩</div>
-        <div class="footer-text">
-            <p>Diese Website wurde errichtet von <strong>Luca</strong> – freiwillig, ehrlich, und mit tiefstem Respekt vor Jonas' Ping-Pong-Überlegenheit.</p>
-            <p style="margin-top: 10px; font-style: italic; opacity: 0.7;">Ein Wetteinsatz ist ein Wetteinsatz. Ein Champion ist ein Champion.</p>
+        <div class="footer-drawing">
+            <svg viewBox="0 0 250 180" xmlns="http://www.w3.org/2000/svg">
+                <!-- Kleine Figur die sich verbeugt -->
+                <circle cx="125" cy="50" r="22" class="sketch-line" stroke-width="2.5"/>
+                <circle cx="118" cy="46" r="2.5" class="sketch-fill"/>
+                <circle cx="132" cy="46" r="2.5" class="sketch-fill"/>
+                <!-- Trauriges Lächeln -->
+                <path d="M117,57 Q125,52 133,57" class="sketch-line" fill="none" stroke-width="2"/>
+                <!-- Körper -->
+                <line x1="125" y1="72" x2="125" y2="125" class="sketch-line" stroke-width="2.5"/>
+                <!-- Arme (ausgestreckt, sich verbeugend) -->
+                <path d="M125,90 Q100,95 85,110" class="sketch-line" stroke-width="2.5" fill="none"/>
+                <path d="M125,90 Q150,95 165,110" class="sketch-line" stroke-width="2.5" fill="none"/>
+                <!-- Beine -->
+                <path d="M125,125 L110,165" class="sketch-line" stroke-width="2.5"/>
+                <path d="M125,125 L140,165" class="sketch-line" stroke-width="2.5"/>
+                <!-- Label -->
+                <text x="60" y="145" class="sketch-label" font-size="12">LUCA</text>
+                <line x1="85" y1="142" x2="120" y2="120" stroke="#1a1a1a" stroke-width="1.2"/>
+                <polygon points="120,120 115,124 117,117" class="sketch-fill"/>
+                <!-- Schild "GG" -->
+                <rect x="170" y="85" width="50" height="35" rx="2" class="sketch-line" stroke-width="2"/>
+                <text x="180" y="108" class="sketch-label" font-size="16">GG</text>
+            </svg>
         </div>
-        <p class="rematch-text">Rematch pending.</p>
-        <p style="margin-top: 40px; font-size: 0.7rem; opacity: 0.3; font-family: var(--font-display); letter-spacing: 0.2em;">
-            A.D. MMXXVI · Officium Ludorum Mensae
+
+        <div class="footer-text">
+            <p>Diese Website wurde errichtet von <strong>Luca</strong> &ndash; freiwillig, ehrlich, und mit tiefstem Respekt vor Jonas' Ping-Pong-Ueberlegenheit.</p>
+            <p style="margin-top: 8px; color: #888; font-size: 0.95rem;">Ein Wetteinsatz ist ein Wetteinsatz.<br>Ein Champion ist ein Champion.</p>
+        </div>
+        <p class="rematch-text">REMATCH PENDING.</p>
+        <p style="margin-top: 30px; font-family: var(--font-hand); font-size: 0.8rem; color: #ccc;">
+            A.D. MMXXVI &middot; Officium Ludorum Mensae
         </p>
     </footer>
 
-    <!-- Easter Egg: Verstecktes Rematch-Element -->
-    <div class="easter-egg" id="easterEgg" title="...">Rematch?</div>
+    <!-- Easter Egg -->
+    <div class="easter-egg" id="easterEgg">Rematch?</div>
 
     <!-- ================================================
-         ⚡ JAVASCRIPT
+         JAVASCRIPT
          ================================================ -->
     <script>
         /* ============================================
-           🎬 Hero-Titel: Buchstabe für Buchstabe
+           Hero-Titel: Buchstabe fuer Buchstabe
            ============================================ */
         (function initHeroTitle() {
             const title = document.getElementById('heroTitle');
@@ -893,35 +1099,15 @@
             [...text].forEach((char, i) => {
                 const span = document.createElement('span');
                 span.textContent = char;
-                span.style.animationDelay = (0.3 + i * 0.2) + 's';
+                span.style.animationDelay = (0.3 + i * 0.15) + 's';
                 title.appendChild(span);
             });
         })();
 
         /* ============================================
-           🏓 Schwebende Tischtennis-Bälle
-           ============================================ */
-        (function initFloatingBalls() {
-            const container = document.getElementById('floatingBalls');
-            const ballChars = ['○', '●', '◎', '◉', '⊚', '🏓'];
-            for (let i = 0; i < 20; i++) {
-                const ball = document.createElement('div');
-                ball.className = 'ball';
-                ball.textContent = ballChars[Math.floor(Math.random() * ballChars.length)];
-                ball.style.left = Math.random() * 100 + '%';
-                ball.style.top = Math.random() * 100 + '%';
-                ball.style.fontSize = (14 + Math.random() * 30) + 'px';
-                ball.style.animationDelay = (Math.random() * 8) + 's';
-                ball.style.animationDuration = (8 + Math.random() * 10) + 's';
-                container.appendChild(ball);
-            }
-        })();
-
-        /* ============================================
-           🎵 Jubel-Sound beim Laden (Web Audio API Fallback)
+           Jubel-Sound beim Laden (Web Audio API)
            ============================================ */
         (function initApplause() {
-            // Versuche das Audio-Element abzuspielen
             const applause = document.getElementById('applauseSound');
             let played = false;
 
@@ -929,78 +1115,70 @@
                 if (played) return;
                 played = true;
 
-                // Versuche das Audio-Element
                 applause.play().catch(() => {
-                    // Fallback: Web Audio API – synthetischer Applaus
                     try {
                         const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                        // Weißes Rauschen als Applaus-Simulation
-                        const duration = 2.5;
+                        const duration = 2;
                         const sampleRate = ctx.sampleRate;
                         const buffer = ctx.createBuffer(2, sampleRate * duration, sampleRate);
                         for (let ch = 0; ch < 2; ch++) {
                             const data = buffer.getChannelData(ch);
                             for (let i = 0; i < data.length; i++) {
-                                // Moduliertes Rauschen für realistischeren Effekt
-                                const envelope = Math.sin(Math.PI * i / data.length) * 0.3;
+                                const envelope = Math.sin(Math.PI * i / data.length) * 0.25;
                                 const modulation = 1 + 0.5 * Math.sin(i / sampleRate * 8);
                                 data[i] = (Math.random() * 2 - 1) * envelope * modulation;
                             }
                         }
                         const source = ctx.createBufferSource();
                         source.buffer = buffer;
-                        // Bandpass-Filter für Applaus-Charakter
                         const filter = ctx.createBiquadFilter();
                         filter.type = 'bandpass';
                         filter.frequency.value = 3000;
                         filter.Q.value = 0.5;
                         const gain = ctx.createGain();
-                        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                        gain.gain.setValueAtTime(0.12, ctx.currentTime);
                         gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
                         source.connect(filter);
                         filter.connect(gain);
                         gain.connect(ctx.destination);
                         source.start();
-                    } catch (e) {
-                        // Audio nicht verfügbar – kein Problem
-                    }
+                    } catch (e) { /* Audio nicht verfuegbar */ }
                 });
             }
 
-            // Bei erster Nutzer-Interaktion abspielen (Browser-Policy)
             document.addEventListener('click', playApplause, { once: true });
             document.addEventListener('touchstart', playApplause, { once: true });
-            // Versuche auch sofort
             playApplause();
         })();
 
         /* ============================================
-           🎵 Hintergrundmusik Toggle
+           Hintergrundmusik Toggle
            ============================================ */
         (function initMusicButton() {
             const btn = document.getElementById('musicBtn');
             const audio = document.getElementById('bgMusic');
             let playing = false;
 
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 if (playing) {
                     audio.pause();
-                    btn.textContent = '♫ Musik';
+                    btn.innerHTML = '&#9835;';
                     playing = false;
                 } else {
                     audio.play().then(() => {
-                        btn.textContent = '⏸ Pause';
+                        btn.innerHTML = '&#10074;&#10074;';
                         playing = true;
                     }).catch(() => {
-                        btn.textContent = '♫ Keine Datei';
-                        setTimeout(() => { btn.textContent = '♫ Musik'; }, 2000);
+                        btn.innerHTML = '&#10007;';
+                        setTimeout(() => { btn.innerHTML = '&#9835;'; }, 1500);
                     });
                 }
             });
         })();
 
         /* ============================================
-           📜 Scroll-Reveal Animationen
+           Scroll-Reveal Animationen
            ============================================ */
         (function initScrollReveal() {
             const observer = new IntersectionObserver((entries) => {
@@ -1009,18 +1187,13 @@
                         entry.target.classList.add('visible');
                     }
                 });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-            document.querySelectorAll('.reveal').forEach(el => {
-                observer.observe(el);
-            });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         })();
 
         /* ============================================
-           🎭 Pop-ups
+           Pop-ups
            ============================================ */
         function openPopup(id) {
             document.getElementById(id).classList.add('active');
@@ -1030,17 +1203,14 @@
             document.getElementById(id).classList.remove('active');
         }
 
-        // Schließen bei Klick außerhalb
         document.querySelectorAll('.popup-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.classList.remove('active');
-                }
+                if (e.target === overlay) overlay.classList.remove('active');
             });
         });
 
         /* ============================================
-           🥚 Easter Egg: NEIN!
+           Easter Egg: NEIN!
            ============================================ */
         (function initEasterEgg() {
             const egg = document.getElementById('easterEgg');
@@ -1048,59 +1218,62 @@
 
             egg.addEventListener('click', () => {
                 overlay.classList.add('active');
-                // Vibrieren auf Mobilgeräten
                 if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                }, 2500);
+                setTimeout(() => overlay.classList.remove('active'), 2000);
             });
         })();
 
         /* ============================================
-           ⌨️ Keyboard Easter Egg: Konami-Code → Konfetti
+           Konami-Code: Konfetti
            ============================================ */
         (function initKonamiCode() {
             const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
             let pos = 0;
+
             document.addEventListener('keydown', (e) => {
                 if (e.key === code[pos]) {
                     pos++;
                     if (pos === code.length) {
                         pos = 0;
-                        // Gold-Konfetti
-                        for (let i = 0; i < 60; i++) {
-                            const conf = document.createElement('div');
-                            conf.style.cssText = `
-                                position: fixed;
-                                top: -10px;
-                                left: ${Math.random() * 100}%;
-                                width: ${5 + Math.random() * 10}px;
-                                height: ${5 + Math.random() * 10}px;
-                                background: ${Math.random() > 0.5 ? '#D4AF37' : '#fff'};
-                                z-index: 100000;
-                                pointer-events: none;
-                                animation: confettiFall ${2 + Math.random() * 3}s ease-out forwards;
-                                transform: rotate(${Math.random() * 360}deg);
-                            `;
-                            document.body.appendChild(conf);
-                            setTimeout(() => conf.remove(), 5000);
-                        }
-                        // Konfetti-Animation dynamisch einfügen
                         if (!document.getElementById('confettiStyle')) {
                             const style = document.createElement('style');
                             style.id = 'confettiStyle';
-                            style.textContent = `
-                                @keyframes confettiFall {
-                                    0% { top: -10px; opacity: 1; }
-                                    100% { top: 110vh; opacity: 0; transform: rotate(720deg) translateX(${Math.random() > 0.5 ? '' : '-'}100px); }
-                                }
-                            `;
+                            style.textContent = '@keyframes confFall { 0% { top: -10px; opacity: 1; } 100% { top: 110vh; opacity: 0; } }';
                             document.head.appendChild(style);
+                        }
+                        for (let i = 0; i < 50; i++) {
+                            const c = document.createElement('div');
+                            const size = 4 + Math.random() * 8;
+                            c.style.cssText = 'position:fixed;top:-10px;left:' + (Math.random()*100) + '%;width:' + size + 'px;height:' + size + 'px;background:#1a1a1a;z-index:100000;pointer-events:none;border-radius:' + (Math.random()>0.5?'50%':'0') + ';animation:confFall ' + (2+Math.random()*2) + 's ease-out forwards;transform:rotate(' + (Math.random()*360) + 'deg);';
+                            document.body.appendChild(c);
+                            setTimeout(() => c.remove(), 5000);
                         }
                     }
                 } else {
                     pos = 0;
                 }
+            });
+        })();
+
+        /* ============================================
+           SVG Pfad-Animations-Trigger
+           ============================================ */
+        (function initPathDrawing() {
+            const svgObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelectorAll('.draw-on-scroll').forEach(path => {
+                            const length = path.getTotalLength ? path.getTotalLength() : 500;
+                            path.style.strokeDasharray = length;
+                            path.style.strokeDashoffset = length;
+                            path.style.animation = 'drawPath 1.5s ease-out forwards';
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            document.querySelectorAll('.bio-illustration, .diagram-section').forEach(el => {
+                svgObserver.observe(el);
             });
         })();
     </script>
