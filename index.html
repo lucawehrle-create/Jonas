@@ -87,6 +87,19 @@
         }
 
         /* ============================================
+           JONAS MODE (Rosa Toggle)
+           ============================================ */
+        .jonas-mode-btn {
+            position: fixed; top: 18px; left: 18px; z-index: 10000;
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 2.5px solid #1a1a1a; background: white;
+            cursor: pointer; font-size: 18px; display: flex;
+            align-items: center; justify-content: center;
+            transition: all 0.4s; box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+        }
+        .jonas-mode-btn:hover { transform: scale(1.1); }
+
+        /* ============================================
            HERO SEKTION
            ============================================ */
         .hero {
@@ -979,18 +992,6 @@
             margin-top: 8px; transition: opacity 0.3s;
         }
 
-        /* ============================================
-           JONAS MODE (Rosa Toggle)
-           ============================================ */
-        .jonas-mode-btn {
-            position: fixed; top: 18px; left: 18px; z-index: 10000;
-            width: 48px; height: 48px; border-radius: 50%;
-            border: 2.5px solid #1a1a1a; background: white;
-            cursor: pointer; font-size: 18px; display: flex;
-            align-items: center; justify-content: center;
-            transition: all 0.4s; box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
-        }
-        .jonas-mode-btn:hover { transform: scale(1.1); }
         .jonas-mode-btn.active {
             background: #ff69b4; border-color: #ff1493;
             box-shadow: 0 0 20px rgba(255,105,180,0.4);
