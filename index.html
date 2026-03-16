@@ -1061,6 +1061,83 @@
         }
 
         /* ============================================
+           DANKE-SEKTION – Team Modern Work
+           ============================================ */
+        .thankyou-section {
+            text-align: center;
+            padding: 60px 20px 50px;
+            background: #fafafa;
+            border-top: 2.5px solid var(--light-grey);
+            position: relative;
+        }
+        .thankyou-butterfly {
+            width: clamp(100px, 20vw, 160px);
+            margin: 0 auto 20px;
+            opacity: 0.85;
+        }
+        .thankyou-title {
+            font-family: var(--font-label);
+            font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+            color: var(--black);
+            margin-bottom: 6px;
+        }
+        .thankyou-team {
+            font-family: var(--font-hand);
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: var(--grey);
+            margin-bottom: 20px;
+            letter-spacing: 0.02em;
+        }
+        .thankyou-text {
+            font-family: var(--font-body);
+            font-size: clamp(1rem, 2.2vw, 1.15rem);
+            color: #555;
+            max-width: 560px;
+            margin: 0 auto 28px;
+            line-height: 1.7;
+        }
+        .thankyou-names {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .thankyou-name {
+            font-family: var(--font-hand);
+            font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+            color: var(--black);
+            background: white;
+            border: 2px solid var(--light-grey);
+            border-radius: 20px;
+            padding: 6px 18px;
+            transition: all 0.3s;
+        }
+        .thankyou-name:hover {
+            transform: translateY(-3px) rotate(-2deg);
+            border-color: var(--black);
+            box-shadow: 2px 3px 0 rgba(0,0,0,0.08);
+        }
+        .thankyou-heart {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-top: 24px;
+            animation: heartBeat 2s ease-in-out infinite;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+        }
+
+        body.jonas-mode .thankyou-section { background: #fff0f5 !important; }
+        body.jonas-mode .thankyou-name { border-color: #ffb6d5 !important; }
+        body.jonas-mode .thankyou-name:hover { border-color: #ff69b4 !important; }
+        body.jonas-mode .thankyou-section .thankyou-title { color: #d63384 !important; }
+
+        /* ============================================
            COUNTDOWN – Tage seit Lucas letztem Sieg
            ============================================ */
         .countdown-bar {
@@ -1909,6 +1986,110 @@
                 <p class="quote-author">&mdash; Luca, immer noch in Therapie</p>
             </div>
         </div>
+    </section>
+
+    <!-- Trenner -->
+    <div class="divider">
+        <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,10 Q25,0 50,10 Q75,20 100,10 Q125,0 150,10 Q175,20 200,10 Q225,0 250,10 Q275,20 300,10" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <!-- ================================================
+         DANKE – Team Modern Work
+         ================================================ -->
+    <section class="thankyou-section reveal">
+        <div class="thankyou-butterfly">
+            <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                <!-- Geometrischer Schmetterling (Low-Poly / Wireframe) -->
+                <!-- Koerper -->
+                <line x1="100" y1="30" x2="100" y2="150" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="100" cy="30" r="4" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+                <!-- Fuehler -->
+                <path d="M100,30 Q88,10 78,6" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                <circle cx="77" cy="5" r="2" fill="#1a1a1a"/>
+                <path d="M100,30 Q112,10 122,6" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                <circle cx="123" cy="5" r="2" fill="#1a1a1a"/>
+
+                <!-- Linker oberer Fluegel (Dreiecks-Netz) -->
+                <polygon points="100,35 55,20 40,55" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,35 40,55 30,85" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,50 40,55 30,85" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,50 30,85 35,70" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="55,20 28,35 40,55" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="55,20 75,28 100,35" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="28,35 18,60 40,55" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="18,60 30,85 40,55" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <line x1="55" y1="20" x2="40" y2="55" stroke="#1a1a1a" stroke-width="0.6"/>
+                <line x1="75" y1="28" x2="40" y2="55" stroke="#1a1a1a" stroke-width="0.6"/>
+
+                <!-- Rechter oberer Fluegel (gespiegelt) -->
+                <polygon points="100,35 145,20 160,55" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,35 160,55 170,85" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,50 160,55 170,85" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,50 170,85 165,70" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="145,20 172,35 160,55" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="145,20 125,28 100,35" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="172,35 182,60 160,55" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="182,60 170,85 160,55" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <line x1="145" y1="20" x2="160" y2="55" stroke="#1a1a1a" stroke-width="0.6"/>
+                <line x1="125" y1="28" x2="160" y2="55" stroke="#1a1a1a" stroke-width="0.6"/>
+
+                <!-- Linker unterer Fluegel -->
+                <polygon points="100,75 30,85 40,110" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,75 40,110 50,130" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,90 40,110 50,130" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,90 50,130 65,145" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,110 65,145 100,140" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,90 65,145 100,110" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <line x1="30" y1="85" x2="50" y2="130" stroke="#1a1a1a" stroke-width="0.6"/>
+
+                <!-- Rechter unterer Fluegel -->
+                <polygon points="100,75 170,85 160,110" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,75 160,110 150,130" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,90 160,110 150,130" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,90 150,130 135,145" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,110 135,145 100,140" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <polygon points="100,90 135,145 100,110" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>
+                <line x1="170" y1="85" x2="150" y2="130" stroke="#1a1a1a" stroke-width="0.6"/>
+
+                <!-- Knotenpunkte -->
+                <g fill="#1a1a1a">
+                    <circle cx="55" cy="20" r="1.5"/><circle cx="28" cy="35" r="1.5"/>
+                    <circle cx="40" cy="55" r="1.5"/><circle cx="18" cy="60" r="1.5"/>
+                    <circle cx="30" cy="85" r="1.5"/><circle cx="75" cy="28" r="1.5"/>
+                    <circle cx="145" cy="20" r="1.5"/><circle cx="172" cy="35" r="1.5"/>
+                    <circle cx="160" cy="55" r="1.5"/><circle cx="182" cy="60" r="1.5"/>
+                    <circle cx="170" cy="85" r="1.5"/><circle cx="125" cy="28" r="1.5"/>
+                    <circle cx="40" cy="110" r="1.5"/><circle cx="50" cy="130" r="1.5"/>
+                    <circle cx="65" cy="145" r="1.5"/><circle cx="160" cy="110" r="1.5"/>
+                    <circle cx="150" cy="130" r="1.5"/><circle cx="135" cy="145" r="1.5"/>
+                    <circle cx="35" cy="70" r="1.5"/><circle cx="165" cy="70" r="1.5"/>
+                </g>
+            </svg>
+        </div>
+
+        <div class="thankyou-title">Danke, Team Modern Work</div>
+        <div class="thankyou-team">Fuer die schoenste Praktikumszeit, die man sich wuenschen kann</div>
+
+        <p class="thankyou-text">
+            Ihr habt mich aufgenommen, als waere ich schon immer da gewesen.
+            Danke fuer jedes Lachen, jeden Kaffee, jede Hilfe und jede gemeinsame Mittagspause.
+            Ich nehme so viel mit &ndash; vor allem euch im Herzen.
+        </p>
+
+        <div class="thankyou-names">
+            <span class="thankyou-name">Volker</span>
+            <span class="thankyou-name">Melli</span>
+            <span class="thankyou-name">Nadine</span>
+            <span class="thankyou-name">Vivien</span>
+            <span class="thankyou-name">Jonas</span>
+            <span class="thankyou-name">Selin</span>
+            <span class="thankyou-name">Lara</span>
+            <span class="thankyou-name">Carolina</span>
+        </div>
+
+        <div class="thankyou-heart">&hearts;</div>
     </section>
 
     <!-- Trenner -->
