@@ -2617,7 +2617,8 @@
             const arm = document.getElementById('idleArm');
             let idleTimer;
             let tapInterval;
-            let mouseX = 0, mouseY = 0;
+            let mouseX = -1, mouseY = -1;
+            let hasMoved = false;
 
             function resetIdle() {
                 clearTimeout(idleTimer);
@@ -2627,11 +2628,19 @@
             }
 
             function showIdleFigure() {
-                figure.style.left = (mouseX + 30) + 'px';
-                figure.style.top = (mouseY - 10) + 'px';
+                if (hasMoved) {
+                    figure.style.left = (mouseX + 30) + 'px';
+                    figure.style.top = (mouseY - 10) + 'px';
+                } else {
+                    // Fallback: unten rechts im Viewport
+                    figure.style.right = '30px';
+                    figure.style.bottom = '60px';
+                    figure.style.left = 'auto';
+                    figure.style.top = 'auto';
+                }
                 figure.classList.add('show');
 
-                // Tippen-Animation
+                // Wink-Animation
                 let tapFrame = 0;
                 tapInterval = setInterval(() => {
                     tapFrame++;
@@ -2645,11 +2654,15 @@
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
+                hasMoved = true;
+                // Reset position mode
+                figure.style.right = '';
+                figure.style.bottom = '';
                 resetIdle();
             });
 
             document.addEventListener('keydown', resetIdle);
-            document.addEventListener('scroll', resetIdle);
+            document.addEventListener('click', resetIdle);
 
             // Starten
             idleTimer = setTimeout(showIdleFigure, 15000);
