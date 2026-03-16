@@ -2314,7 +2314,7 @@
             </div>
         </div>
 
-        <p id="eggCodexTrigger" style="margin-top: 30px; font-family: var(--font-hand); font-size: 0.8rem; color: #ccc; cursor: default;">
+        <p id="eggCodexTrigger" style="margin-top: 30px; font-family: var(--font-hand); font-size: 0.8rem; color: #ccc; cursor: default; -webkit-user-select: none; user-select: none;">
             A.D. MMXXVI &middot; Officium Ludorum Mensae
         </p>
     </footer>
@@ -4019,16 +4019,16 @@
             let timer = null;
 
             // Triple-click to open (extra hidden)
-            trigger.addEventListener('click', () => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
                 clicks++;
-                if (clicks === 3) {
+                clearTimeout(timer);
+                if (clicks >= 3) {
                     clicks = 0;
-                    clearTimeout(timer);
                     overlay.classList.add('active');
+                    return;
                 }
-                if (!timer || clicks === 1) {
-                    timer = setTimeout(() => { clicks = 0; }, 800);
-                }
+                timer = setTimeout(() => { clicks = 0; }, 1000);
             });
 
             // Close
