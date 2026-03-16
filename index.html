@@ -4095,27 +4095,20 @@
             const trigger = document.getElementById('eggCodexTrigger');
             const overlay = document.getElementById('eggCodexOverlay');
             const closeBtn = document.getElementById('eggCodexClose');
-            if (!trigger || !overlay) return;
 
-            let clicks = 0;
-            let timer = null;
+            if (!trigger) { console.warn('CODEX: trigger not found'); return; }
+            if (!overlay) { console.warn('CODEX: overlay not found'); return; }
 
-            // Triple-click to open (extra hidden)
-            trigger.addEventListener('click', (e) => {
+            // Doppelklick öffnet den Codex
+            trigger.addEventListener('dblclick', function(e) {
                 e.preventDefault();
-                clicks++;
-                clearTimeout(timer);
-                if (clicks >= 3) {
-                    clicks = 0;
-                    overlay.classList.add('active');
-                    return;
-                }
-                timer = setTimeout(() => { clicks = 0; }, 1000);
+                e.stopPropagation();
+                overlay.classList.add('active');
             });
 
             // Close
-            if (closeBtn) closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
-            overlay.addEventListener('click', (e) => {
+            if (closeBtn) closeBtn.addEventListener('click', function() { overlay.classList.remove('active'); });
+            overlay.addEventListener('click', function(e) {
                 if (e.target === overlay) overlay.classList.remove('active');
             });
         })();
