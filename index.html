@@ -913,6 +913,9 @@
             .custom-context-menu { min-width: 180px; font-size: 1rem; }
             .pong-overlay canvas { width: 90vw; }
             .rematch-btn { font-size: 0.85rem; padding: 10px 24px; }
+            .news-ticker { height: 30px; }
+            .news-ticker-label { font-size: 0.55rem; padding: 0 10px; }
+            .news-ticker-item { padding: 0 24px; font-size: 0.8rem; }
         }
 
         @media (max-width: 480px) {
@@ -1016,6 +1019,11 @@
         body.jonas-mode .rate-btn:hover { background: #ff69b4 !important; }
         body.jonas-mode .music-btn { border-color: #ff69b4 !important; }
         body.jonas-mode .visitor-counter { border-color: #ffb6d5 !important; }
+        body.jonas-mode .countdown-bar { border-color: #ff69b4 !important; }
+        body.jonas-mode .countdown-number { color: #d63384 !important; }
+        body.jonas-mode .news-ticker { background: #2d0a1a !important; border-top-color: #ff69b4 !important; }
+        body.jonas-mode .news-ticker-label { background: #ff1493 !important; }
+        body.jonas-mode .news-ticker-item::before { color: #ff69b4 !important; }
 
         /* ============================================
            LUCA TYPING EASTER EGG
@@ -1051,6 +1059,115 @@
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
+
+        /* ============================================
+           COUNTDOWN – Tage seit Lucas letztem Sieg
+           ============================================ */
+        .countdown-bar {
+            text-align: center;
+            padding: 30px 20px;
+            font-family: var(--font-label);
+            color: var(--black);
+            border-top: 2.5px solid var(--black);
+            border-bottom: 2.5px solid var(--black);
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .countdown-bar::before, .countdown-bar::after {
+            content: '';
+            position: absolute;
+            width: 60px; height: 60px;
+            border: 2px solid rgba(0,0,0,0.06);
+            border-radius: 50%;
+        }
+        .countdown-bar::before { top: -20px; left: -20px; }
+        .countdown-bar::after { bottom: -20px; right: -20px; }
+        .countdown-label {
+            font-size: clamp(0.75rem, 2vw, 0.95rem);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--grey);
+            margin-bottom: 6px;
+        }
+        .countdown-number {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            line-height: 1;
+            margin: 6px 0;
+        }
+        .countdown-unit {
+            font-family: var(--font-hand);
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--grey);
+        }
+        .countdown-sub {
+            font-family: var(--font-hand);
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: #aaa;
+            margin-top: 4px;
+        }
+
+        /* ============================================
+           NEWS TICKER – Breaking News
+           ============================================ */
+        .news-ticker {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            z-index: 9999;
+            background: var(--black);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            overflow: hidden;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            border-top: 2px solid var(--grey);
+        }
+        .news-ticker-label {
+            background: #c0392b;
+            color: white;
+            font-family: var(--font-label);
+            font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+            padding: 0 14px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .news-ticker-content {
+            display: flex;
+            animation: tickerScroll var(--ticker-duration, 60s) linear infinite;
+            white-space: nowrap;
+            padding-left: 20px;
+        }
+        .news-ticker-item {
+            padding: 0 40px;
+            white-space: nowrap;
+        }
+        .news-ticker-item::before {
+            content: '+++';
+            margin-right: 10px;
+            color: #c0392b;
+            font-weight: bold;
+        }
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .news-ticker-close {
+            background: none; border: none; color: #888;
+            font-size: 18px; cursor: pointer; padding: 0 12px;
+            height: 100%; display: flex; align-items: center;
+            flex-shrink: 0; transition: color 0.2s;
+        }
+        .news-ticker-close:hover { color: white; }
+
+        /* Extra bottom padding for footer so ticker doesn't cover content */
+        footer { padding-bottom: 50px !important; }
     </style>
 </head>
 <body>
@@ -1629,6 +1746,16 @@
         </div>
     </section>
 
+    <!-- ================================================
+         COUNTDOWN: Tage seit Lucas letztem Sieg
+         ================================================ -->
+    <div class="countdown-bar reveal">
+        <div class="countdown-label">Tage seit Lucas letztem Sieg gegen Jonas</div>
+        <div class="countdown-number" id="countdownDays">0</div>
+        <div class="countdown-unit">Tage</div>
+        <div class="countdown-sub" id="countdownDetail"></div>
+    </div>
+
     <!-- Trenner -->
     <div class="divider">
         <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
@@ -1853,6 +1980,13 @@
             A.D. MMXXVI &middot; Officium Ludorum Mensae
         </p>
     </footer>
+
+    <!-- News Ticker -->
+    <div class="news-ticker" id="newsTicker">
+        <div class="news-ticker-label">EILMELDUNG</div>
+        <div class="news-ticker-content" id="tickerContent"></div>
+        <button class="news-ticker-close" id="tickerClose" title="Schliessen">&times;</button>
+    </div>
 
     <!-- Easter Egg -->
     <div class="easter-egg" id="easterEgg">Rematch?</div>
@@ -3210,6 +3344,79 @@
                     window.addEventListener('devicemotion', handleMotion);
                 }
             }
+        })();
+
+        /* ============================================
+           COUNTDOWN: Tage seit Lucas letztem Sieg
+           ============================================ */
+        (() => {
+            // Datum der Wette / letzter Sieg (anpassbar)
+            const lastWin = new Date('2025-01-01T00:00:00');
+            const countEl = document.getElementById('countdownDays');
+            const detailEl = document.getElementById('countdownDetail');
+
+            function update() {
+                const now = new Date();
+                const diff = now - lastWin;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                if (countEl) countEl.textContent = days.toLocaleString('de-DE');
+                if (detailEl) detailEl.textContent = hours + ' Stunden, ' + mins + ' Minuten und es werden immer mehr...';
+            }
+            update();
+            setInterval(update, 60000);
+        })();
+
+        /* ============================================
+           NEWS TICKER: Breaking News
+           ============================================ */
+        (() => {
+            const headlines = [
+                'Jonas erneut zum attraktivsten Tischtennisspieler des Jahrhunderts gewaehlt',
+                'Wissenschaftler bestaetigen: Jonas\u2019 Aufschlag bricht Naturgesetze',
+                'BREAKING: Luca immer noch nicht ueber Niederlage hinweg',
+                'Jonas\u2019 Schnurrbart offiziell als Weltkulturerbe nominiert',
+                'Tischtennis-Weltverband erwaegt Sonderregel: \u201EKein Spielen gegen Jonas\u201C',
+                'Studie belegt: 9 von 10 Tischtennisbaellen fliegen freiwillig zu Jonas',
+                'Eilmeldung: Jonas\u2019 Man-Bun erreicht neuen Stilindex-Hoechstwert',
+                'EXKLUSIV: Luca gesteht im Interview \u2013 \u201EEr war einfach besser. In allem.\u201C',
+                'Jonas\u2019 Ukulelen-Solo bringt gestandene Maenner zum Weinen',
+                'Finanzmaerkte reagieren positiv auf Jonas\u2019 Turniersieg',
+                'NASA plant Mission: Jonas\u2019 Rueckhand aus dem Weltraum vermessen',
+                'Neuer Feiertag beantragt: \u201ETag der Verbeugung vor Jonas\u201C',
+                'Luca errichtet freiwillig Website zu Jonas\u2019 Ehren \u2013 \u201EEin Wetteinsatz ist ein Wetteinsatz\u201C',
+                'Jonas\u2019 Laecheln erreicht laut Messungen 847 Lumen',
+                'Experten warnen: Direkter Blickkontakt mit Jonas kann zu spontanem Applaus fuehren'
+            ];
+
+            const ticker = document.getElementById('newsTicker');
+            const content = document.getElementById('tickerContent');
+            const closeBtn = document.getElementById('tickerClose');
+
+            if (!ticker || !content) return;
+
+            // Build doubled content for seamless loop
+            let html = '';
+            for (let r = 0; r < 2; r++) {
+                headlines.forEach(h => {
+                    html += '<span class="news-ticker-item">' + h + '</span>';
+                });
+            }
+            content.innerHTML = html;
+
+            // Adjust speed based on content width
+            const duration = headlines.length * 4;
+            content.style.setProperty('--ticker-duration', duration + 's');
+            ticker.style.setProperty('--ticker-duration', duration + 's');
+            content.style.animationDuration = duration + 's';
+
+            // Close button
+            closeBtn.addEventListener('click', () => {
+                ticker.style.transform = 'translateY(100%)';
+                ticker.style.transition = 'transform 0.4s ease-in';
+                setTimeout(() => { ticker.style.display = 'none'; }, 400);
+            });
         })();
     </script>
 
