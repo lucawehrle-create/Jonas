@@ -1538,21 +1538,25 @@
             const btn = document.getElementById('musicBtn');
             const audio = document.getElementById('bgMusic');
             let playing = false;
+            const youtubeUrl = 'https://www.youtube.com/watch?v=btfCucCnIJY';
 
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (playing) {
-                    audio.pause();
-                    btn.innerHTML = '&#9835;';
-                    playing = false;
-                } else {
+
+                // Versuche zuerst die lokale Datei abzuspielen
+                if (!playing) {
                     audio.play().then(() => {
                         btn.innerHTML = '&#10074;&#10074;';
                         playing = true;
                     }).catch(() => {
-                        btn.innerHTML = '&#10007;';
-                        setTimeout(() => { btn.innerHTML = '&#9835;'; }, 1500);
+                        // Keine lokale Datei -> YouTube in neuem Tab oeffnen
+                        window.open(youtubeUrl, '_blank');
+                        btn.innerHTML = '&#9835;';
                     });
+                } else {
+                    audio.pause();
+                    btn.innerHTML = '&#9835;';
+                    playing = false;
                 }
             });
         })();
