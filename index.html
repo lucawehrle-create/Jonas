@@ -3178,7 +3178,7 @@
         })();
 
         /* ============================================
-           IDLE FIGUR – erscheint nach 5s Inaktivitaet
+           IDLE FIGUR – erscheint nach Inaktivitaet
            ============================================ */
         (function initIdleFigure() {
             const figure = document.getElementById('idleFigure');
@@ -3187,20 +3187,21 @@
             let tapInterval;
             let mouseX = -1, mouseY = -1;
             let hasMoved = false;
+            const isMobile = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
+            const idleDelay = isMobile ? 45000 : 20000;
 
             function resetIdle() {
                 clearTimeout(idleTimer);
                 clearInterval(tapInterval);
                 figure.classList.remove('show');
-                idleTimer = setTimeout(showIdleFigure, 15000);
+                idleTimer = setTimeout(showIdleFigure, idleDelay);
             }
 
             function showIdleFigure() {
-                if (hasMoved) {
+                if (hasMoved && !isMobile) {
                     figure.style.left = (mouseX + 30) + 'px';
                     figure.style.top = (mouseY - 10) + 'px';
                 } else {
-                    // Fallback: unten rechts im Viewport
                     figure.style.right = '30px';
                     figure.style.bottom = '60px';
                     figure.style.left = 'auto';
@@ -3223,7 +3224,6 @@
                 mouseX = e.clientX;
                 mouseY = e.clientY;
                 hasMoved = true;
-                // Reset position mode
                 figure.style.right = '';
                 figure.style.bottom = '';
                 resetIdle();
@@ -3231,9 +3231,11 @@
 
             document.addEventListener('keydown', resetIdle);
             document.addEventListener('click', resetIdle);
+            document.addEventListener('touchstart', resetIdle, { passive: true });
+            document.addEventListener('scroll', resetIdle, { passive: true });
 
             // Starten
-            idleTimer = setTimeout(showIdleFigure, 15000);
+            idleTimer = setTimeout(showIdleFigure, idleDelay);
         })();
 
         /* ============================================
