@@ -2620,7 +2620,7 @@
                 clearTimeout(idleTimer);
                 clearInterval(tapInterval);
                 figure.classList.remove('show');
-                idleTimer = setTimeout(showIdleFigure, 6000);
+                idleTimer = setTimeout(showIdleFigure, 15000);
             }
 
             function showIdleFigure() {
@@ -2649,7 +2649,7 @@
             document.addEventListener('scroll', resetIdle);
 
             // Starten
-            idleTimer = setTimeout(showIdleFigure, 6000);
+            idleTimer = setTimeout(showIdleFigure, 15000);
         })();
 
         /* ============================================
