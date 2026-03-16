@@ -3533,56 +3533,83 @@
             const logo = document.getElementById('butterflyLogo');
             if (!logo) return;
 
-            // Mini-Schmetterling als SVG-String
-            function butterflySVG(color) {
-                return '<svg viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg" width="28" height="21">' +
-                    '<g fill="none" stroke="' + color + '" stroke-width="1">' +
-                    '<path d="M20,15 Q10,5 5,8 Q0,12 8,15 Q0,18 5,22 Q10,25 20,15"/>' +
-                    '<path d="M20,15 Q30,5 35,8 Q40,12 32,15 Q40,18 35,22 Q30,25 20,15"/>' +
-                    '<line x1="20" y1="15" x2="20" y2="8"/>' +
-                    '</g></svg>';
+            // Detaillierter Schmetterling mit Flügelmuster, Körper, Fühlern
+            function butterflySVG(fill, stroke) {
+                return '<svg viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg">' +
+                    // Linker oberer Flügel
+                    '<path d="M30,25 Q18,8 8,6 Q2,6 2,14 Q2,20 12,24 Q6,22 4,28 Q3,34 10,36 Q18,38 30,30" ' +
+                        'fill="' + fill + '" stroke="' + stroke + '" stroke-width="0.8" opacity="0.85"/>' +
+                    // Rechter oberer Flügel
+                    '<path d="M30,25 Q42,8 52,6 Q58,6 58,14 Q58,20 48,24 Q54,22 56,28 Q57,34 50,36 Q42,38 30,30" ' +
+                        'fill="' + fill + '" stroke="' + stroke + '" stroke-width="0.8" opacity="0.85"/>' +
+                    // Flügelmuster links
+                    '<path d="M30,25 Q20,14 12,15" fill="none" stroke="' + stroke + '" stroke-width="0.5" opacity="0.4"/>' +
+                    '<path d="M30,27 Q18,26 10,30" fill="none" stroke="' + stroke + '" stroke-width="0.5" opacity="0.4"/>' +
+                    '<circle cx="15" cy="14" r="3" fill="none" stroke="' + stroke + '" stroke-width="0.5" opacity="0.3"/>' +
+                    // Flügelmuster rechts
+                    '<path d="M30,25 Q40,14 48,15" fill="none" stroke="' + stroke + '" stroke-width="0.5" opacity="0.4"/>' +
+                    '<path d="M30,27 Q42,26 50,30" fill="none" stroke="' + stroke + '" stroke-width="0.5" opacity="0.4"/>' +
+                    '<circle cx="45" cy="14" r="3" fill="none" stroke="' + stroke + '" stroke-width="0.5" opacity="0.3"/>' +
+                    // Körper
+                    '<ellipse cx="30" cy="27" rx="1.8" ry="6" fill="' + stroke + '"/>' +
+                    // Fühler
+                    '<path d="M30,22 Q26,14 23,11" fill="none" stroke="' + stroke + '" stroke-width="0.7" stroke-linecap="round"/>' +
+                    '<circle cx="22.5" cy="10.5" r="1" fill="' + stroke + '"/>' +
+                    '<path d="M30,22 Q34,14 37,11" fill="none" stroke="' + stroke + '" stroke-width="0.7" stroke-linecap="round"/>' +
+                    '<circle cx="37.5" cy="10.5" r="1" fill="' + stroke + '"/>' +
+                    '</svg>';
             }
 
-            const colors = ['#1a1a1a', '#555', '#888', '#ff69b4', '#d63384', '#c0392b', '#2c3e50'];
+            const palettes = [
+                { fill: 'rgba(255,105,180,0.25)', stroke: '#d63384' },
+                { fill: 'rgba(255,182,213,0.3)', stroke: '#ff69b4' },
+                { fill: 'rgba(26,26,26,0.08)', stroke: '#1a1a1a' },
+                { fill: 'rgba(100,100,100,0.1)', stroke: '#555' },
+                { fill: 'rgba(192,57,43,0.15)', stroke: '#c0392b' },
+                { fill: 'rgba(155,89,182,0.2)', stroke: '#8e44ad' },
+                { fill: 'rgba(52,152,219,0.15)', stroke: '#2980b9' },
+                { fill: 'rgba(230,126,34,0.15)', stroke: '#e67e22' },
+            ];
             let active = false;
 
             logo.addEventListener('click', () => {
                 if (active) return;
                 active = true;
 
-                const count = 30;
+                const count = 50;
                 for (let i = 0; i < count; i++) {
                     setTimeout(() => {
                         const el = document.createElement('div');
-                        const color = colors[Math.floor(Math.random() * colors.length)];
-                        const size = 20 + Math.random() * 25;
+                        const p = palettes[Math.floor(Math.random() * palettes.length)];
+                        const size = 35 + Math.random() * 35;
                         const startX = Math.random() * window.innerWidth;
-                        const startY = window.innerHeight + 20;
-                        const endX = startX + (Math.random() - 0.5) * 400;
-                        const endY = -60;
-                        const dur = 2500 + Math.random() * 2500;
-                        const wobble = 30 + Math.random() * 60;
-                        const delay = 0;
+                        const startY = window.innerHeight + 30;
+                        const endX = startX + (Math.random() - 0.5) * 500;
+                        const endY = -80;
+                        const dur = 3000 + Math.random() * 3000;
+                        const wobble = 40 + Math.random() * 80;
+                        const flapSpeed = 3 + Math.random() * 4;
 
-                        el.innerHTML = butterflySVG(color);
+                        el.innerHTML = butterflySVG(p.fill, p.stroke);
                         el.style.cssText = 'position:fixed;z-index:200000;pointer-events:none;' +
                             'left:' + startX + 'px;top:' + startY + 'px;' +
-                            'width:' + size + 'px;height:' + size + 'px;' +
-                            'transition:none;opacity:0.9;';
+                            'width:' + size + 'px;height:' + (size * 0.83) + 'px;';
                         document.body.appendChild(el);
 
-                        // Animate with JS for wobbly flight path
+                        const svg = el.querySelector('svg');
                         const start = performance.now();
+
                         function fly(now) {
                             const t = Math.min((now - start) / dur, 1);
-                            const x = startX + (endX - startX) * t + Math.sin(t * Math.PI * 4) * wobble;
-                            const y = startY + (endY - startY) * t;
-                            const rot = Math.sin(t * Math.PI * 6) * 25;
-                            const scale = 0.8 + Math.sin(t * Math.PI * 3) * 0.3;
+                            const x = startX + (endX - startX) * t + Math.sin(t * Math.PI * 5) * wobble;
+                            const y = startY + (endY - startY) * t + Math.sin(t * Math.PI * 8) * 15;
+                            const rot = Math.sin(t * Math.PI * 6) * 20;
+                            // Flügelschlag: scaleX pulsiert für 3D-Effekt
+                            const flap = 0.4 + Math.abs(Math.sin((now - start) / 1000 * flapSpeed * Math.PI)) * 0.6;
                             el.style.left = x + 'px';
                             el.style.top = y + 'px';
-                            el.style.transform = 'rotate(' + rot + 'deg) scale(' + scale + ')';
-                            el.style.opacity = t > 0.8 ? (1 - t) * 5 : 0.9;
+                            el.style.transform = 'rotate(' + rot + 'deg) scaleX(' + flap + ')';
+                            el.style.opacity = t > 0.85 ? (1 - t) / 0.15 : Math.min(t * 5, 0.9);
                             if (t < 1) {
                                 requestAnimationFrame(fly);
                             } else {
@@ -3590,10 +3617,10 @@
                             }
                         }
                         requestAnimationFrame(fly);
-                    }, i * 80);
+                    }, i * 60);
                 }
 
-                setTimeout(() => { active = false; }, count * 80 + 3000);
+                setTimeout(() => { active = false; }, count * 60 + 4000);
             });
         })();
     </script>
