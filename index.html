@@ -1362,40 +1362,6 @@
         .splash.opening .splash-spotlight {
             transform: translate(-50%, -50%) scale(3);
         }
-
-        /* ============================================
-           SCROLL-TO-TOP BUTTON
-           ============================================ */
-        .scroll-top-btn {
-            position: fixed;
-            bottom: 50px; right: 20px;
-            z-index: 9998;
-            width: 44px; height: 44px;
-            background: var(--white);
-            border: 2.5px solid var(--black);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.3s, transform 0.3s, background 0.2s;
-            pointer-events: none;
-        }
-        .scroll-top-btn.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
-        }
-        .scroll-top-btn:hover {
-            background: var(--black);
-        }
-        .scroll-top-btn:hover svg path { stroke: white; }
-        .scroll-top-btn svg {
-            width: 20px; height: 20px;
-        }
-        body.jonas-mode .scroll-top-btn { border-color: #ff69b4 !important; }
-        body.jonas-mode .scroll-top-btn:hover { background: #ff69b4 !important; }
     </style>
 </head>
 <body>
@@ -2275,13 +2241,6 @@
             A.D. MMXXVI &middot; Officium Ludorum Mensae
         </p>
     </footer>
-
-    <!-- Scroll-to-Top Button -->
-    <button class="scroll-top-btn" id="scrollTopBtn" title="Nach oben">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12,19 L12,5 M5,12 L12,5 L19,12" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
 
     <!-- News Ticker -->
     <div class="news-ticker" id="newsTicker">
@@ -3896,26 +3855,6 @@
             setTimeout(() => {
                 splash.remove();
             }, 5700);
-        })();
-
-        /* ============================================
-           SCROLL-TO-TOP BUTTON
-           ============================================ */
-        (() => {
-            const btn = document.getElementById('scrollTopBtn');
-            if (!btn) return;
-
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 600) {
-                    btn.classList.add('visible');
-                } else {
-                    btn.classList.remove('visible');
-                }
-            });
-
-            btn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
         })();
 
         /* ============================================
