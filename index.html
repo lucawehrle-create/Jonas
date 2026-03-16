@@ -932,6 +932,20 @@
             font-family: var(--font-hand); font-size: 1.3rem;
             margin-top: 10px; color: #1a1a1a; min-height: 2em;
         }
+        .pong-hint {
+            text-align: center; margin-top: 18px;
+            font-family: var(--font-hand); font-size: 1.05rem;
+            color: #888;
+        }
+        .pong-hint-link {
+            color: #1a1a1a; cursor: pointer;
+            border-bottom: 2px solid #1a1a1a;
+            transition: all 0.2s; padding-bottom: 1px;
+        }
+        .pong-hint-link:hover {
+            background: #1a1a1a; color: white;
+            padding: 2px 6px; margin: 0 -6px;
+        }
 
         /* ============================================
            REMATCH BUTTON
@@ -1674,6 +1688,7 @@
             <text x="445" y="124" class="sketch-label" font-size="13">JONAS: &#8734;</text>
             <text x="445" y="142" class="sketch-label-small" font-size="13">LUCA: 0</text>
         </svg>
+        <p class="pong-hint" id="pongHint">Traust du dich? <span class="pong-hint-link" id="pongTrigger">Spiel gegen Jonas.</span></p>
     </section>
 
     <!-- Trenner -->
@@ -2912,10 +2927,15 @@
                 gameLoop();
             }
 
-            // Kann auch von aussen gestartet werden (Kontext-Menu)
+            // Kann auch von aussen gestartet werden (Kontext-Menu / Hint-Link)
             overlay.addEventListener('startPong', () => {
                 if (!running) startPong();
             });
+
+            const pongTrigger = document.getElementById('pongTrigger');
+            if (pongTrigger) {
+                pongTrigger.addEventListener('click', () => { if (!running) startPong(); });
+            }
 
             function closePong() {
                 running = false;
