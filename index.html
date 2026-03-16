@@ -2033,7 +2033,7 @@
 
         <!-- Danke Team Modern Work -->
         <div class="thankyou-compact">
-            <div class="thankyou-butterfly">
+            <div class="thankyou-butterfly" id="butterflyLogo" style="cursor:pointer;" title="Klick mich!">
                 <img src="logo.svg" alt="Team Modern Work – Schmetterling" />
             </div>
             <div class="thankyou-title" style="font-size: clamp(0.9rem, 2.5vw, 1.2rem);">Danke, Team Modern Work &hearts;</div>
@@ -3523,6 +3523,77 @@
                 ticker.style.transform = 'translateY(100%)';
                 ticker.style.transition = 'transform 0.4s ease-in';
                 setTimeout(() => { ticker.style.display = 'none'; }, 400);
+            });
+        })();
+
+        /* ============================================
+           SCHMETTERLINGS-EXPLOSION beim Logo-Klick
+           ============================================ */
+        (() => {
+            const logo = document.getElementById('butterflyLogo');
+            if (!logo) return;
+
+            // Mini-Schmetterling als SVG-String
+            function butterflySVG(color) {
+                return '<svg viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg" width="28" height="21">' +
+                    '<g fill="none" stroke="' + color + '" stroke-width="1">' +
+                    '<path d="M20,15 Q10,5 5,8 Q0,12 8,15 Q0,18 5,22 Q10,25 20,15"/>' +
+                    '<path d="M20,15 Q30,5 35,8 Q40,12 32,15 Q40,18 35,22 Q30,25 20,15"/>' +
+                    '<line x1="20" y1="15" x2="20" y2="8"/>' +
+                    '</g></svg>';
+            }
+
+            const colors = ['#1a1a1a', '#555', '#888', '#ff69b4', '#d63384', '#c0392b', '#2c3e50'];
+            let active = false;
+
+            logo.addEventListener('click', () => {
+                if (active) return;
+                active = true;
+
+                const count = 30;
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => {
+                        const el = document.createElement('div');
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        const size = 20 + Math.random() * 25;
+                        const startX = Math.random() * window.innerWidth;
+                        const startY = window.innerHeight + 20;
+                        const endX = startX + (Math.random() - 0.5) * 400;
+                        const endY = -60;
+                        const dur = 2500 + Math.random() * 2500;
+                        const wobble = 30 + Math.random() * 60;
+                        const delay = 0;
+
+                        el.innerHTML = butterflySVG(color);
+                        el.style.cssText = 'position:fixed;z-index:200000;pointer-events:none;' +
+                            'left:' + startX + 'px;top:' + startY + 'px;' +
+                            'width:' + size + 'px;height:' + size + 'px;' +
+                            'transition:none;opacity:0.9;';
+                        document.body.appendChild(el);
+
+                        // Animate with JS for wobbly flight path
+                        const start = performance.now();
+                        function fly(now) {
+                            const t = Math.min((now - start) / dur, 1);
+                            const x = startX + (endX - startX) * t + Math.sin(t * Math.PI * 4) * wobble;
+                            const y = startY + (endY - startY) * t;
+                            const rot = Math.sin(t * Math.PI * 6) * 25;
+                            const scale = 0.8 + Math.sin(t * Math.PI * 3) * 0.3;
+                            el.style.left = x + 'px';
+                            el.style.top = y + 'px';
+                            el.style.transform = 'rotate(' + rot + 'deg) scale(' + scale + ')';
+                            el.style.opacity = t > 0.8 ? (1 - t) * 5 : 0.9;
+                            if (t < 1) {
+                                requestAnimationFrame(fly);
+                            } else {
+                                el.remove();
+                            }
+                        }
+                        requestAnimationFrame(fly);
+                    }, i * 80);
+                }
+
+                setTimeout(() => { active = false; }, count * 80 + 3000);
             });
         })();
     </script>
