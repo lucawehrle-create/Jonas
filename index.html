@@ -1010,10 +1010,12 @@
 
         <!-- Haupt-Illustration: Jonas als Line-Drawing-Figur mit TT-Schlaeger -->
         <div class="hero-illustration">
-            <svg viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg">
-                <!-- === KRONE (ueber dem Dutt) === -->
-                <path d="M268,22 L278,-12 L290,14 L298,-22 L306,14 L318,-12 L328,22" class="sketch-line" stroke-width="2.8" fill="none"/>
-                <path d="M268,22 Q298,30 328,22" class="sketch-line" stroke-width="2.5" fill="none"/>
+            <svg viewBox="0 -50 600 510" xmlns="http://www.w3.org/2000/svg">
+                <!-- === KRONE (deutlich ueber dem Dutt, mit Abstand) === -->
+                <g id="crownGroup">
+                    <path d="M270,4 L280,-30 L290,-4 L298,-40 L306,-4 L316,-30 L326,4" class="sketch-line" stroke-width="2.8" fill="none"/>
+                    <path d="M270,4 Q298,12 326,4" class="sketch-line" stroke-width="2.5" fill="none"/>
+                </g>
 
                 <!-- === KOPF (organische Form) === -->
                 <path d="M242,118 Q238,72 268,60 Q295,50 322,60 Q352,72 348,118 Q346,148 328,158 Q300,172 272,158 Q250,148 242,118 Z" fill="white" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
@@ -1058,18 +1060,23 @@
                 <!-- Nase -->
                 <path d="M296,112 Q292,124 296,128 Q300,131 305,128" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
 
-                <!-- SCHNURRBART (markant, geschwungen) -->
-                <path d="M280,134 Q286,130 296,133 Q300,134 304,133 Q314,130 320,134" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                <path d="M282,134 Q278,136 274,134" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                <path d="M318,134 Q322,136 326,134" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+                <!-- SCHNURRBART (gross, markant, Handlebar-Stil) -->
+                <!-- Hauptform: dicker, breiter Schnurrbart -->
+                <path d="M278,134 Q286,128 298,132 Q310,128 318,134" fill="none" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- Geschwungene Enden links (Handlebar-Curl) -->
+                <path d="M278,134 Q272,138 266,136 Q262,133 264,129" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+                <!-- Geschwungene Enden rechts (Handlebar-Curl) -->
+                <path d="M318,134 Q324,138 330,136 Q334,133 332,129" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+                <!-- Volumen/Fuelligkeit -->
+                <path d="M280,132 Q290,128 298,130 Q306,128 316,132" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
 
-                <!-- Grinsen (breit, selbstsicher) -->
-                <path d="M276,138 Q282,150 300,154 Q318,150 324,138" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                <path d="M282,142 L318,142" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3"/>
+                <!-- Grinsen (breit, selbstsicher, etwas weiter unten fuer Platz) -->
+                <path d="M276,142 Q282,154 300,158 Q318,154 324,142" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+                <path d="M282,146 L318,146" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3"/>
 
                 <!-- === HALS === -->
-                <path d="M282,162 Q284,176 282,184" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-                <path d="M314,162 Q312,176 314,184" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+                <path d="M282,166 Q284,178 282,184" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+                <path d="M314,166 Q312,178 314,184" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
 
                 <!-- === KOERPER (T-Shirt, organisch) === -->
                 <path d="M256,194 Q252,186 280,182 Q298,178 316,182 Q344,186 340,194 Q352,208 350,265 Q348,290 338,300 L258,300 Q248,290 246,265 Q244,208 256,194 Z" fill="white" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
@@ -1161,18 +1168,18 @@
                 <path d="M405,428 Q380,414 352,400" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
                 <polygon points="352,400 359,402 356,395" fill="#1a1a1a"/>
 
-                <text x="138" y="158" class="sketch-label-small" font-size="13" transform="rotate(4, 138, 158)">the grin</text>
-                <path d="M185,155 Q228,150 272,143" stroke="#888" stroke-width="1.2" fill="none"/>
-                <polygon points="272,143 266,140 266,147" fill="#888"/>
+                <text x="138" y="162" class="sketch-label-small" font-size="13" transform="rotate(4, 138, 162)">the grin</text>
+                <path d="M185,159 Q228,154 272,148" stroke="#888" stroke-width="1.2" fill="none"/>
+                <polygon points="272,148 266,144 266,152" fill="#888"/>
 
                 <!-- Label: THE STACHE -->
-                <text x="138" y="130" class="sketch-label-small" font-size="12" transform="rotate(-2, 138, 130)">the stache</text>
-                <path d="M190,128 Q232,132 272,134" stroke="#888" stroke-width="1.2" fill="none"/>
-                <polygon points="272,134 266,130 266,138" fill="#888"/>
+                <text x="390" y="136" class="sketch-label-small" font-size="13" transform="rotate(2, 390, 136)">the stache</text>
+                <path d="M389,132 Q366,132 336,133" stroke="#888" stroke-width="1.2" fill="none"/>
+                <polygon points="336,133 342,129 342,137" fill="#888"/>
 
                 <!-- Krone klickbar -->
                 <g id="heroCrown" style="cursor:pointer">
-                    <rect x="263" y="-25" width="70" height="52" fill="transparent"/>
+                    <rect x="260" y="-45" width="76" height="55" fill="transparent"/>
                 </g>
 
                 <!-- Geheimer Pixel -->
@@ -1904,35 +1911,51 @@
         (function initCrownClick() {
             const crown = document.getElementById('heroCrown');
             if (!crown) return;
-            const svg = crown.closest('svg');
-            const crownPath = svg.querySelector('path[d^="M268,22"]');
-            if (!crownPath) return;
+            const crownG = document.getElementById('crownGroup');
+            if (!crownG) return;
             let animating = false;
 
             crown.addEventListener('click', () => {
                 if (animating) return;
                 animating = true;
-                const origD = crownPath.getAttribute('d');
-                // Krone faellt runter
-                let y = 0;
-                const fall = setInterval(() => {
-                    y += 3;
-                    crownPath.setAttribute('transform', 'translate(0,' + y + ')');
-                    if (y >= 60) {
-                        clearInterval(fall);
-                        // Jonas faengt sie: Krone springt zurueck
-                        setTimeout(() => {
-                            let bounceY = 60;
-                            const bounce = setInterval(() => {
-                                bounceY -= 5;
-                                crownPath.setAttribute('transform', 'translate(0,' + Math.max(0, bounceY) + ')');
-                                if (bounceY <= 0) {
-                                    clearInterval(bounce);
-                                    crownPath.setAttribute('transform', '');
-                                    animating = false;
-                                }
-                            }, 20);
-                        }, 300);
+
+                // Krone schwebt nach oben, kippt lustig, und setzt sich zurueck
+                let t = 0;
+                const duration = 80; // frames
+                const cx = 298, cy = -18; // Rotations-Zentrum der Krone
+                const animate = setInterval(() => {
+                    t++;
+                    const progress = t / duration;
+
+                    if (progress <= 0.3) {
+                        // Phase 1: Schwebe nach oben + leichtes Kippen
+                        const p = progress / 0.3;
+                        const y = -45 * Math.sin(p * Math.PI / 2);
+                        const rot = 18 * Math.sin(p * Math.PI / 2);
+                        crownG.setAttribute('transform', 'translate(0,' + y + ') rotate(' + rot + ', ' + cx + ', ' + cy + ')');
+                    } else if (progress <= 0.55) {
+                        // Phase 2: Oben schweben + hin und her wackeln
+                        const p = (progress - 0.3) / 0.25;
+                        const rot = 18 * Math.cos(p * Math.PI * 3);
+                        crownG.setAttribute('transform', 'translate(0,-45) rotate(' + rot + ', ' + cx + ', ' + cy + ')');
+                    } else if (progress <= 0.85) {
+                        // Phase 3: Sanft zurueckkommen
+                        const p = (progress - 0.55) / 0.3;
+                        const ease = p * p * (3 - 2 * p); // smoothstep
+                        const y = -45 * (1 - ease);
+                        const rot = 12 * (1 - ease) * Math.cos(p * Math.PI * 1.5);
+                        crownG.setAttribute('transform', 'translate(0,' + y + ') rotate(' + rot + ', ' + cx + ', ' + cy + ')');
+                    } else {
+                        // Phase 4: Kleiner Bounce beim Landen
+                        const p = (progress - 0.85) / 0.15;
+                        const y = -6 * Math.sin(p * Math.PI);
+                        crownG.setAttribute('transform', 'translate(0,' + y + ')');
+                    }
+
+                    if (t >= duration) {
+                        clearInterval(animate);
+                        crownG.setAttribute('transform', '');
+                        animating = false;
                     }
                 }, 20);
             });
