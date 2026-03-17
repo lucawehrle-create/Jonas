@@ -908,37 +908,68 @@
             cursor: pointer;
         }
 
-        /* Reinlauf-Animation */
-        @keyframes idleWalkIn-right {
-            0% { transform: translateX(80px); }
-            100% { transform: translateX(0); }
+        /* Sprechblase als HTML */
+        .idle-bubble {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 1.5px solid #1a1a1a;
+            border-radius: 10px;
+            padding: 4px 12px;
+            white-space: nowrap;
+            font-family: 'Caveat', cursive;
+            font-size: 15px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.08);
         }
-        @keyframes idleWalkIn-left {
-            0% { transform: translateX(-80px); }
-            100% { transform: translateX(0); }
-        }
-        @keyframes idleWalkIn-bottom {
-            0% { transform: translateY(80px); }
-            100% { transform: translateY(0); }
-        }
-        @keyframes idleWalkIn-top {
-            0% { transform: translateY(-60px); }
-            100% { transform: translateY(0); }
-        }
-        @keyframes idleLegWalk {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(15deg); }
-            75% { transform: rotate(-15deg); }
+        .idle-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1a1a1a;
         }
 
-        .idle-figure.walking .idle-leg-l { animation: idleLegWalk 0.3s ease-in-out 3; transform-origin: 20px 35px; }
-        .idle-figure.walking .idle-leg-r { animation: idleLegWalk 0.3s ease-in-out 3 0.15s; transform-origin: 20px 35px; }
+        /* Reinlauf-Animation */
+        @keyframes idleWalkIn-right {
+            0% { transform: translateX(120px); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes idleWalkIn-left {
+            0% { transform: translateX(-120px); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes idleWalkIn-bottom {
+            0% { transform: translateY(120px); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes idleWalkIn-top {
+            0% { transform: translateY(-100px); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes idleLegWalkL {
+            0%, 100% { x2: 23; y2: 85; }
+            50% { x2: 18; y2: 83; }
+        }
+        @keyframes idleLegWalkR {
+            0%, 100% { x2: 47; y2: 85; }
+            50% { x2: 52; y2: 83; }
+        }
 
         /* Klick-Reaktion */
         @keyframes idleJumpScare {
             0% { transform: translateY(0); }
-            30% { transform: translateY(-12px) rotate(-8deg); }
-            60% { transform: translateY(-4px) rotate(4deg); }
+            30% { transform: translateY(-15px) rotate(-10deg); }
+            60% { transform: translateY(-5px) rotate(5deg); }
             100% { transform: translateY(0) rotate(0); }
         }
         .idle-figure.clicked #idleSvg {
@@ -946,13 +977,13 @@
         }
 
         /* Freunde-Animationen */
-        @keyframes friendPoint {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(-20deg); }
-        }
         @keyframes friendTap {
             0%, 100% { transform: rotate(0deg); }
             50% { transform: rotate(8deg); }
+        }
+        @keyframes friendPoint {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-20deg); }
         }
         .idle-friends.active .friend-1 { animation: friendTap 1s ease-in-out infinite; transform-origin: bottom center; }
         .idle-friends.active .friend-2 { animation: friendPoint 1.5s ease-in-out infinite 0.3s; transform-origin: bottom center; }
@@ -2592,22 +2623,24 @@
 
     <!-- Idle-Figur (erscheint bei Inaktivitaet, eskaliert) -->
     <div class="idle-figure" id="idleFigure">
-        <svg id="idleSvg" width="40" height="55" viewBox="0 0 40 55" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="20" cy="10" r="8" class="sketch-line" stroke-width="2"/>
-            <circle id="idleEyeL" cx="17" cy="9" r="1.5" class="sketch-fill"/>
-            <circle id="idleEyeR" cx="23" cy="9" r="1.5" class="sketch-fill"/>
-            <path id="idleMouth" d="M17,14 Q20,16 23,14" class="sketch-line" fill="none" stroke-width="1.5"/>
-            <line x1="20" y1="18" x2="20" y2="35" class="sketch-line" stroke-width="2"/>
-            <line class="idle-leg-l" x1="20" y1="35" x2="13" y2="50" class="sketch-line" stroke-width="2"/>
-            <line class="idle-leg-r" x1="20" y1="35" x2="27" y2="50" class="sketch-line" stroke-width="2"/>
-            <!-- Arm tippt -->
-            <line id="idleArm" x1="20" y1="25" x2="35" y2="18" class="sketch-line" stroke-width="2"/>
-            <line x1="20" y1="25" x2="8" y2="30" class="sketch-line" stroke-width="2"/>
-            <!-- Sprechblase -->
-            <g id="idleBubble">
-                <rect id="idleBubbleRect" x="-25" y="-8" width="50" height="20" rx="8" fill="white" stroke="#1a1a1a" stroke-width="1.5" transform="translate(20, -5)"/>
-                <text id="idleText" x="20" y="5" text-anchor="middle" font-family="Caveat, cursive" font-size="9" fill="#1a1a1a">Noch da?</text>
-            </g>
+        <!-- Sprechblase als HTML (gut lesbar) -->
+        <div id="idleBubble" class="idle-bubble">
+            <span id="idleText">Noch da?</span>
+        </div>
+        <svg id="idleSvg" width="70" height="95" viewBox="0 0 70 95" xmlns="http://www.w3.org/2000/svg">
+            <!-- Kopf -->
+            <circle cx="35" cy="18" r="13" class="sketch-line" stroke-width="2.5"/>
+            <circle id="idleEyeL" cx="30" cy="16" r="2.2" class="sketch-fill"/>
+            <circle id="idleEyeR" cx="40" cy="16" r="2.2" class="sketch-fill"/>
+            <path id="idleMouth" d="M29,24 Q35,27 41,24" class="sketch-line" fill="none" stroke-width="2"/>
+            <!-- Körper -->
+            <line x1="35" y1="31" x2="35" y2="58" class="sketch-line" stroke-width="2.5"/>
+            <!-- Beine -->
+            <line id="idleLegL" x1="35" y1="58" x2="23" y2="85" class="sketch-line" stroke-width="2.5"/>
+            <line id="idleLegR" x1="35" y1="58" x2="47" y2="85" class="sketch-line" stroke-width="2.5"/>
+            <!-- Arme -->
+            <line id="idleArm" x1="35" y1="42" x2="58" y2="32" class="sketch-line" stroke-width="2.5"/>
+            <line x1="35" y1="42" x2="14" y2="50" class="sketch-line" stroke-width="2.5"/>
         </svg>
         <!-- Freunde (erscheinen bei Stufe 4) -->
         <div id="idleFriends" class="idle-friends" style="display:none; position:absolute; bottom:0; right:45px; white-space:nowrap;">
@@ -3265,8 +3298,10 @@
         (function initIdleFigure() {
             const figure = document.getElementById('idleFigure');
             const arm = document.getElementById('idleArm');
+            const legL = document.getElementById('idleLegL');
+            const legR = document.getElementById('idleLegR');
             const idleText = document.getElementById('idleText');
-            const idleBubbleRect = document.getElementById('idleBubbleRect');
+            const idleBubble = document.getElementById('idleBubble');
             const idleMouth = document.getElementById('idleMouth');
             const idleFriends = document.getElementById('idleFriends');
             const idleSvg = document.getElementById('idleSvg');
@@ -3274,6 +3309,7 @@
             let escalateTimer;
             let tapInterval;
             let shakeInterval;
+            let walkInterval;
             let mouseX = -1, mouseY = -1;
             let hasMoved = false;
             let currentStage = 0;
@@ -3283,7 +3319,6 @@
             const idleDelay = isMobile ? 30000 : 12000;
             const escalateDelay = 6000;
 
-            // Positionen: rechts unten, links unten, rechts oben, links oben (kopfüber)
             const positions = [
                 { side: 'right', vert: 'bottom', walkAnim: 'idleWalkIn-right', flip: false, rotate: false },
                 { side: 'left',  vert: 'bottom', walkAnim: 'idleWalkIn-left',  flip: true,  rotate: false },
@@ -3300,31 +3335,47 @@
             ];
 
             const stages = [
-                { text: 'Noch da?', fontSize: 9, bubbleWidth: 50, shake: false, friends: false, mouth: 'M17,14 Q20,16 23,14' },
-                { text: 'HALLO?!', fontSize: 11, bubbleWidth: 50, shake: true, friends: false, mouth: 'M16,14 Q20,11 24,14' },
-                { text: "Ich sag's Jonas...", fontSize: 9, bubbleWidth: 74, shake: true, friends: false, mouth: 'M17,13 Q20,10 23,13' },
-                { text: 'Er hat Verstärkung!', fontSize: 7, bubbleWidth: 74, shake: true, friends: true, mouth: 'M17,14 Q20,17 23,14' }
+                { text: 'Noch da?', shake: false, friends: false, mouth: 'M29,24 Q35,27 41,24' },
+                { text: 'HALLO?!', shake: true, friends: false, mouth: 'M28,24 Q35,20 42,24' },
+                { text: "Ich sag's Jonas...", shake: true, friends: false, mouth: 'M29,22 Q35,19 41,22' },
+                { text: 'Er hat Verstärkung!', shake: true, friends: true, mouth: 'M29,24 Q35,28 41,24' }
             ];
 
             function pickPosition() {
-                // Zufällige Position, aber nicht dieselbe wie letztes Mal
                 let idx;
                 do { idx = Math.floor(Math.random() * positions.length); } while (idx === lastPosition && positions.length > 1);
                 lastPosition = idx;
                 return positions[idx];
             }
 
+            function startWalkAnimation() {
+                let walkFrame = 0;
+                clearInterval(walkInterval);
+                walkInterval = setInterval(() => {
+                    walkFrame++;
+                    const swing = Math.sin(walkFrame * 1.2) * 8;
+                    legL.setAttribute('x2', 23 + swing);
+                    legL.setAttribute('y2', 85 - Math.abs(swing) * 0.3);
+                    legR.setAttribute('x2', 47 - swing);
+                    legR.setAttribute('y2', 85 - Math.abs(swing) * 0.3);
+                }, 60);
+                // Beine nach 1s zurücksetzen
+                setTimeout(() => {
+                    clearInterval(walkInterval);
+                    legL.setAttribute('x2', 23); legL.setAttribute('y2', 85);
+                    legR.setAttribute('x2', 47); legR.setAttribute('y2', 85);
+                }, 1000);
+            }
+
             function applyStage(stageIdx) {
                 const stage = stages[Math.min(stageIdx, stages.length - 1)];
 
                 idleText.textContent = stage.text;
-                idleText.setAttribute('font-size', stage.fontSize);
-                idleBubbleRect.setAttribute('width', stage.bubbleWidth);
-                idleBubbleRect.setAttribute('x', -stage.bubbleWidth / 2);
-                idleBubbleRect.setAttribute('transform', 'translate(20, -5)');
+                // Größere Schrift bei Eskalation
+                idleBubble.style.fontSize = (15 + stageIdx * 2) + 'px';
                 idleMouth.setAttribute('d', stage.mouth);
 
-                // Freunde mit Animation
+                // Freunde
                 if (stage.friends) {
                     idleFriends.style.display = 'flex';
                     idleFriends.classList.add('active');
@@ -3339,8 +3390,8 @@
                 const tapSpeed = Math.max(40, 100 - stageIdx * 20);
                 tapInterval = setInterval(() => {
                     tapFrame++;
-                    const tipX = 35 + Math.sin(tapFrame * 2) * 5;
-                    const tipY = 18 + Math.abs(Math.sin(tapFrame * 2)) * -5;
+                    const tipX = 58 + Math.sin(tapFrame * 2) * 7;
+                    const tipY = 32 + Math.abs(Math.sin(tapFrame * 2)) * -7;
                     arm.setAttribute('x2', tipX);
                     arm.setAttribute('y2', tipY);
                 }, tapSpeed);
@@ -3353,8 +3404,10 @@
                     shakeInterval = setInterval(() => {
                         shakeFrame++;
                         const offset = Math.sin(shakeFrame * 2.5) * shakeIntensity;
-                        figure.style.setProperty('--shake-offset', offset + 'px');
+                        figure.style.transform = 'translateX(' + offset + 'px)';
                     }, 80);
+                } else {
+                    figure.style.transform = '';
                 }
             }
 
@@ -3363,13 +3416,14 @@
                 clearTimeout(escalateTimer);
                 clearInterval(tapInterval);
                 clearInterval(shakeInterval);
-                figure.classList.remove('show', 'walking', 'clicked');
+                clearInterval(walkInterval);
+                figure.classList.remove('show', 'clicked');
                 figure.style.transform = '';
-                figure.style.setProperty('--shake-offset', '0px');
+                figure.style.animation = '';
                 idleSvg.style.transform = '';
-                idleSvg.style.animation = '';
                 idleFriends.style.display = 'none';
                 idleFriends.classList.remove('active');
+                idleBubble.style.fontSize = '';
                 isVisible = false;
                 currentStage = 0;
                 idleTimer = setTimeout(showIdleFigure, idleDelay);
@@ -3389,43 +3443,36 @@
                 currentStage = 0;
                 const pos = pickPosition();
 
-                // Reset alle Positionswerte
                 figure.style.left = '';
                 figure.style.right = '';
                 figure.style.top = '';
                 figure.style.bottom = '';
 
                 if (hasMoved && !isMobile) {
-                    // In der Nähe des Cursors erscheinen
                     figure.style.left = (mouseX + 30) + 'px';
                     figure.style.top = (mouseY - 10) + 'px';
                     idleSvg.style.transform = '';
                 } else {
-                    // Zufällige Ecke
                     figure.style[pos.side] = '30px';
                     figure.style[pos.vert] = pos.vert === 'top' ? '20px' : '60px';
 
-                    // Kopfüber bei top-left
                     if (pos.rotate) {
                         idleSvg.style.transform = 'rotate(180deg)';
                     } else {
                         idleSvg.style.transform = pos.flip ? 'scaleX(-1)' : '';
                     }
 
-                    // Freunde auf die richtige Seite
-                    idleFriends.style.right = pos.side === 'right' ? '45px' : '';
-                    idleFriends.style.left = pos.side === 'left' ? '45px' : '';
+                    idleFriends.style.right = pos.side === 'right' ? '75px' : '';
+                    idleFriends.style.left = pos.side === 'left' ? '75px' : '';
                 }
 
-                // Lauf-Animation
-                figure.classList.add('walking');
-                figure.style.animation = pos.walkAnim + ' 0.8s ease-out';
+                // Reinlauf-Animation mit wackelnden Beinen
+                figure.style.animation = pos.walkAnim + ' 1s ease-out';
+                startWalkAnimation();
 
-                // Nach Lauf-Animation: walking-Klasse entfernen
                 setTimeout(() => {
-                    figure.classList.remove('walking');
                     figure.style.animation = '';
-                }, 900);
+                }, 1050);
 
                 applyStage(0);
                 figure.classList.add('show');
@@ -3439,14 +3486,10 @@
                 e.stopPropagation();
                 if (!isVisible) return;
 
-                // Sprung-Animation
                 figure.classList.add('clicked');
                 const response = clickResponses[Math.floor(Math.random() * clickResponses.length)];
                 idleText.textContent = response;
-                idleBubbleRect.setAttribute('width', '60');
-                idleBubbleRect.setAttribute('x', '-30');
 
-                // Nach kurzer Reaktion verschwinden
                 setTimeout(() => {
                     hideAndReset();
                 }, 1200);
