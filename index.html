@@ -3223,7 +3223,7 @@
             const stages = [
                 { text: 'Noch da?', fontSize: 9, bubbleWidth: 50, shake: false, friends: false, mouth: 'M17,14 Q20,16 23,14' },
                 { text: 'HALLO?!', fontSize: 11, bubbleWidth: 50, shake: true, friends: false, mouth: 'M16,14 Q20,11 24,14' },
-                { text: "Ich sag's Jonas...", fontSize: 8, bubbleWidth: 70, shake: true, friends: false, mouth: 'M17,13 Q20,10 23,13' },
+                { text: "Ich sag's Jonas...", fontSize: 9, bubbleWidth: 74, shake: true, friends: false, mouth: 'M17,13 Q20,10 23,13' },
                 { text: 'Er hat Verstärkung!', fontSize: 7, bubbleWidth: 74, shake: true, friends: true, mouth: 'M17,14 Q20,17 23,14' }
             ];
 
@@ -3256,12 +3256,12 @@
                 clearInterval(shakeInterval);
                 if (stage.shake) {
                     let shakeFrame = 0;
-                    const shakeIntensity = 2 + stageIdx * 1.5;
+                    const shakeIntensity = 1 + stageIdx * 0.5;
                     shakeInterval = setInterval(() => {
                         shakeFrame++;
-                        const offset = Math.sin(shakeFrame * 4) * shakeIntensity;
+                        const offset = Math.sin(shakeFrame * 2.5) * shakeIntensity;
                         figure.style.transform = 'translateX(' + offset + 'px)';
-                    }, 50);
+                    }, 80);
                 } else {
                     figure.style.transform = '';
                 }
