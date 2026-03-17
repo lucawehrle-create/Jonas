@@ -913,17 +913,43 @@
             position: absolute;
             bottom: 100%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) scale(0.5);
             background: white;
-            border: 1.5px solid #1a1a1a;
-            border-radius: 10px;
-            padding: 4px 12px;
+            border: 2px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 5px 14px;
             white-space: nowrap;
             font-family: 'Caveat', cursive;
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 600;
             color: #1a1a1a;
-            margin-bottom: 4px;
-            box-shadow: 1px 2px 4px rgba(0,0,0,0.08);
+            margin-bottom: 8px;
+            box-shadow: 2px 3px 6px rgba(0,0,0,0.12);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+            pointer-events: none;
+        }
+        .idle-figure.show .idle-bubble {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+        .idle-bubble.pop {
+            animation: bubblePop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes bubblePop {
+            0% { transform: translateX(-50%) scale(0.85); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+        /* Sprechblasen-Pfeil (Dreieck mit weißer Füllung) */
+        .idle-bubble::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #1a1a1a;
         }
         .idle-bubble::after {
             content: '';
@@ -931,8 +957,39 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: #1a1a1a;
+            margin-top: -2px;
+            border: 7px solid transparent;
+            border-top-color: white;
+        }
+        /* Kopfüber: Blase unten statt oben */
+        .idle-figure.upside-down .idle-bubble {
+            bottom: auto;
+            top: 100%;
+            margin-bottom: 0;
+            margin-top: 8px;
+        }
+        .idle-figure.upside-down .idle-bubble::before {
+            top: auto;
+            bottom: 100%;
+            border-top-color: transparent;
+            border-bottom-color: #1a1a1a;
+        }
+        .idle-figure.upside-down .idle-bubble::after {
+            top: auto;
+            bottom: 100%;
+            margin-top: 0;
+            margin-bottom: -2px;
+            border-top-color: transparent;
+            border-bottom-color: white;
+        }
+
+        /* Idle-Atem-Animation: sanftes Auf-und-Ab */
+        @keyframes idleBreathe {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        .idle-figure.show:not(.walking) #idleSvg {
+            animation: idleBreathe 2.5s ease-in-out infinite;
         }
 
         /* Reinlauf-Animation */
@@ -963,6 +1020,18 @@
         @keyframes idleLegWalkR {
             0%, 100% { x2: 47; y2: 85; }
             50% { x2: 52; y2: 83; }
+        }
+
+        /* Rauslauf-Animation */
+        @keyframes idleWalkOut-right {
+            0% { transform: translateX(0); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(150px); opacity: 0; }
+        }
+        @keyframes idleWalkOut-left {
+            0% { transform: translateX(0); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(-150px); opacity: 0; }
         }
 
         /* Klick-Reaktion */
@@ -2643,34 +2712,30 @@
             <line x1="35" y1="42" x2="14" y2="50" class="sketch-line" stroke-width="2.5"/>
         </svg>
         <!-- Freunde (erscheinen bei Stufe 4) -->
-        <div id="idleFriends" class="idle-friends" style="display:none; position:absolute; bottom:0; right:45px; white-space:nowrap;">
+        <div id="idleFriends" class="idle-friends" style="display:none; position:absolute; bottom:0; right:75px; white-space:nowrap;">
             <!-- Freund 1: tippt ungeduldig mit dem Fuß, Arme verschränkt -->
-            <svg class="friend-1" width="30" height="45" viewBox="0 0 30 45" xmlns="http://www.w3.org/2000/svg" style="margin-right:4px;">
+            <svg class="friend-1" width="50" height="75" viewBox="0 0 30 45" xmlns="http://www.w3.org/2000/svg" style="margin-right:6px;">
                 <circle cx="15" cy="8" r="6" class="sketch-line" stroke-width="1.8"/>
                 <circle cx="13" cy="7" r="1" class="sketch-fill"/><circle cx="17" cy="7" r="1" class="sketch-fill"/>
                 <path d="M12,11 Q15,9 18,11" class="sketch-line" fill="none" stroke-width="1.2"/>
                 <line x1="15" y1="14" x2="15" y2="28" class="sketch-line" stroke-width="1.8"/>
                 <line x1="15" y1="28" x2="10" y2="40" class="sketch-line" stroke-width="1.8"/>
                 <line x1="15" y1="28" x2="20" y2="40" class="sketch-line" stroke-width="1.8"/>
-                <!-- Arme verschränkt -->
                 <path d="M15,20 Q10,22 8,19 Q6,16 10,18" class="sketch-line" fill="none" stroke-width="1.8"/>
                 <path d="M15,20 Q20,22 22,19 Q24,16 20,18" class="sketch-line" fill="none" stroke-width="1.8"/>
             </svg>
             <!-- Freund 2: zeigt auf dich, hält Schild -->
-            <svg class="friend-2" width="50" height="45" viewBox="0 0 50 45" xmlns="http://www.w3.org/2000/svg">
+            <svg class="friend-2" width="80" height="75" viewBox="0 0 50 45" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="15" cy="8" r="6" class="sketch-line" stroke-width="1.8"/>
                 <circle cx="13" cy="7" r="1" class="sketch-fill"/><circle cx="17" cy="7" r="1" class="sketch-fill"/>
                 <path d="M12,11 Q15,13 18,11" class="sketch-line" fill="none" stroke-width="1.2"/>
                 <line x1="15" y1="14" x2="15" y2="28" class="sketch-line" stroke-width="1.8"/>
                 <line x1="15" y1="28" x2="10" y2="40" class="sketch-line" stroke-width="1.8"/>
                 <line x1="15" y1="28" x2="20" y2="40" class="sketch-line" stroke-width="1.8"/>
-                <!-- Arm zeigt auf Besucher -->
                 <line x1="15" y1="20" x2="28" y2="12" class="sketch-line" stroke-width="1.8"/>
-                <!-- Arm hält Schild -->
                 <line x1="15" y1="20" x2="5" y2="16" class="sketch-line" stroke-width="1.8"/>
-                <!-- Mini-Schild -->
-                <rect x="26" y="4" width="22" height="12" rx="2" fill="white" stroke="#1a1a1a" stroke-width="1"/>
-                <text x="37" y="13" text-anchor="middle" font-family="Caveat, cursive" font-size="6" fill="#1a1a1a">Scroll!</text>
+                <rect x="26" y="2" width="24" height="14" rx="3" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                <text x="38" y="12" text-anchor="middle" font-family="Caveat, cursive" font-size="7" fill="#1a1a1a">Scroll!</text>
             </svg>
         </div>
     </div>
@@ -3300,6 +3365,8 @@
             const arm = document.getElementById('idleArm');
             const legL = document.getElementById('idleLegL');
             const legR = document.getElementById('idleLegR');
+            const eyeL = document.getElementById('idleEyeL');
+            const eyeR = document.getElementById('idleEyeR');
             const idleText = document.getElementById('idleText');
             const idleBubble = document.getElementById('idleBubble');
             const idleMouth = document.getElementById('idleMouth');
@@ -3310,20 +3377,27 @@
             let tapInterval;
             let shakeInterval;
             let walkInterval;
+            let eyeTrackInterval;
             let mouseX = -1, mouseY = -1;
             let hasMoved = false;
             let currentStage = 0;
             let isVisible = false;
             let lastPosition = -1;
+            let currentPos = null;
             const isMobile = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
             const idleDelay = isMobile ? 30000 : 12000;
             const escalateDelay = 6000;
 
+            // Augen-Basis-Positionen im SVG
+            const eyeLBase = { cx: 30, cy: 16 };
+            const eyeRBase = { cx: 40, cy: 16 };
+            const eyeRange = 2.5; // max Pixel Verschiebung
+
             const positions = [
-                { side: 'right', vert: 'bottom', walkAnim: 'idleWalkIn-right', flip: false, rotate: false },
-                { side: 'left',  vert: 'bottom', walkAnim: 'idleWalkIn-left',  flip: true,  rotate: false },
-                { side: 'right', vert: 'top',    walkAnim: 'idleWalkIn-right', flip: false, rotate: false },
-                { side: 'left',  vert: 'top',    walkAnim: 'idleWalkIn-top',   flip: true,  rotate: true  }
+                { side: 'right', vert: 'bottom', walkAnim: 'idleWalkIn-right', walkOut: 'idleWalkOut-right', flip: false, rotate: false },
+                { side: 'left',  vert: 'bottom', walkAnim: 'idleWalkIn-left',  walkOut: 'idleWalkOut-left',  flip: true,  rotate: false },
+                { side: 'right', vert: 'top',    walkAnim: 'idleWalkIn-right', walkOut: 'idleWalkOut-right', flip: false, rotate: false },
+                { side: 'left',  vert: 'top',    walkAnim: 'idleWalkIn-top',   walkOut: 'idleWalkOut-left',  flip: true,  rotate: true  }
             ];
 
             const clickResponses = [
@@ -3348,6 +3422,36 @@
                 return positions[idx];
             }
 
+            // Augen folgen dem Mauszeiger
+            function startEyeTracking() {
+                clearInterval(eyeTrackInterval);
+                eyeTrackInterval = setInterval(() => {
+                    if (!isVisible || mouseX < 0) return;
+                    const rect = figure.getBoundingClientRect();
+                    // Mitte des Kopfes in Screen-Koordinaten
+                    const headX = rect.left + 35;
+                    const headY = rect.top + 18;
+                    const dx = mouseX - headX;
+                    const dy = mouseY - headY;
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    const normX = (dx / dist) * Math.min(eyeRange, dist * 0.02);
+                    const normY = (dy / dist) * Math.min(eyeRange * 0.6, dist * 0.01);
+
+                    eyeL.setAttribute('cx', eyeLBase.cx + normX);
+                    eyeL.setAttribute('cy', eyeLBase.cy + normY);
+                    eyeR.setAttribute('cx', eyeRBase.cx + normX);
+                    eyeR.setAttribute('cy', eyeRBase.cy + normY);
+                }, 50);
+            }
+
+            function resetEyes() {
+                clearInterval(eyeTrackInterval);
+                eyeL.setAttribute('cx', eyeLBase.cx);
+                eyeL.setAttribute('cy', eyeLBase.cy);
+                eyeR.setAttribute('cx', eyeRBase.cx);
+                eyeR.setAttribute('cy', eyeRBase.cy);
+            }
+
             function startWalkAnimation() {
                 let walkFrame = 0;
                 clearInterval(walkInterval);
@@ -3359,7 +3463,6 @@
                     legR.setAttribute('x2', 47 - swing);
                     legR.setAttribute('y2', 85 - Math.abs(swing) * 0.3);
                 }, 60);
-                // Beine nach 1s zurücksetzen
                 setTimeout(() => {
                     clearInterval(walkInterval);
                     legL.setAttribute('x2', 23); legL.setAttribute('y2', 85);
@@ -3367,12 +3470,19 @@
                 }, 1000);
             }
 
+            function triggerBubblePop() {
+                idleBubble.classList.remove('pop');
+                // Force reflow
+                void idleBubble.offsetWidth;
+                idleBubble.classList.add('pop');
+            }
+
             function applyStage(stageIdx) {
                 const stage = stages[Math.min(stageIdx, stages.length - 1)];
 
                 idleText.textContent = stage.text;
-                // Größere Schrift bei Eskalation
-                idleBubble.style.fontSize = (15 + stageIdx * 2) + 'px';
+                idleBubble.style.fontSize = (16 + stageIdx * 2) + 'px';
+                if (stageIdx > 0) triggerBubblePop();
                 idleMouth.setAttribute('d', stage.mouth);
 
                 // Freunde
@@ -3411,22 +3521,31 @@
                 }
             }
 
-            function hideAndReset() {
-                clearTimeout(idleTimer);
+            function walkOutAndReset() {
                 clearTimeout(escalateTimer);
                 clearInterval(tapInterval);
                 clearInterval(shakeInterval);
-                clearInterval(walkInterval);
-                figure.classList.remove('show', 'clicked');
-                figure.style.transform = '';
-                figure.style.animation = '';
-                idleSvg.style.transform = '';
-                idleFriends.style.display = 'none';
-                idleFriends.classList.remove('active');
-                idleBubble.style.fontSize = '';
-                isVisible = false;
-                currentStage = 0;
-                idleTimer = setTimeout(showIdleFigure, idleDelay);
+                resetEyes();
+
+                // Rauslauf-Animation mit wackelnden Beinen
+                const walkOutAnim = currentPos ? currentPos.walkOut : 'idleWalkOut-right';
+                figure.style.animation = walkOutAnim + ' 0.7s ease-in forwards';
+                startWalkAnimation();
+
+                setTimeout(() => {
+                    figure.classList.remove('show', 'clicked', 'upside-down', 'walking');
+                    figure.style.transform = '';
+                    figure.style.animation = '';
+                    idleSvg.style.transform = '';
+                    idleFriends.style.display = 'none';
+                    idleFriends.classList.remove('active');
+                    idleBubble.style.fontSize = '';
+                    isVisible = false;
+                    currentStage = 0;
+                    currentPos = null;
+                    clearTimeout(idleTimer);
+                    idleTimer = setTimeout(showIdleFigure, idleDelay);
+                }, 750);
             }
 
             function escalate() {
@@ -3442,11 +3561,13 @@
             function showIdleFigure() {
                 currentStage = 0;
                 const pos = pickPosition();
+                currentPos = pos;
 
                 figure.style.left = '';
                 figure.style.right = '';
                 figure.style.top = '';
                 figure.style.bottom = '';
+                figure.classList.remove('upside-down');
 
                 if (hasMoved && !isMobile) {
                     figure.style.left = (mouseX + 30) + 'px';
@@ -3458,6 +3579,7 @@
 
                     if (pos.rotate) {
                         idleSvg.style.transform = 'rotate(180deg)';
+                        figure.classList.add('upside-down');
                     } else {
                         idleSvg.style.transform = pos.flip ? 'scaleX(-1)' : '';
                     }
@@ -3467,16 +3589,19 @@
                 }
 
                 // Reinlauf-Animation mit wackelnden Beinen
+                figure.classList.add('walking');
                 figure.style.animation = pos.walkAnim + ' 1s ease-out';
                 startWalkAnimation();
 
                 setTimeout(() => {
+                    figure.classList.remove('walking');
                     figure.style.animation = '';
                 }, 1050);
 
                 applyStage(0);
                 figure.classList.add('show');
                 isVisible = true;
+                startEyeTracking();
 
                 escalateTimer = setTimeout(escalate, escalateDelay);
             }
@@ -3489,10 +3614,11 @@
                 figure.classList.add('clicked');
                 const response = clickResponses[Math.floor(Math.random() * clickResponses.length)];
                 idleText.textContent = response;
+                triggerBubblePop();
 
                 setTimeout(() => {
-                    hideAndReset();
-                }, 1200);
+                    walkOutAndReset();
+                }, 1000);
             });
 
             function onUserActivity(e) {
@@ -3505,7 +3631,7 @@
                     if (dx < 5 && dy < 5) return;
                 }
                 if (isVisible) {
-                    hideAndReset();
+                    walkOutAndReset();
                 } else {
                     clearTimeout(idleTimer);
                     idleTimer = setTimeout(showIdleFigure, idleDelay);
