@@ -899,12 +899,63 @@
             z-index: 99989;
             pointer-events: none;
             opacity: 0;
-            transition: opacity var(--transition);
+            transition: opacity 0.3s ease;
         }
 
         .idle-figure.show {
             opacity: 1;
+            pointer-events: auto;
+            cursor: pointer;
         }
+
+        /* Reinlauf-Animation */
+        @keyframes idleWalkIn-right {
+            0% { transform: translateX(80px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes idleWalkIn-left {
+            0% { transform: translateX(-80px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes idleWalkIn-bottom {
+            0% { transform: translateY(80px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes idleWalkIn-top {
+            0% { transform: translateY(-60px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes idleLegWalk {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+        }
+
+        .idle-figure.walking .idle-leg-l { animation: idleLegWalk 0.3s ease-in-out 3; transform-origin: 20px 35px; }
+        .idle-figure.walking .idle-leg-r { animation: idleLegWalk 0.3s ease-in-out 3 0.15s; transform-origin: 20px 35px; }
+
+        /* Klick-Reaktion */
+        @keyframes idleJumpScare {
+            0% { transform: translateY(0); }
+            30% { transform: translateY(-12px) rotate(-8deg); }
+            60% { transform: translateY(-4px) rotate(4deg); }
+            100% { transform: translateY(0) rotate(0); }
+        }
+        .idle-figure.clicked #idleSvg {
+            animation: idleJumpScare 0.5s ease-out;
+        }
+
+        /* Freunde-Animationen */
+        @keyframes friendPoint {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-20deg); }
+        }
+        @keyframes friendTap {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(8deg); }
+        }
+        .idle-friends.active .friend-1 { animation: friendTap 1s ease-in-out infinite; transform-origin: bottom center; }
+        .idle-friends.active .friend-2 { animation: friendPoint 1.5s ease-in-out infinite 0.3s; transform-origin: bottom center; }
 
         /* ============================================
            BESUCHERZAEHLER
@@ -2547,8 +2598,8 @@
             <circle id="idleEyeR" cx="23" cy="9" r="1.5" class="sketch-fill"/>
             <path id="idleMouth" d="M17,14 Q20,16 23,14" class="sketch-line" fill="none" stroke-width="1.5"/>
             <line x1="20" y1="18" x2="20" y2="35" class="sketch-line" stroke-width="2"/>
-            <line x1="20" y1="35" x2="13" y2="50" class="sketch-line" stroke-width="2"/>
-            <line x1="20" y1="35" x2="27" y2="50" class="sketch-line" stroke-width="2"/>
+            <line class="idle-leg-l" x1="20" y1="35" x2="13" y2="50" class="sketch-line" stroke-width="2"/>
+            <line class="idle-leg-r" x1="20" y1="35" x2="27" y2="50" class="sketch-line" stroke-width="2"/>
             <!-- Arm tippt -->
             <line id="idleArm" x1="20" y1="25" x2="35" y2="18" class="sketch-line" stroke-width="2"/>
             <line x1="20" y1="25" x2="8" y2="30" class="sketch-line" stroke-width="2"/>
@@ -2559,24 +2610,34 @@
             </g>
         </svg>
         <!-- Freunde (erscheinen bei Stufe 4) -->
-        <div id="idleFriends" style="display:none; position:absolute; bottom:0; right:45px; white-space:nowrap;">
-            <svg width="30" height="45" viewBox="0 0 30 45" xmlns="http://www.w3.org/2000/svg" style="margin-right:2px;">
+        <div id="idleFriends" class="idle-friends" style="display:none; position:absolute; bottom:0; right:45px; white-space:nowrap;">
+            <!-- Freund 1: tippt ungeduldig mit dem Fuß, Arme verschränkt -->
+            <svg class="friend-1" width="30" height="45" viewBox="0 0 30 45" xmlns="http://www.w3.org/2000/svg" style="margin-right:4px;">
                 <circle cx="15" cy="8" r="6" class="sketch-line" stroke-width="1.8"/>
                 <circle cx="13" cy="7" r="1" class="sketch-fill"/><circle cx="17" cy="7" r="1" class="sketch-fill"/>
+                <path d="M12,11 Q15,9 18,11" class="sketch-line" fill="none" stroke-width="1.2"/>
                 <line x1="15" y1="14" x2="15" y2="28" class="sketch-line" stroke-width="1.8"/>
                 <line x1="15" y1="28" x2="10" y2="40" class="sketch-line" stroke-width="1.8"/>
                 <line x1="15" y1="28" x2="20" y2="40" class="sketch-line" stroke-width="1.8"/>
-                <line x1="15" y1="20" x2="5" y2="24" class="sketch-line" stroke-width="1.8"/>
-                <line x1="15" y1="20" x2="25" y2="16" class="sketch-line" stroke-width="1.8"/>
+                <!-- Arme verschränkt -->
+                <path d="M15,20 Q10,22 8,19 Q6,16 10,18" class="sketch-line" fill="none" stroke-width="1.8"/>
+                <path d="M15,20 Q20,22 22,19 Q24,16 20,18" class="sketch-line" fill="none" stroke-width="1.8"/>
             </svg>
-            <svg width="30" height="45" viewBox="0 0 30 45" xmlns="http://www.w3.org/2000/svg">
+            <!-- Freund 2: zeigt auf dich, hält Schild -->
+            <svg class="friend-2" width="50" height="45" viewBox="0 0 50 45" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="15" cy="8" r="6" class="sketch-line" stroke-width="1.8"/>
                 <circle cx="13" cy="7" r="1" class="sketch-fill"/><circle cx="17" cy="7" r="1" class="sketch-fill"/>
+                <path d="M12,11 Q15,13 18,11" class="sketch-line" fill="none" stroke-width="1.2"/>
                 <line x1="15" y1="14" x2="15" y2="28" class="sketch-line" stroke-width="1.8"/>
                 <line x1="15" y1="28" x2="10" y2="40" class="sketch-line" stroke-width="1.8"/>
                 <line x1="15" y1="28" x2="20" y2="40" class="sketch-line" stroke-width="1.8"/>
-                <line x1="15" y1="20" x2="6" y2="16" class="sketch-line" stroke-width="1.8"/>
-                <line x1="15" y1="20" x2="24" y2="24" class="sketch-line" stroke-width="1.8"/>
+                <!-- Arm zeigt auf Besucher -->
+                <line x1="15" y1="20" x2="28" y2="12" class="sketch-line" stroke-width="1.8"/>
+                <!-- Arm hält Schild -->
+                <line x1="15" y1="20" x2="5" y2="16" class="sketch-line" stroke-width="1.8"/>
+                <!-- Mini-Schild -->
+                <rect x="26" y="4" width="22" height="12" rx="2" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+                <text x="37" y="13" text-anchor="middle" font-family="Caveat, cursive" font-size="6" fill="#1a1a1a">Scroll!</text>
             </svg>
         </div>
     </div>
@@ -3208,6 +3269,7 @@
             const idleBubbleRect = document.getElementById('idleBubbleRect');
             const idleMouth = document.getElementById('idleMouth');
             const idleFriends = document.getElementById('idleFriends');
+            const idleSvg = document.getElementById('idleSvg');
             let idleTimer;
             let escalateTimer;
             let tapInterval;
@@ -3216,9 +3278,26 @@
             let hasMoved = false;
             let currentStage = 0;
             let isVisible = false;
+            let lastPosition = -1;
             const isMobile = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
             const idleDelay = isMobile ? 30000 : 12000;
-            const escalateDelay = 6000; // 6s zwischen Eskalationen
+            const escalateDelay = 6000;
+
+            // Positionen: rechts unten, links unten, rechts oben, links oben (kopfüber)
+            const positions = [
+                { side: 'right', vert: 'bottom', walkAnim: 'idleWalkIn-right', flip: false, rotate: false },
+                { side: 'left',  vert: 'bottom', walkAnim: 'idleWalkIn-left',  flip: true,  rotate: false },
+                { side: 'right', vert: 'top',    walkAnim: 'idleWalkIn-right', flip: false, rotate: false },
+                { side: 'left',  vert: 'top',    walkAnim: 'idleWalkIn-top',   flip: true,  rotate: true  }
+            ];
+
+            const clickResponses = [
+                'Ah, du lebst!',
+                'Endlich!',
+                'Na also!',
+                'Dachte schon...',
+                '*erschrickt*'
+            ];
 
             const stages = [
                 { text: 'Noch da?', fontSize: 9, bubbleWidth: 50, shake: false, friends: false, mouth: 'M17,14 Q20,16 23,14' },
@@ -3226,6 +3305,14 @@
                 { text: "Ich sag's Jonas...", fontSize: 9, bubbleWidth: 74, shake: true, friends: false, mouth: 'M17,13 Q20,10 23,13' },
                 { text: 'Er hat Verstärkung!', fontSize: 7, bubbleWidth: 74, shake: true, friends: true, mouth: 'M17,14 Q20,17 23,14' }
             ];
+
+            function pickPosition() {
+                // Zufällige Position, aber nicht dieselbe wie letztes Mal
+                let idx;
+                do { idx = Math.floor(Math.random() * positions.length); } while (idx === lastPosition && positions.length > 1);
+                lastPosition = idx;
+                return positions[idx];
+            }
 
             function applyStage(stageIdx) {
                 const stage = stages[Math.min(stageIdx, stages.length - 1)];
@@ -3237,10 +3324,16 @@
                 idleBubbleRect.setAttribute('transform', 'translate(20, -5)');
                 idleMouth.setAttribute('d', stage.mouth);
 
-                // Freunde
-                idleFriends.style.display = stage.friends ? 'flex' : 'none';
+                // Freunde mit Animation
+                if (stage.friends) {
+                    idleFriends.style.display = 'flex';
+                    idleFriends.classList.add('active');
+                } else {
+                    idleFriends.style.display = 'none';
+                    idleFriends.classList.remove('active');
+                }
 
-                // Arm-Animation neu starten (schneller bei höheren Stufen)
+                // Arm-Animation (schneller bei höheren Stufen)
                 clearInterval(tapInterval);
                 let tapFrame = 0;
                 const tapSpeed = Math.max(40, 100 - stageIdx * 20);
@@ -3252,7 +3345,7 @@
                     arm.setAttribute('y2', tipY);
                 }, tapSpeed);
 
-                // Schütteln
+                // Sanftes Schütteln
                 clearInterval(shakeInterval);
                 if (stage.shake) {
                     let shakeFrame = 0;
@@ -3260,10 +3353,8 @@
                     shakeInterval = setInterval(() => {
                         shakeFrame++;
                         const offset = Math.sin(shakeFrame * 2.5) * shakeIntensity;
-                        figure.style.transform = 'translateX(' + offset + 'px)';
+                        figure.style.setProperty('--shake-offset', offset + 'px');
                     }, 80);
-                } else {
-                    figure.style.transform = '';
                 }
             }
 
@@ -3272,9 +3363,13 @@
                 clearTimeout(escalateTimer);
                 clearInterval(tapInterval);
                 clearInterval(shakeInterval);
-                figure.classList.remove('show');
+                figure.classList.remove('show', 'walking', 'clicked');
                 figure.style.transform = '';
+                figure.style.setProperty('--shake-offset', '0px');
+                idleSvg.style.transform = '';
+                idleSvg.style.animation = '';
                 idleFriends.style.display = 'none';
+                idleFriends.classList.remove('active');
                 isVisible = false;
                 currentStage = 0;
                 idleTimer = setTimeout(showIdleFigure, idleDelay);
@@ -3284,7 +3379,6 @@
                 if (currentStage < stages.length - 1) {
                     currentStage++;
                     applyStage(currentStage);
-                    // Weiter eskalieren falls noch nicht max
                     if (currentStage < stages.length - 1) {
                         escalateTimer = setTimeout(escalate, escalateDelay);
                     }
@@ -3293,37 +3387,79 @@
 
             function showIdleFigure() {
                 currentStage = 0;
+                const pos = pickPosition();
 
-                // Position
+                // Reset alle Positionswerte
+                figure.style.left = '';
+                figure.style.right = '';
+                figure.style.top = '';
+                figure.style.bottom = '';
+
                 if (hasMoved && !isMobile) {
+                    // In der Nähe des Cursors erscheinen
                     figure.style.left = (mouseX + 30) + 'px';
                     figure.style.top = (mouseY - 10) + 'px';
+                    idleSvg.style.transform = '';
                 } else {
-                    figure.style.right = '30px';
-                    figure.style.bottom = '60px';
-                    figure.style.left = 'auto';
-                    figure.style.top = 'auto';
+                    // Zufällige Ecke
+                    figure.style[pos.side] = '30px';
+                    figure.style[pos.vert] = pos.vert === 'top' ? '20px' : '60px';
+
+                    // Kopfüber bei top-left
+                    if (pos.rotate) {
+                        idleSvg.style.transform = 'rotate(180deg)';
+                    } else {
+                        idleSvg.style.transform = pos.flip ? 'scaleX(-1)' : '';
+                    }
+
+                    // Freunde auf die richtige Seite
+                    idleFriends.style.right = pos.side === 'right' ? '45px' : '';
+                    idleFriends.style.left = pos.side === 'left' ? '45px' : '';
                 }
+
+                // Lauf-Animation
+                figure.classList.add('walking');
+                figure.style.animation = pos.walkAnim + ' 0.8s ease-out';
+
+                // Nach Lauf-Animation: walking-Klasse entfernen
+                setTimeout(() => {
+                    figure.classList.remove('walking');
+                    figure.style.animation = '';
+                }, 900);
 
                 applyStage(0);
                 figure.classList.add('show');
                 isVisible = true;
 
-                // Automatisch eskalieren wenn ignoriert
                 escalateTimer = setTimeout(escalate, escalateDelay);
             }
 
+            // Klick auf die Figur
+            figure.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!isVisible) return;
+
+                // Sprung-Animation
+                figure.classList.add('clicked');
+                const response = clickResponses[Math.floor(Math.random() * clickResponses.length)];
+                idleText.textContent = response;
+                idleBubbleRect.setAttribute('width', '60');
+                idleBubbleRect.setAttribute('x', '-30');
+
+                // Nach kurzer Reaktion verschwinden
+                setTimeout(() => {
+                    hideAndReset();
+                }, 1200);
+            });
+
             function onUserActivity(e) {
                 if (e && e.type === 'mousemove') {
-                    // Nur bei deutlicher Bewegung reagieren
                     const dx = Math.abs(e.clientX - mouseX);
                     const dy = Math.abs(e.clientY - mouseY);
                     mouseX = e.clientX;
                     mouseY = e.clientY;
                     hasMoved = true;
-                    if (dx < 5 && dy < 5) return; // Micro-Bewegung ignorieren
-                    figure.style.right = '';
-                    figure.style.bottom = '';
+                    if (dx < 5 && dy < 5) return;
                 }
                 if (isVisible) {
                     hideAndReset();
@@ -3339,7 +3475,6 @@
             document.addEventListener('touchstart', onUserActivity, { passive: true });
             document.addEventListener('scroll', onUserActivity, { passive: true });
 
-            // Starten
             idleTimer = setTimeout(showIdleFigure, idleDelay);
         })();
 
