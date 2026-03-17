@@ -1100,6 +1100,110 @@
             90% { transform: translateY(0); }
         }
 
+        /* Invasion Sprechblasen */
+        .inv-bubble {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: var(--white);
+            border: 1.5px solid var(--black);
+            border-radius: 10px;
+            padding: 3px 8px;
+            font-family: var(--font-hand);
+            font-size: 11px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            animation: invBubblePop 3s ease forwards;
+        }
+        .inv-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid var(--black);
+        }
+        @keyframes invBubblePop {
+            0% { transform: translateX(-50%) scale(0); opacity: 0; }
+            10% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+            15% { transform: translateX(-50%) scale(1); opacity: 1; }
+            80% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+        }
+
+        /* Invasion Aktivitäten */
+        @keyframes invWave {
+            0%, 100% { transform: rotate(0deg); }
+            15% { transform: rotate(-15deg); }
+            30% { transform: rotate(10deg); }
+            45% { transform: rotate(-12deg); }
+            60% { transform: rotate(8deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        @keyframes invJump {
+            0%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-18px); }
+            50% { transform: translateY(-20px) scaleX(0.95); }
+            70% { transform: translateY(-5px); }
+            85% { transform: translateY(0) scaleX(1.03) scaleY(0.95); }
+            95% { transform: scaleY(1); }
+        }
+        @keyframes invSit {
+            0% { transform: scaleY(1); }
+            100% { transform: scaleY(0.7) translateY(15%); }
+        }
+        @keyframes invDance {
+            0%, 100% { transform: rotate(0deg) translateX(0); }
+            10% { transform: rotate(5deg) translateX(4px); }
+            20% { transform: rotate(-3deg) translateX(-3px); }
+            30% { transform: rotate(7deg) translateX(5px); }
+            40% { transform: rotate(-5deg) translateX(-4px); }
+            50% { transform: rotate(4deg) translateX(3px) translateY(-3px); }
+            60% { transform: rotate(-6deg) translateX(-5px); }
+            70% { transform: rotate(3deg) translateX(4px); }
+            80% { transform: rotate(-4deg) translateX(-3px); }
+            90% { transform: rotate(5deg) translateX(2px); }
+        }
+        @keyframes invLookAround {
+            0%, 100% { transform: rotate(0deg); }
+            20% { transform: rotate(-8deg); }
+            40% { transform: rotate(0deg); }
+            60% { transform: rotate(8deg); }
+            80% { transform: rotate(0deg); }
+        }
+
+        /* Element-Kletterer */
+        .invasion-climber {
+            position: fixed;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .invasion-climber.visible {
+            opacity: 1;
+        }
+        @keyframes climberDangle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        @keyframes climberSitIdle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        @keyframes climberPeek {
+            0%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+            60% { transform: translateY(-6px); }
+        }
+
         /* ============================================
            BESUCHERZAEHLER
            ============================================ */
@@ -3502,6 +3606,35 @@
             // Idle-Animationsnamen
             const idleAnims = ['invIdle1', 'invIdle2', 'invIdle3', 'invIdle4', 'invIdle5'];
 
+            // Aktivitäten für Figuren
+            const figureActivities = [
+                { anim: null, weight: 4 },                // normal idle (häufiger)
+                { anim: 'invWave', dur: '1.2s', weight: 2 },
+                { anim: 'invJump', dur: '0.8s', weight: 2 },
+                { anim: 'invSit', dur: '0.3s', once: true, weight: 2 },
+                { anim: 'invDance', dur: '1.8s', weight: 1 },
+                { anim: 'invLookAround', dur: '2.5s', weight: 1 },
+            ];
+
+            // Sprechblasen-Texte
+            const invasionBubbleTexts = [
+                'Wo ist er?', 'Psst!', '*gähn*', 'Guck mal!', '...', 'Hä?',
+                'Jonas? JONAS?', 'Hier drüben!', '*flüster*', 'Warte...',
+                'Hey!', 'Langweilig...', '♪♫', 'Sieht uns wer?', 'Aua!',
+                'Oh nein', 'Hihi', 'Huhu!', 'Pssst!', '???',
+                'Cool hier', 'Ey guck!', '*schnarch*', 'Hunger...', ':D'
+            ];
+
+            function pickWeightedActivity() {
+                const totalWeight = figureActivities.reduce((s, a) => s + a.weight, 0);
+                let r = Math.random() * totalWeight;
+                for (const act of figureActivities) {
+                    r -= act.weight;
+                    if (r <= 0) return act;
+                }
+                return figureActivities[0];
+            }
+
             function createInvasionSvg(size) {
                 const s = size;
                 const h = Math.round(s * 95/70);
@@ -3533,6 +3666,7 @@
                 const size = 25 + Math.random() * 30;
                 const fig = document.createElement('div');
                 fig.className = 'invasion-figure';
+                fig.style.position = 'absolute';
                 fig.innerHTML = createInvasionSvg(size);
 
                 // Zufällige Position
@@ -3560,21 +3694,55 @@
                     svgEl.style.transform = 'scaleX(-1)';
                 }
 
-                // Eigenleben: individuelle Idle-Animation nach dem Einlaufen
-                const chosenAnim = idleAnims[Math.floor(Math.random() * idleAnims.length)];
-                const animDur = (1.2 + Math.random() * 2.0).toFixed(1);
-                const animDelay = (Math.random() * 2.0).toFixed(1);
+                // Aktivität zuweisen
+                const activity = pickWeightedActivity();
+
+                // Eigenleben: individuelle Animation nach dem Einlaufen
                 setTimeout(() => {
                     if (!invasionActive) return;
-                    svgEl.style.animation = chosenAnim + ' ' + animDur + 's ease-in-out ' + animDelay + 's infinite';
                     svgEl.style.transformOrigin = 'center bottom';
+                    if (activity.anim) {
+                        const dur = activity.dur || '1.5s';
+                        const iter = activity.once ? '1' : 'infinite';
+                        const fill = activity.once ? 'forwards' : '';
+                        svgEl.style.animation = activity.anim + ' ' + dur + ' ease-in-out ' + (Math.random() * 0.5).toFixed(1) + 's ' + iter + ' ' + fill;
+                    } else {
+                        const chosenAnim = idleAnims[Math.floor(Math.random() * idleAnims.length)];
+                        const animDur = (1.2 + Math.random() * 2.0).toFixed(1);
+                        svgEl.style.animation = chosenAnim + ' ' + animDur + 's ease-in-out ' + (Math.random() * 2.0).toFixed(1) + 's infinite';
+                    }
                 }, (entryDelay + 0.8) * 1000);
+
+                // Sprechblase: zufällig nach einiger Zeit
+                if (Math.random() < 0.35) {
+                    const bubbleDelay = 1500 + Math.random() * 8000;
+                    setTimeout(() => {
+                        if (!invasionActive || !fig.parentNode) return;
+                        addBubbleToFigure(fig);
+                    }, bubbleDelay);
+                }
 
                 overlay.appendChild(fig);
 
                 setTimeout(() => {
                     fig.classList.add('visible');
                 }, 50);
+            }
+
+            function addBubbleToFigure(fig) {
+                const bubble = document.createElement('div');
+                bubble.className = 'inv-bubble';
+                bubble.textContent = invasionBubbleTexts[Math.floor(Math.random() * invasionBubbleTexts.length)];
+                fig.style.overflow = 'visible';
+                fig.appendChild(bubble);
+                // Aufräumen nach Animation
+                setTimeout(() => {
+                    if (bubble.parentNode) bubble.remove();
+                    // Chance auf erneute Sprechblase
+                    if (invasionActive && fig.parentNode && Math.random() < 0.3) {
+                        setTimeout(() => addBubbleToFigure(fig), 2000 + Math.random() * 5000);
+                    }
+                }, 3200);
             }
 
             function startInvasion() {
@@ -3601,11 +3769,120 @@
                     }
                 }
                 spawnWave();
+
+                // Kletterer starten etwas verzögert
+                setTimeout(() => {
+                    if (invasionActive) startClimbers();
+                }, 1500);
+            }
+
+            // Element-Kletterer: Figuren setzen sich auf sichtbare Elemente
+            let climberElements = [];
+            let climberTimers = [];
+
+            function getClimbTargets() {
+                const selectors = ['nav', '.nav', 'h1', 'h2', 'h3', '.hero-illustration', '.quote-card', '.bio-section img', '.section-title', '#countdown'];
+                const targets = [];
+                selectors.forEach(sel => {
+                    document.querySelectorAll(sel).forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        if (rect.width > 40 && rect.height > 20 && rect.top > -50 && rect.top < window.innerHeight) {
+                            targets.push({ el: el, rect: rect });
+                        }
+                    });
+                });
+                return targets;
+            }
+
+            function spawnClimber(target) {
+                const rect = target.rect;
+                const size = 22 + Math.random() * 16;
+                const fig = document.createElement('div');
+                fig.className = 'invasion-climber';
+                fig.innerHTML = createInvasionSvg(size);
+
+                // Position: auf dem Element sitzen oder dran hängen
+                const posType = Math.random();
+                if (posType < 0.5) {
+                    // Oben drauf sitzen
+                    fig.style.left = (rect.left + 10 + Math.random() * (rect.width - 30)) + 'px';
+                    fig.style.top = (rect.top - size * 95/70 + 5) + 'px';
+                    const svgEl = fig.querySelector('svg');
+                    svgEl.style.animation = 'climberSitIdle 2s ease-in-out ' + (Math.random() * 1).toFixed(1) + 's infinite';
+                    svgEl.style.transformOrigin = 'center bottom';
+                } else if (posType < 0.8) {
+                    // Am Rand hängen
+                    const onLeft = Math.random() > 0.5;
+                    fig.style.left = (onLeft ? rect.left - size * 0.5 : rect.right - size * 0.5) + 'px';
+                    fig.style.top = (rect.top + Math.random() * rect.height * 0.5) + 'px';
+                    const svgEl = fig.querySelector('svg');
+                    svgEl.style.animation = 'climberDangle 1.5s ease-in-out infinite';
+                    svgEl.style.transformOrigin = 'top center';
+                } else {
+                    // Von unten reinschauen (peek)
+                    fig.style.left = (rect.left + 5 + Math.random() * (rect.width - 20)) + 'px';
+                    fig.style.top = (rect.bottom - 8) + 'px';
+                    const svgEl = fig.querySelector('svg');
+                    svgEl.style.animation = 'climberPeek 2s ease-in-out ' + (Math.random() * 0.5).toFixed(1) + 's infinite';
+                    svgEl.style.transformOrigin = 'center top';
+                }
+
+                document.body.appendChild(fig);
+                climberElements.push(fig);
+
+                setTimeout(() => fig.classList.add('visible'), 50);
+
+                // Sprechblase für Kletterer
+                if (Math.random() < 0.5) {
+                    setTimeout(() => {
+                        if (!invasionActive || !fig.parentNode) return;
+                        const bubble = document.createElement('div');
+                        bubble.className = 'inv-bubble';
+                        const climbTexts = ['Schöne Aussicht!', 'Hier oben!', 'Hehe', 'Guck mal!', 'Wheee!', '*kletter*', 'Ich sehe alles!', 'HALT FEST!'];
+                        bubble.textContent = climbTexts[Math.floor(Math.random() * climbTexts.length)];
+                        fig.style.overflow = 'visible';
+                        fig.appendChild(bubble);
+                        setTimeout(() => { if (bubble.parentNode) bubble.remove(); }, 3200);
+                    }, 2000 + Math.random() * 4000);
+                }
+            }
+
+            function startClimbers() {
+                const targets = getClimbTargets();
+                if (targets.length === 0) return;
+
+                // Shuffle und maximal 6-8 Kletterer spawnen
+                const shuffled = targets.sort(() => Math.random() - 0.5);
+                const numClimbers = Math.min(shuffled.length, 4 + Math.floor(Math.random() * 5));
+
+                for (let i = 0; i < numClimbers; i++) {
+                    const delay = 800 + i * (400 + Math.random() * 600);
+                    const timer = setTimeout(() => {
+                        if (!invasionActive) return;
+                        spawnClimber(shuffled[i]);
+                    }, delay);
+                    climberTimers.push(timer);
+                }
+            }
+
+            function removeClimbers() {
+                climberTimers.forEach(t => clearTimeout(t));
+                climberTimers = [];
+                climberElements.forEach((fig, i) => {
+                    setTimeout(() => {
+                        fig.style.transition = 'opacity 0.3s, transform 0.4s';
+                        fig.style.opacity = '0';
+                        fig.style.transform = 'translateY(' + (Math.random() > 0.5 ? '-' : '') + '40px)';
+                        setTimeout(() => { if (fig.parentNode) fig.remove(); }, 400);
+                    }, i * 60);
+                });
+                climberElements = [];
             }
 
             function stopInvasion() {
                 invasionActive = false;
                 clearTimeout(invasionInterval);
+                removeClimbers();
 
                 const figs = Array.from(invasionOverlay.querySelectorAll('.invasion-figure'));
                 if (figs.length === 0) {
