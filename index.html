@@ -1071,12 +1071,30 @@
             20% { opacity: 1; }
             100% { transform: translate(0,0); opacity: 1; }
         }
-        @keyframes invasionWave {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(8deg); }
-            75% { transform: rotate(-8deg); }
+        @keyframes invIdle1 {
+            0%, 100% { transform: rotate(0deg) translateY(0); }
+            30% { transform: rotate(3deg) translateY(-2px); }
+            70% { transform: rotate(-2deg) translateY(0); }
         }
-        .invasion-figure svg { animation: invasionWave 1.5s ease-in-out infinite; animation-delay: var(--inv-delay, 0s); }
+        @keyframes invIdle2 {
+            0%, 100% { transform: rotate(0deg); }
+            40% { transform: rotate(-5deg); }
+            60% { transform: rotate(4deg); }
+        }
+        @keyframes invIdle3 {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-6px) scaleY(1.03); }
+        }
+        @keyframes invIdle4 {
+            0%, 100% { transform: rotate(0deg) translateX(0); }
+            25% { transform: rotate(2deg) translateX(3px); }
+            75% { transform: rotate(-2deg) translateX(-3px); }
+        }
+        @keyframes invIdle5 {
+            0%, 70%, 100% { transform: translateY(0); }
+            80% { transform: translateY(-8px); }
+            90% { transform: translateY(0); }
+        }
 
         /* ============================================
            BESUCHERZAEHLER
@@ -3445,19 +3463,62 @@
             let invasionInterval = null;
             let invasionActive = false;
 
+            // Verschiedene Arm-Posen für Individualität
+            const armPoses = [
+                // [linker Arm x2,y2, rechter Arm x2,y2]
+                { lx: 15, ly: 50, rx: 55, ry: 32 },  // normal
+                { lx: 10, ly: 38, rx: 60, ry: 38 },  // beide seitlich
+                { lx: 12, ly: 55, rx: 58, ry: 55 },  // Arme runter
+                { lx: 15, ly: 30, rx: 55, ry: 30 },  // beide hoch
+                { lx: 20, ly: 28, rx: 50, ry: 28 },  // Jubel
+                { lx: 8, ly: 42, rx: 62, ry: 42 },   // weit offen
+                { lx: 18, ly: 48, rx: 52, ry: 26 },  // einer hoch einer runter
+                { lx: 52, ly: 26, rx: 18, ry: 48 },  // andersrum
+            ];
+
+            // Verschiedene Bein-Posen
+            const legPoses = [
+                { llx: 23, lly: 85, rlx: 47, rly: 85 },  // normal
+                { llx: 20, lly: 85, rlx: 50, rly: 85 },  // breitbeinig
+                { llx: 25, lly: 88, rlx: 45, rly: 88 },  // eng
+                { llx: 22, lly: 82, rlx: 48, rly: 88 },  // Schritt
+                { llx: 48, lly: 88, rlx: 22, rly: 82 },  // anderer Schritt
+            ];
+
+            // Verschiedene Mundformen
+            const mouthPoses = [
+                'M29,24 Q35,27 41,24',  // lächeln
+                'M29,24 Q35,21 41,24',  // traurig/erstaunt
+                'M30,24 L40,24',        // neutral
+                'M28,22 Q35,28 42,22',  // großes Lachen
+                'M31,24 Q35,26 39,24',  // kleines Lächeln
+                'M30,23 Q35,26 40,23',  // leicht offen
+            ];
+
+            // Idle-Animationsnamen
+            const idleAnims = ['invIdle1', 'invIdle2', 'invIdle3', 'invIdle4', 'invIdle5'];
+
             function createInvasionSvg(size) {
                 const s = size;
                 const h = Math.round(s * 95/70);
+                const arms = armPoses[Math.floor(Math.random() * armPoses.length)];
+                const legs = legPoses[Math.floor(Math.random() * legPoses.length)];
+                const mouth = mouthPoses[Math.floor(Math.random() * mouthPoses.length)];
+                // Leicht variierte Kopfneigung
+                const headTilt = (Math.random() - 0.5) * 4;
+
                 return '<svg width="' + s + '" height="' + h + '" viewBox="0 0 70 95" xmlns="http://www.w3.org/2000/svg">'
+                    + '<g transform="rotate(' + headTilt + ', 35, 18)">'
                     + '<circle cx="35" cy="18" r="13" class="sketch-line" stroke-width="2.5"/>'
                     + '<circle cx="30" cy="16" r="2.2" class="sketch-fill"/>'
                     + '<circle cx="40" cy="16" r="2.2" class="sketch-fill"/>'
-                    + '<path d="M29,24 Q35,27 41,24" class="sketch-line" fill="none" stroke-width="2"/>'
+                    + '<path d="' + mouth + '" class="sketch-line" fill="none" stroke-width="2"/>'
+                    + '</g>'
                     + '<line x1="35" y1="31" x2="35" y2="58" class="sketch-line" stroke-width="2.5"/>'
-                    + '<line x1="35" y1="58" x2="23" y2="85" class="sketch-line" stroke-width="2.5"/>'
-                    + '<line x1="35" y1="58" x2="47" y2="85" class="sketch-line" stroke-width="2.5"/>'
-                    + '<line x1="35" y1="42" x2="55" y2="32" class="sketch-line" stroke-width="2.5"/>'
-                    + '<line x1="35" y1="42" x2="15" y2="50" class="sketch-line" stroke-width="2.5"/>'
+                    + '<line x1="35" y1="58" x2="' + legs.llx + '" y2="' + legs.lly + '" class="sketch-line" stroke-width="2.5"/>'
+                    + '<line x1="35" y1="58" x2="' + legs.rlx + '" y2="' + legs.rly + '" class="sketch-line" stroke-width="2.5"/>'
+                    + '<line x1="35" y1="42" x2="' + arms.rx + '" y2="' + arms.ry + '" class="sketch-line" stroke-width="2.5"/>'
+                    + '<line x1="35" y1="42" x2="' + arms.lx + '" y2="' + arms.ly + '" class="sketch-line" stroke-width="2.5"/>'
                     + '</svg>';
             }
 
@@ -3465,18 +3526,18 @@
                 const overlay = invasionOverlay;
                 const w = window.innerWidth;
                 const h = window.innerHeight;
-                const size = 25 + Math.random() * 30; // 25-55px breit
+                const size = 25 + Math.random() * 30;
                 const fig = document.createElement('div');
                 fig.className = 'invasion-figure';
                 fig.innerHTML = createInvasionSvg(size);
 
-                // Zufällige Position auf dem Bildschirm
+                // Zufällige Position
                 const x = Math.random() * (w - size);
                 const y = Math.random() * (h - size * 95/70);
                 fig.style.left = x + 'px';
                 fig.style.top = y + 'px';
 
-                // Zufällige Richtung, aus der es reinläuft
+                // Zufällige Richtung zum Reinlaufen
                 const directions = [
                     'translate(' + (w - x + 50) + 'px, 0)',
                     'translate(-' + (x + 50) + 'px, 0)',
@@ -3484,16 +3545,26 @@
                     'translate(0, -' + (y + 50) + 'px)'
                 ];
                 const dir = directions[Math.floor(Math.random() * directions.length)];
-                const delay = Math.random() * 0.5;
+                const entryDelay = Math.random() * 0.4;
                 fig.style.setProperty('--inv-from', dir);
-                fig.style.setProperty('--inv-delay', delay + 's');
-                fig.style.animation = 'invasionWalkIn 0.8s ease-out forwards';
-                fig.style.animationDelay = delay + 's';
+                fig.style.animation = 'invasionWalkIn ' + (0.6 + Math.random() * 0.5) + 's ease-out forwards';
+                fig.style.animationDelay = entryDelay + 's';
 
                 // Zufällig spiegeln
+                const svgEl = fig.querySelector('svg');
                 if (Math.random() > 0.5) {
-                    fig.querySelector('svg').style.transform = 'scaleX(-1)';
+                    svgEl.style.transform = 'scaleX(-1)';
                 }
+
+                // Eigenleben: individuelle Idle-Animation nach dem Einlaufen
+                const chosenAnim = idleAnims[Math.floor(Math.random() * idleAnims.length)];
+                const animDur = (1.2 + Math.random() * 2.0).toFixed(1);
+                const animDelay = (Math.random() * 2.0).toFixed(1);
+                setTimeout(() => {
+                    if (!invasionActive) return;
+                    svgEl.style.animation = chosenAnim + ' ' + animDur + 's ease-in-out ' + animDelay + 's infinite';
+                    svgEl.style.transformOrigin = 'center bottom';
+                }, (entryDelay + 0.8) * 1000);
 
                 overlay.appendChild(fig);
 
@@ -3510,16 +3581,19 @@
 
                 let count = 0;
                 const maxFigures = Math.floor((window.innerWidth * window.innerHeight) / 3000);
-                // Erst schnell, dann immer schneller
-                let spawnSpeed = 300;
+                let spawnSpeed = 250;
 
                 function spawnWave() {
                     if (!invasionActive) return;
-                    spawnInvasionFigure();
-                    count++;
+                    // Spawn 1-3 auf einmal für natürlicheres Gefühl
+                    const batch = Math.min(1 + Math.floor(Math.random() * 3), maxFigures - count);
+                    for (let i = 0; i < batch; i++) {
+                        spawnInvasionFigure();
+                        count++;
+                    }
                     if (count < maxFigures) {
-                        spawnSpeed = Math.max(40, spawnSpeed * 0.95);
-                        invasionInterval = setTimeout(spawnWave, spawnSpeed);
+                        spawnSpeed = Math.max(30, spawnSpeed * 0.93);
+                        invasionInterval = setTimeout(spawnWave, spawnSpeed + Math.random() * 100);
                     }
                 }
                 spawnWave();
