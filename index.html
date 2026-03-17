@@ -1061,7 +1061,6 @@
         .invasion-figure {
             position: absolute;
             opacity: 0;
-            transition: opacity 0.3s;
         }
         .invasion-figure.visible {
             opacity: 1;
@@ -1070,6 +1069,11 @@
             0% { transform: var(--inv-from); opacity: 0; }
             20% { opacity: 1; }
             100% { transform: translate(0,0); opacity: 1; }
+        }
+        @keyframes invasionRunOut {
+            0% { transform: translate(0,0); opacity: 1; }
+            80% { opacity: 0.8; }
+            100% { transform: var(--inv-exit); opacity: 0; }
         }
         @keyframes invIdle1 {
             0%, 100% { transform: rotate(0deg) translateY(0); }
@@ -3602,18 +3606,55 @@
             function stopInvasion() {
                 invasionActive = false;
                 clearTimeout(invasionInterval);
-                // Alle Figuren rausfaden
-                const figs = invasionOverlay.querySelectorAll('.invasion-figure');
+
+                const figs = Array.from(invasionOverlay.querySelectorAll('.invasion-figure'));
+                if (figs.length === 0) {
+                    invasionOverlay.style.display = 'none';
+                    invasionOverlay.innerHTML = '';
+                    return;
+                }
+
+                // Figuren in zufälliger Reihenfolge mischen für natürlicheres Weglaufen
+                for (let i = figs.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    const tmp = figs[i]; figs[i] = figs[j]; figs[j] = tmp;
+                }
+
+                const totalDuration = Math.min(figs.length * 12, 800);
+                const stagger = totalDuration / figs.length;
+
                 figs.forEach((f, i) => {
                     setTimeout(() => {
-                        f.style.transition = 'opacity 0.4s';
-                        f.style.opacity = '0';
-                    }, i * 15);
+                        // Zufällige Fluchtrichtung zum nächsten Rand
+                        const rect = f.getBoundingClientRect();
+                        const cx = rect.left + rect.width / 2;
+                        const cy = rect.top + rect.height / 2;
+                        const w = window.innerWidth;
+                        const h = window.innerHeight;
+
+                        // Zum nächsten oder zufälligen Rand fliehen
+                        const exits = [
+                            'translate(' + (w - cx + 80) + 'px, ' + ((Math.random() - 0.5) * 60) + 'px)',
+                            'translate(-' + (cx + 80) + 'px, ' + ((Math.random() - 0.5) * 60) + 'px)',
+                            'translate(' + ((Math.random() - 0.5) * 60) + 'px, ' + (h - cy + 80) + 'px)',
+                            'translate(' + ((Math.random() - 0.5) * 60) + 'px, -' + (cy + 80) + 'px)'
+                        ];
+                        const exit = exits[Math.floor(Math.random() * exits.length)];
+                        f.style.setProperty('--inv-exit', exit);
+
+                        // Alle laufenden Animationen stoppen und Raus-Animation starten
+                        const svgEl = f.querySelector('svg');
+                        if (svgEl) svgEl.style.animation = 'none';
+                        const dur = (0.4 + Math.random() * 0.3).toFixed(2);
+                        f.style.animation = 'invasionRunOut ' + dur + 's ease-in forwards';
+                    }, i * stagger);
                 });
+
+                // Aufräumen nachdem alle weg sind
                 setTimeout(() => {
                     invasionOverlay.style.display = 'none';
                     invasionOverlay.innerHTML = '';
-                }, figs.length * 15 + 500);
+                }, totalDuration + 800);
             }
 
             function pickPosition() {
