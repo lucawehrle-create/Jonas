@@ -3208,15 +3208,17 @@
             const idleBubbleRect = document.getElementById('idleBubbleRect');
             const idleMouth = document.getElementById('idleMouth');
             const idleFriends = document.getElementById('idleFriends');
-            const idleSvg = document.getElementById('idleSvg');
             let idleTimer;
+            let escalateTimer;
             let tapInterval;
             let shakeInterval;
             let mouseX = -1, mouseY = -1;
             let hasMoved = false;
-            let ignoreCount = 0;
+            let currentStage = 0;
+            let isVisible = false;
             const isMobile = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
-            const idleDelay = isMobile ? 45000 : 20000;
+            const idleDelay = isMobile ? 30000 : 12000;
+            const escalateDelay = 6000; // 6s zwischen Eskalationen
 
             const stages = [
                 { text: 'Noch da?', fontSize: 9, bubbleWidth: 50, shake: false, friends: false, mouth: 'M17,14 Q20,16 23,14' },
@@ -3225,27 +3227,72 @@
                 { text: 'Er hat Verstärkung!', fontSize: 7, bubbleWidth: 74, shake: true, friends: true, mouth: 'M17,14 Q20,17 23,14' }
             ];
 
-            function resetIdle() {
-                clearTimeout(idleTimer);
-                clearInterval(tapInterval);
-                clearInterval(shakeInterval);
-                figure.classList.remove('show');
-                figure.style.transform = '';
-                idleFriends.style.display = 'none';
-                idleTimer = setTimeout(showIdleFigure, idleDelay);
-            }
+            function applyStage(stageIdx) {
+                const stage = stages[Math.min(stageIdx, stages.length - 1)];
 
-            function showIdleFigure() {
-                const stage = stages[Math.min(ignoreCount, stages.length - 1)];
-                ignoreCount++;
-
-                // Sprechblase anpassen
                 idleText.textContent = stage.text;
                 idleText.setAttribute('font-size', stage.fontSize);
                 idleBubbleRect.setAttribute('width', stage.bubbleWidth);
                 idleBubbleRect.setAttribute('x', -stage.bubbleWidth / 2);
                 idleBubbleRect.setAttribute('transform', 'translate(20, -5)');
                 idleMouth.setAttribute('d', stage.mouth);
+
+                // Freunde
+                idleFriends.style.display = stage.friends ? 'flex' : 'none';
+
+                // Arm-Animation neu starten (schneller bei höheren Stufen)
+                clearInterval(tapInterval);
+                let tapFrame = 0;
+                const tapSpeed = Math.max(40, 100 - stageIdx * 20);
+                tapInterval = setInterval(() => {
+                    tapFrame++;
+                    const tipX = 35 + Math.sin(tapFrame * 2) * 5;
+                    const tipY = 18 + Math.abs(Math.sin(tapFrame * 2)) * -5;
+                    arm.setAttribute('x2', tipX);
+                    arm.setAttribute('y2', tipY);
+                }, tapSpeed);
+
+                // Schütteln
+                clearInterval(shakeInterval);
+                if (stage.shake) {
+                    let shakeFrame = 0;
+                    const shakeIntensity = 2 + stageIdx * 1.5;
+                    shakeInterval = setInterval(() => {
+                        shakeFrame++;
+                        const offset = Math.sin(shakeFrame * 4) * shakeIntensity;
+                        figure.style.transform = 'translateX(' + offset + 'px)';
+                    }, 50);
+                } else {
+                    figure.style.transform = '';
+                }
+            }
+
+            function hideAndReset() {
+                clearTimeout(idleTimer);
+                clearTimeout(escalateTimer);
+                clearInterval(tapInterval);
+                clearInterval(shakeInterval);
+                figure.classList.remove('show');
+                figure.style.transform = '';
+                idleFriends.style.display = 'none';
+                isVisible = false;
+                currentStage = 0;
+                idleTimer = setTimeout(showIdleFigure, idleDelay);
+            }
+
+            function escalate() {
+                if (currentStage < stages.length - 1) {
+                    currentStage++;
+                    applyStage(currentStage);
+                    // Weiter eskalieren falls noch nicht max
+                    if (currentStage < stages.length - 1) {
+                        escalateTimer = setTimeout(escalate, escalateDelay);
+                    }
+                }
+            }
+
+            function showIdleFigure() {
+                currentStage = 0;
 
                 // Position
                 if (hasMoved && !isMobile) {
@@ -3258,58 +3305,39 @@
                     figure.style.top = 'auto';
                 }
 
-                // Freunde?
-                if (stage.friends) {
-                    idleFriends.style.display = 'flex';
-                }
-
+                applyStage(0);
                 figure.classList.add('show');
+                isVisible = true;
 
-                // Wink-Animation (schneller bei höheren Stufen)
-                let tapFrame = 0;
-                const tapSpeed = Math.max(40, 100 - ignoreCount * 15);
-                tapInterval = setInterval(() => {
-                    tapFrame++;
-                    const tipX = 35 + Math.sin(tapFrame * 2) * 5;
-                    const tipY = 18 + Math.abs(Math.sin(tapFrame * 2)) * -5;
-                    arm.setAttribute('x2', tipX);
-                    arm.setAttribute('y2', tipY);
-                }, tapSpeed);
+                // Automatisch eskalieren wenn ignoriert
+                escalateTimer = setTimeout(escalate, escalateDelay);
+            }
 
-                // Schütteln bei Eskalation
-                if (stage.shake) {
-                    let shakeFrame = 0;
-                    shakeInterval = setInterval(() => {
-                        shakeFrame++;
-                        const offset = Math.sin(shakeFrame * 4) * 3;
-                        figure.style.transform = 'translateX(' + offset + 'px)';
-                    }, 50);
+            function onUserActivity(e) {
+                if (e && e.type === 'mousemove') {
+                    // Nur bei deutlicher Bewegung reagieren
+                    const dx = Math.abs(e.clientX - mouseX);
+                    const dy = Math.abs(e.clientY - mouseY);
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    hasMoved = true;
+                    if (dx < 5 && dy < 5) return; // Micro-Bewegung ignorieren
+                    figure.style.right = '';
+                    figure.style.bottom = '';
+                }
+                if (isVisible) {
+                    hideAndReset();
+                } else {
+                    clearTimeout(idleTimer);
+                    idleTimer = setTimeout(showIdleFigure, idleDelay);
                 }
             }
 
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                hasMoved = true;
-                figure.style.right = '';
-                figure.style.bottom = '';
-                if (figure.classList.contains('show')) ignoreCount = Math.max(0, ignoreCount - 1);
-                resetIdle();
-            });
-
-            document.addEventListener('keydown', () => {
-                if (figure.classList.contains('show')) ignoreCount = Math.max(0, ignoreCount - 1);
-                resetIdle();
-            });
-            document.addEventListener('click', () => {
-                if (figure.classList.contains('show')) ignoreCount = Math.max(0, ignoreCount - 1);
-                resetIdle();
-            });
-            document.addEventListener('touchstart', () => {
-                if (figure.classList.contains('show')) ignoreCount = Math.max(0, ignoreCount - 1);
-                resetIdle();
-            }, { passive: true });
-            document.addEventListener('scroll', resetIdle, { passive: true });
+            document.addEventListener('mousemove', onUserActivity);
+            document.addEventListener('keydown', onUserActivity);
+            document.addEventListener('click', onUserActivity);
+            document.addEventListener('touchstart', onUserActivity, { passive: true });
+            document.addEventListener('scroll', onUserActivity, { passive: true });
 
             // Starten
             idleTimer = setTimeout(showIdleFigure, idleDelay);
