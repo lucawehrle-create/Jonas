@@ -3897,32 +3897,47 @@
                     const tmp = figs[i]; figs[i] = figs[j]; figs[j] = tmp;
                 }
 
-                const totalDuration = Math.min(figs.length * 12, 800);
-                const stagger = totalDuration / figs.length;
+                // Panik-Welle: Figuren sortiert nach Distanz zum Mauszeiger
+                // Die nächsten fliehen zuerst!
+                const mx = mouseX >= 0 ? mouseX : window.innerWidth / 2;
+                const my = mouseY >= 0 ? mouseY : window.innerHeight / 2;
+
+                figs.forEach(f => {
+                    const rect = f.getBoundingClientRect();
+                    f._cx = rect.left + rect.width / 2;
+                    f._cy = rect.top + rect.height / 2;
+                    f._dist = Math.sqrt((f._cx - mx) ** 2 + (f._cy - my) ** 2);
+                });
+                figs.sort((a, b) => a._dist - b._dist);
+
+                // Stagger: 30-50ms pro Figur, mindestens 1.5s Gesamtdauer
+                const stagger = 35 + Math.random() * 15;
+                const totalDuration = figs.length * stagger;
 
                 figs.forEach((f, i) => {
                     setTimeout(() => {
-                        // Zufällige Fluchtrichtung zum nächsten Rand
-                        const rect = f.getBoundingClientRect();
-                        const cx = rect.left + rect.width / 2;
-                        const cy = rect.top + rect.height / 2;
+                        const cx = f._cx;
+                        const cy = f._cy;
                         const w = window.innerWidth;
                         const h = window.innerHeight;
 
-                        // Zum nächsten oder zufälligen Rand fliehen
-                        const exits = [
-                            'translate(' + (w - cx + 80) + 'px, ' + ((Math.random() - 0.5) * 60) + 'px)',
-                            'translate(-' + (cx + 80) + 'px, ' + ((Math.random() - 0.5) * 60) + 'px)',
-                            'translate(' + ((Math.random() - 0.5) * 60) + 'px, ' + (h - cy + 80) + 'px)',
-                            'translate(' + ((Math.random() - 0.5) * 60) + 'px, -' + (cy + 80) + 'px)'
-                        ];
-                        const exit = exits[Math.floor(Math.random() * exits.length)];
+                        // Vom Mauszeiger weg fliehen (nicht zufällig!)
+                        const dx = cx - mx;
+                        const dy = cy - my;
+                        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                        const fleeX = (dx / dist) * (w + 100) + (Math.random() - 0.5) * 80;
+                        const fleeY = (dy / dist) * (h + 100) + (Math.random() - 0.5) * 80;
+                        const exit = 'translate(' + fleeX.toFixed(0) + 'px, ' + fleeY.toFixed(0) + 'px)';
                         f.style.setProperty('--inv-exit', exit);
+
+                        // Sprechblasen entfernen
+                        const bubble = f.querySelector('.inv-bubble');
+                        if (bubble) bubble.remove();
 
                         // Alle laufenden Animationen stoppen und Raus-Animation starten
                         const svgEl = f.querySelector('svg');
                         if (svgEl) svgEl.style.animation = 'none';
-                        const dur = (0.4 + Math.random() * 0.3).toFixed(2);
+                        const dur = (0.3 + Math.random() * 0.3).toFixed(2);
                         f.style.animation = 'invasionRunOut ' + dur + 's ease-in forwards';
                     }, i * stagger);
                 });
