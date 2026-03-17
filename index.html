@@ -1057,6 +1057,27 @@
         .idle-friends.active .friend-1 { animation: friendTap 1s ease-in-out infinite; transform-origin: bottom center; }
         .idle-friends.active .friend-2 { animation: friendPoint 1.5s ease-in-out infinite 0.3s; transform-origin: bottom center; }
 
+        /* Invasion – Bildschirm voller Männchen */
+        .invasion-figure {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .invasion-figure.visible {
+            opacity: 1;
+        }
+        @keyframes invasionWalkIn {
+            0% { transform: var(--inv-from); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translate(0,0); opacity: 1; }
+        }
+        @keyframes invasionWave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(8deg); }
+            75% { transform: rotate(-8deg); }
+        }
+        .invasion-figure svg { animation: invasionWave 1.5s ease-in-out infinite; animation-delay: var(--inv-delay, 0s); }
+
         /* ============================================
            BESUCHERZAEHLER
            ============================================ */
@@ -2740,6 +2761,9 @@
         </div>
     </div>
 
+    <!-- Invasion Overlay (Bildschirm voller Männchen) -->
+    <div id="invasionOverlay" style="display:none; position:fixed; inset:0; z-index:9998; pointer-events:none; overflow:hidden;"></div>
+
     <!-- Jonas Mode Toggle -->
     <button class="jonas-mode-btn" id="jonasModeBtn" title="Jonas Mode">&#9787;</button>
 
@@ -3409,11 +3433,113 @@
             ];
 
             const stages = [
-                { text: 'Noch da?', shake: false, friends: false, mouth: 'M29,24 Q35,27 41,24' },
-                { text: 'HALLO?!', shake: true, friends: false, mouth: 'M28,24 Q35,20 42,24' },
-                { text: "Ich sag's Jonas...", shake: true, friends: false, mouth: 'M29,22 Q35,19 41,22' },
-                { text: 'Er hat Verstärkung!', shake: true, friends: true, mouth: 'M29,24 Q35,28 41,24' }
+                { text: 'Noch da?', shake: false, friends: false, invasion: false, mouth: 'M29,24 Q35,27 41,24' },
+                { text: 'HALLO?!', shake: true, friends: false, invasion: false, mouth: 'M28,24 Q35,20 42,24' },
+                { text: "Ich sag's Jonas...", shake: true, friends: false, invasion: false, mouth: 'M29,22 Q35,19 41,22' },
+                { text: 'Er hat Verstärkung!', shake: true, friends: true, invasion: false, mouth: 'M29,24 Q35,28 41,24' },
+                { text: 'INVASION!!!', shake: true, friends: true, invasion: true, mouth: 'M28,22 Q35,16 42,22' }
             ];
+
+            // Invasion
+            const invasionOverlay = document.getElementById('invasionOverlay');
+            let invasionInterval = null;
+            let invasionActive = false;
+
+            function createInvasionSvg(size) {
+                const s = size;
+                const vb = '0 0 70 95';
+                return '<svg width="' + s + '" height="' + Math.round(s * 95/70) + '" viewBox="' + vb + '" xmlns="http://www.w3.org/2000/svg">'
+                    + '<circle cx="35" cy="18" r="13" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>'
+                    + '<circle cx="30" cy="16" r="2.2" fill="#1a1a1a"/><circle cx="40" cy="16" r="2.2" fill="#1a1a1a"/>'
+                    + '<path d="M29,24 Q35,27 41,24" fill="none" stroke="#1a1a1a" stroke-width="2"/>'
+                    + '<line x1="35" y1="31" x2="35" y2="58" stroke="#1a1a1a" stroke-width="2.5"/>'
+                    + '<line x1="35" y1="58" x2="23" y2="85" stroke="#1a1a1a" stroke-width="2.5"/>'
+                    + '<line x1="35" y1="58" x2="47" y2="85" stroke="#1a1a1a" stroke-width="2.5"/>'
+                    + '<line x1="35" y1="42" x2="55" y2="32" stroke="#1a1a1a" stroke-width="2.5"/>'
+                    + '<line x1="35" y1="42" x2="15" y2="50" stroke="#1a1a1a" stroke-width="2.5"/>'
+                    + '</svg>';
+            }
+
+            function spawnInvasionFigure() {
+                const overlay = invasionOverlay;
+                const w = window.innerWidth;
+                const h = window.innerHeight;
+                const size = 25 + Math.random() * 30; // 25-55px breit
+                const fig = document.createElement('div');
+                fig.className = 'invasion-figure';
+                fig.innerHTML = createInvasionSvg(size);
+
+                // Zufällige Position auf dem Bildschirm
+                const x = Math.random() * (w - size);
+                const y = Math.random() * (h - size * 95/70);
+                fig.style.left = x + 'px';
+                fig.style.top = y + 'px';
+
+                // Zufällige Richtung, aus der es reinläuft
+                const directions = [
+                    'translate(' + (w - x + 50) + 'px, 0)',
+                    'translate(-' + (x + 50) + 'px, 0)',
+                    'translate(0, ' + (h - y + 50) + 'px)',
+                    'translate(0, -' + (y + 50) + 'px)'
+                ];
+                const dir = directions[Math.floor(Math.random() * directions.length)];
+                const delay = Math.random() * 0.5;
+                fig.style.setProperty('--inv-from', dir);
+                fig.style.setProperty('--inv-delay', delay + 's');
+                fig.style.animation = 'invasionWalkIn 0.8s ease-out forwards';
+                fig.style.animationDelay = delay + 's';
+
+                // Zufällig spiegeln
+                if (Math.random() > 0.5) {
+                    fig.querySelector('svg').style.transform = 'scaleX(-1)';
+                }
+
+                overlay.appendChild(fig);
+
+                setTimeout(() => {
+                    fig.classList.add('visible');
+                }, 50);
+            }
+
+            function startInvasion() {
+                if (invasionActive) return;
+                invasionActive = true;
+                invasionOverlay.style.display = 'block';
+                invasionOverlay.innerHTML = '';
+
+                let count = 0;
+                const maxFigures = Math.floor((window.innerWidth * window.innerHeight) / 3000);
+                // Erst schnell, dann immer schneller
+                let spawnSpeed = 300;
+
+                function spawnWave() {
+                    if (!invasionActive) return;
+                    spawnInvasionFigure();
+                    count++;
+                    if (count < maxFigures) {
+                        spawnSpeed = Math.max(40, spawnSpeed * 0.95);
+                        invasionInterval = setTimeout(spawnWave, spawnSpeed);
+                    }
+                }
+                spawnWave();
+            }
+
+            function stopInvasion() {
+                invasionActive = false;
+                clearTimeout(invasionInterval);
+                // Alle Figuren rausfaden
+                const figs = invasionOverlay.querySelectorAll('.invasion-figure');
+                figs.forEach((f, i) => {
+                    setTimeout(() => {
+                        f.style.transition = 'opacity 0.4s';
+                        f.style.opacity = '0';
+                    }, i * 15);
+                });
+                setTimeout(() => {
+                    invasionOverlay.style.display = 'none';
+                    invasionOverlay.innerHTML = '';
+                }, figs.length * 15 + 500);
+            }
 
             function pickPosition() {
                 let idx;
@@ -3494,6 +3620,11 @@
                     idleFriends.classList.remove('active');
                 }
 
+                // Invasion
+                if (stage.invasion) {
+                    startInvasion();
+                }
+
                 // Arm-Animation (schneller bei höheren Stufen)
                 clearInterval(tapInterval);
                 let tapFrame = 0;
@@ -3526,6 +3657,7 @@
                 clearInterval(tapInterval);
                 clearInterval(shakeInterval);
                 resetEyes();
+                if (invasionActive) stopInvasion();
 
                 // Rauslauf-Animation mit wackelnden Beinen
                 const walkOutAnim = currentPos ? currentPos.walkOut : 'idleWalkOut-right';
