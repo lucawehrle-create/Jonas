@@ -5270,8 +5270,8 @@
                 });
                 figs.sort((a, b) => a._dist - b._dist);
 
-                // Stagger: 30-50ms pro Figur, mindestens 1.5s Gesamtdauer
-                const stagger = 35 + Math.random() * 15;
+                // Stagger: 12-20ms pro Figur für schnelleres Abräumen
+                const stagger = 12 + Math.random() * 8;
                 const totalDuration = figs.length * stagger;
 
                 figs.forEach((f, i) => {
@@ -5297,7 +5297,7 @@
                         // Alle laufenden Animationen stoppen und Raus-Animation starten
                         const svgEl = f.querySelector('svg');
                         if (svgEl) svgEl.style.animation = 'none';
-                        const dur = (0.3 + Math.random() * 0.3).toFixed(2);
+                        const dur = (0.18 + Math.random() * 0.15).toFixed(2);
                         f.style.animation = 'invasionRunOut ' + dur + 's ease-in forwards';
                     }, i * stagger);
                 });
@@ -5306,7 +5306,7 @@
                 setTimeout(() => {
                     invasionOverlay.style.display = 'none';
                     invasionOverlay.innerHTML = '';
-                }, totalDuration + 800);
+                }, totalDuration + 400);
             }
 
             function pickPosition() {
