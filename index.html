@@ -3087,46 +3087,90 @@
     <div class="diagram-section reveal" style="padding: 20px 20px 10px;">
         <svg viewBox="0 0 520 380" xmlns="http://www.w3.org/2000/svg">
 
-            <!-- ===== BODEN (leichte Schattierung) ===== -->
-            <path d="M30,310 Q260,315 490,310" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/>
+            <!-- ===== BODEN (leichte Linie + Schatten) ===== -->
+            <path d="M20,312 Q260,318 500,312" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.2"/>
+            <!-- Tisch-Schatten am Boden -->
+            <ellipse cx="257" cy="312" rx="180" ry="6" fill="#1a1a1a" opacity="0.04"/>
 
-            <!-- ===== TISCHTENNISPLATTE (perspektivisch, detaillierter) ===== -->
-            <!-- Tischplatte mit Rand -->
-            <rect x="55" y="195" width="410" height="14" rx="2" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
-            <!-- Tischoberfläche (dünn, Textur) -->
-            <line x1="70" y1="198" x2="450" y2="198" stroke="#1a1a1a" stroke-width="0.5" opacity="0.1"/>
-            <!-- Netz (detailliert mit Pfosten und Netzlinien) -->
-            <rect x="255" y="155" width="4" height="42" rx="1" fill="#1a1a1a"/>
-            <!-- Netz-Querstrebe oben -->
-            <line x1="238" y1="157" x2="276" y2="157" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <!-- Netz-Linien (Gitter-Effekt) -->
-            <line x1="240" y1="162" x2="274" y2="162" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3"/>
-            <line x1="241" y1="168" x2="273" y2="168" stroke="#1a1a1a" stroke-width="0.8" opacity="0.25"/>
-            <line x1="242" y1="174" x2="272" y2="174" stroke="#1a1a1a" stroke-width="0.8" opacity="0.2"/>
-            <line x1="243" y1="180" x2="271" y2="180" stroke="#1a1a1a" stroke-width="0.8" opacity="0.15"/>
-            <line x1="244" y1="186" x2="270" y2="186" stroke="#1a1a1a" stroke-width="0.8" opacity="0.1"/>
-            <!-- Vertikale Netzfäden -->
-            <line x1="250" y1="157" x2="250" y2="194" stroke="#1a1a1a" stroke-width="0.6" opacity="0.15"/>
-            <line x1="264" y1="157" x2="264" y2="194" stroke="#1a1a1a" stroke-width="0.6" opacity="0.15"/>
-            <!-- Tischbeine (mit leichter Perspektive) -->
-            <line x1="85" y1="209" x2="85" y2="295" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="430" y1="209" x2="430" y2="295" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Verstrebung zwischen Beinen -->
-            <path d="M85,275 Q257,265 430,275" fill="none" stroke="#1a1a1a" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>
-            <!-- Mittellinie auf Tisch -->
-            <line x1="257" y1="196" x2="257" y2="208" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+            <!-- ===== TISCHTENNISPLATTE (3D-Ansicht, leichte Schrägperspektive) ===== -->
+
+            <!-- Tischplatte OBERSEITE (leichte 3D-Perspektive als Parallelogramm) -->
+            <path d="M58,192 L68,186 L452,186 L462,192 L462,196 L452,202 L68,202 L58,196 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+            <!-- Tischkante vorne (Dicke sichtbar) -->
+            <path d="M58,196 L58,200 Q58,203 62,204 L458,204 Q462,203 462,200 L462,196" fill="white" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round"/>
+            <!-- Oberflächen-Textur (dezente horizontale Linien) -->
+            <line x1="75" y1="191" x2="445" y2="191" stroke="#1a1a1a" stroke-width="0.4" opacity="0.08"/>
+            <line x1="72" y1="194" x2="448" y2="194" stroke="#1a1a1a" stroke-width="0.4" opacity="0.06"/>
+            <line x1="70" y1="197" x2="450" y2="197" stroke="#1a1a1a" stroke-width="0.4" opacity="0.08"/>
+            <!-- Weiße Randlinien auf der Tischoberfläche (wie bei echten TT-Platten) -->
+            <path d="M72,189 L72,199" stroke="#1a1a1a" stroke-width="1.2" opacity="0.15" stroke-linecap="round"/>
+            <path d="M448,189 L448,199" stroke="#1a1a1a" stroke-width="1.2" opacity="0.15" stroke-linecap="round"/>
+            <path d="M74,188 L446,188" stroke="#1a1a1a" stroke-width="1" opacity="0.12" stroke-linecap="round"/>
+            <path d="M72,200 L448,200" stroke="#1a1a1a" stroke-width="1" opacity="0.12" stroke-linecap="round"/>
+            <!-- Mittellinie (längs, wie bei echten TT-Platten) -->
+            <line x1="72" y1="194" x2="448" y2="194" stroke="#1a1a1a" stroke-width="0.8" opacity="0.12" stroke-dasharray="6,4"/>
+
+            <!-- ===== TISCHBEINE (Paare mit Querstreben, wie echte TT-Tische) ===== -->
+            <!-- Linkes Beinpaar -->
+            <line x1="82" y1="204" x2="78" y2="295" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <line x1="98" y1="204" x2="94" y2="295" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <!-- Querstrebe links -->
+            <line x1="80" y1="240" x2="96" y2="240" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="79" y1="272" x2="95" y2="272" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            <!-- Fußleiste links -->
+            <path d="M74,295 L98,295" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+
+            <!-- Rechtes Beinpaar -->
+            <line x1="422" y1="204" x2="418" y2="295" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <line x1="438" y1="204" x2="434" y2="295" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            <!-- Querstrebe rechts -->
+            <line x1="420" y1="240" x2="436" y2="240" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            <line x1="419" y1="272" x2="435" y2="272" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            <!-- Fußleiste rechts -->
+            <path d="M414,295 L438,295" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+
+            <!-- Längs-Verstrebung zwischen Beinpaaren -->
+            <path d="M88,256 Q260,248 428,256" fill="none" stroke="#1a1a1a" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>
+
+            <!-- ===== NETZ (detailliert, dreidimensional) ===== -->
+            <!-- Netzpfosten links -->
+            <rect x="234" y="162" width="3.5" height="42" rx="1" fill="#1a1a1a"/>
+            <!-- Netzpfosten rechts -->
+            <rect x="278" y="162" width="3.5" height="42" rx="1" fill="#1a1a1a"/>
+            <!-- Pfosten-Klemmen (halten den Pfosten am Tisch) -->
+            <rect x="231" y="196" width="10" height="6" rx="1.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+            <rect x="275" y="196" width="10" height="6" rx="1.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+            <!-- Netz-Oberkante (Querstrebe / Seil) -->
+            <line x1="236" y1="164" x2="280" y2="164" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Netz-Fläche (horizontale Fäden) -->
+            <line x1="236" y1="170" x2="280" y2="170" stroke="#1a1a1a" stroke-width="0.8" opacity="0.35"/>
+            <line x1="236" y1="176" x2="280" y2="176" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3"/>
+            <line x1="236" y1="182" x2="280" y2="182" stroke="#1a1a1a" stroke-width="0.7" opacity="0.25"/>
+            <line x1="236" y1="188" x2="280" y2="188" stroke="#1a1a1a" stroke-width="0.6" opacity="0.2"/>
+            <line x1="237" y1="194" x2="279" y2="194" stroke="#1a1a1a" stroke-width="0.5" opacity="0.15"/>
+            <!-- Netz-Fläche (vertikale Fäden) -->
+            <line x1="244" y1="164" x2="244" y2="200" stroke="#1a1a1a" stroke-width="0.5" opacity="0.15"/>
+            <line x1="252" y1="164" x2="252" y2="200" stroke="#1a1a1a" stroke-width="0.5" opacity="0.15"/>
+            <line x1="258" y1="164" x2="258" y2="200" stroke="#1a1a1a" stroke-width="0.5" opacity="0.15"/>
+            <line x1="264" y1="164" x2="264" y2="200" stroke="#1a1a1a" stroke-width="0.5" opacity="0.15"/>
+            <line x1="272" y1="164" x2="272" y2="200" stroke="#1a1a1a" stroke-width="0.5" opacity="0.15"/>
 
             <!-- ===== JONAS (rechts, auf dem Tisch stehend, mit erkennbaren Merkmalen) ===== -->
 
             <!-- Beine (stehen auf Tisch, leicht gespreizt, stabil) -->
-            <path d="M355,195 Q348,175 340,160" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-            <path d="M375,195 Q382,175 388,160" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-            <!-- Schuhe / rosa Fussnägel-Sandalen ;) -->
-            <path d="M350,196 L360,196" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M370,196 L380,196" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M355,190 Q348,172 340,158" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+            <path d="M375,190 Q382,172 388,158" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+            <!-- Sandalen (rosa Fussnägel angedeutet) -->
+            <path d="M349,190 L361,190" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M369,190 L381,190" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Rosa Zehen! -->
+            <circle cx="350" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
+            <circle cx="354" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
+            <circle cx="370" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
+            <circle cx="374" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
 
             <!-- Körper (leicht nach hinten gelehnt, Siegerpose) -->
-            <path d="M364,160 Q366,140 364,115" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+            <path d="M364,158 Q366,138 364,115" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
 
             <!-- Kopf (größer, detaillierter – erkennbar als Jonas) -->
             <circle cx="364" cy="88" r="22" fill="white" stroke="#1a1a1a" stroke-width="2.8"/>
@@ -3259,7 +3303,7 @@
             <!-- Ball-Naht -->
             <path d="M205,271 Q210,275 205,279" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.5"/>
             <!-- Flugbahn-Linie (woher der Ball kam – von Jonas' Seite) -->
-            <path d="M210,275 Q240,250 280,230 Q320,210 360,200" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="5,5" opacity="0.2"/>
+            <path d="M210,275 Q240,255 280,235 Q320,215 365,195" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="5,5" opacity="0.2"/>
             <!-- Kleine Aufprall-Sternchen -->
             <line x1="204" y1="268" x2="200" y2="262" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
             <line x1="216" y1="268" x2="220" y2="262" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
@@ -3284,8 +3328,8 @@
             <text x="130" y="340" font-family="'Caveat', cursive" font-size="13" fill="#888" text-anchor="middle">luca (versteht die Welt nicht mehr)</text>
 
             <!-- Scoreboard am Netzpfosten -->
-            <rect x="232" y="128" width="50" height="22" rx="3" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-            <text x="257" y="143" font-family="'Permanent Marker', cursive" font-size="10" fill="#1a1a1a" text-anchor="middle">11 : 0</text>
+            <rect x="237" y="140" width="42" height="20" rx="3" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+            <text x="258" y="154" font-family="'Permanent Marker', cursive" font-size="10" fill="#1a1a1a" text-anchor="middle">11 : 0</text>
         </svg>
     </div>
 
