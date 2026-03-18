@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+                <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <style>
+                            @keyframes magicStarTwinkle1 { 0%,100% { opacity:0.3; transform:scale(0.6); } 50% { opacity:1; transform:scale(1.2); } }
+                            @keyframes magicStarTwinkle2 { 0%,100% { opacity:0.5; transform:scale(0.8); } 40% { opacity:1; transform:scale(1.3); } }
+                            @keyframes magicStarTwinkle3 { 0%,100% { opacity:0.2; transform:scale(0.5); } 60% { opacity:0.9; transform:scale(1.1); } }
+                            @keyframes magicWandWave { 0%,100% { transform:rotate(0deg); } 25% { transform:rotate(12deg); } 75% { transform:rotate(-8deg); } }
+                            @keyframes magicCardFallL { 0% { opacity:0; transform:translate(0,-20px) rotate(0deg); } 30% { opacity:1; } 100% { opacity:0.7; transform:translate(-18px,35px) rotate(-25deg); } }
+                            @keyframes magicCardFallR { 0% { opacity:0; transform:translate(0,-15px) rotate(0deg); } 35% { opacity:1; } 100% { opacity:0.7; transform:translate(15px,30px) rotate(20deg); } }
+                            @keyframes magicRabbitPeek { 0% { transform:translateY(8px); opacity:0; } 40% { transform:translateY(0); opacity:1; } 60% { transform:translateY(-2px); } 100% { transform:translateY(0); opacity:1; } }
+                            @keyframes magicSparkle { 0%,100% { opacity:0; transform:scale(0); } 50% { opacity:1; transform:scale(1); } }
+                            .magic-star1 { animation: magicStarTwinkle1 1.8s ease-in-out infinite; transform-origin: center; }
+                            .magic-star2 { animation: magicStarTwinkle2 2.2s ease-in-out infinite 0.3s; transform-origin: center; }
+                            .magic-star3 { animation: magicStarTwinkle3 1.5s ease-in-out infinite 0.6s; transform-origin: center; }
+                            .magic-star4 { animation: magicStarTwinkle1 2s ease-in-out infinite 1s; transform-origin: center; }
+                            .magic-star5 { animation: magicStarTwinkle2 1.6s ease-in-out infinite 0.5s; transform-origin: center; }
+                            .magic-wand { animation: magicWandWave 3s ease-in-out infinite; transform-origin: 110px 75px; }
+                            .magic-card-l { animation: magicCardFallL 2.5s ease-out infinite; }
+                            .magic-card-r { animation: magicCardFallR 2.8s ease-out infinite 0.4s; }
+                            .magic-rabbit { animation: magicRabbitPeek 1.5s ease-out forwards 0.3s; opacity: 0; }
+                            .magic-sparkle1 { animation: magicSparkle 1.2s ease-in-out infinite 0.2s; transform-origin: center; }
+                            .magic-sparkle2 { animation: magicSparkle 1.4s ease-in-out infinite 0.7s; transform-origin: center; }
+                            .magic-sparkle3 { animation: magicSparkle 1s ease-in-out infinite 1.1s; transform-origin: center; }
+                        </style>
+                    </defs>
+
+                    <!-- === JONAS als Zauberer (Strichmännchen-Stil) === -->
+                    <!-- Kopf -->
+                    <circle cx="65" cy="62" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+                    <!-- Lockige Haare -->
+                    <path d="M54,56 Q52,48 56,44 Q60,42 64,42" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M76,56 Q78,48 74,44 Q70,42 66,42" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                    <!-- Dutt -->
+                    <ellipse cx="65" cy="40" rx="7" ry="5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
+                    <path d="M60,38 Q65,35 70,38" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
+                    <!-- Zylinderhut (auf dem Dutt!) -->
+                    <rect x="50" y="20" width="30" height="18" rx="2" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+                    <ellipse cx="65" cy="38" rx="19" ry="4" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+                    <ellipse cx="65" cy="20" rx="15" ry="3" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <!-- Hutband -->
+                    <line x1="50" y1="32" x2="80" y2="32" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+                    <!-- Augen (verschmitzt zwinkend) -->
+                    <circle cx="60" cy="60" r="2" fill="#1a1a1a"/>
+                    <path d="M68,59 Q71,57 74,59" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Grinsen -->
+                    <path d="M58,68 Q65,73 72,68" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+
+                    <!-- Körper -->
+                    <path d="M65,76 Q65,95 64,112" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Linker Arm (hält Hut-Rand) -->
+                    <path d="M65,86 Q50,90 42,95" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                    <!-- Rechter Arm (schwingt Zauberstab) -->
+                    <g class="magic-wand">
+                        <path d="M65,86 Q82,80 95,72" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                        <!-- Zauberstab -->
+                        <line x1="95" y1="72" x2="120" y2="50" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+                        <!-- Stab-Spitze (weiss) -->
+                        <line x1="115" y1="55" x2="120" y2="50" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        <!-- Funken vom Stab -->
+                        <circle cx="124" cy="46" r="2" class="magic-sparkle1" fill="#f1c40f"/>
+                        <circle cx="128" cy="52" r="1.5" class="magic-sparkle2" fill="#f1c40f"/>
+                        <circle cx="120" cy="42" r="1.2" class="magic-sparkle3" fill="#f1c40f"/>
+                    </g>
+                    <!-- Beine -->
+                    <path d="M64,112 Q56,130 48,145" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                    <path d="M64,112 Q72,130 78,145" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                    <!-- Umhang/Cape (weht leicht) -->
+                    <path d="M55,78 Q45,95 40,115 Q48,112 55,108" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+                    <path d="M75,78 Q80,95 82,115 Q76,112 72,108" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+
+                    <!-- === HASE schaut aus Reservehut am Boden === -->
+                    <g class="magic-rabbit">
+                        <!-- Kleiner Hut am Boden -->
+                        <rect x="5" y="120" width="24" height="14" rx="2" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+                        <ellipse cx="17" cy="134" rx="16" ry="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+                        <ellipse cx="17" cy="120" rx="12" ry="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                        <!-- Hasenohren -->
+                        <ellipse cx="13" cy="112" rx="3" ry="8" fill="white" stroke="#1a1a1a" stroke-width="1.3" transform="rotate(-8, 13, 112)"/>
+                        <ellipse cx="21" cy="110" rx="3" ry="8" fill="white" stroke="#1a1a1a" stroke-width="1.3" transform="rotate(8, 21, 110)"/>
+                        <!-- Innenohr -->
+                        <ellipse cx="13" cy="112" rx="1.5" ry="5" fill="none" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3" transform="rotate(-8, 13, 112)"/>
+                        <ellipse cx="21" cy="110" rx="1.5" ry="5" fill="none" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3" transform="rotate(8, 21, 110)"/>
+                        <!-- Hasengesicht -->
+                        <circle cx="14" cy="122" r="1" fill="#1a1a1a"/>
+                        <circle cx="20" cy="122" r="1" fill="#1a1a1a"/>
+                        <path d="M15,125 Q17,127 19,125" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
+                        <!-- Schnurrhaare -->
+                        <path d="M11,124 L5,123" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
+                        <path d="M11,126 L5,127" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
+                        <path d="M23,124 L29,123" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
+                        <path d="M23,126 L29,127" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
+                    </g>
+
+                    <!-- === KARTEN (fallen runter) === -->
+                    <g class="magic-card-l">
+                        <rect x="30" y="100" width="14" height="20" rx="1.5" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
+                        <text x="34" y="114" font-size="11" fill="#c0392b">&#9829;</text>
+                    </g>
+                    <g class="magic-card-r">
+                        <rect x="118" y="95" width="14" height="20" rx="1.5" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
+                        <text x="122" y="109" font-size="11" fill="#1a1a1a">&#9824;</text>
+                    </g>
+
+                    <!-- === MAGISCHE STERNE (funkelnd) === -->
+                    <path d="M130,20 L132,14 L134,20 L140,20 L135,24 L137,30 L132,26 L127,30 L129,24 L124,20 Z" class="magic-star1" fill="#f1c40f"/>
+                    <path d="M10,50 L11,46 L12,50 L16,50 L13,52 L14,56 L11,53 L8,56 L9,52 L6,50 Z" class="magic-star2" fill="#f1c40f"/>
+                    <path d="M140,70 L141,67 L142,70 L145,70 L143,72 L143,75 L141,73 L139,75 L139,72 L137,70 Z" class="magic-star3" fill="#f1c40f"/>
+                    <path d="M38,30 L39,27 L40,30 L43,30 L41,32 L41,35 L39,33 L37,35 L37,32 L35,30 Z" class="magic-star4" fill="#f1c40f"/>
+                    <path d="M110,100 L111,97 L112,100 L115,100 L113,102 L113,105 L111,103 L109,105 L109,102 L107,100 Z" class="magic-star5" fill="#f1c40f"/>
+
+                    <!-- Label -->
+                    <text x="40" y="155" font-family="Permanent Marker, cursive" font-size="11" fill="#888">MR. MAGIC</text>
+                </svg>

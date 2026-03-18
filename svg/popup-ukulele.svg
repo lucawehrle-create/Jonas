@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+                <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <style>
+                            @keyframes ukuNoteFloat1 { 0% { opacity:0; transform:translate(0,10px); } 30% { opacity:0.8; } 100% { opacity:0; transform:translate(-12px,-30px); } }
+                            @keyframes ukuNoteFloat2 { 0% { opacity:0; transform:translate(0,8px); } 35% { opacity:0.6; } 100% { opacity:0; transform:translate(8px,-25px); } }
+                            @keyframes ukuNoteFloat3 { 0% { opacity:0; transform:translate(0,5px); } 40% { opacity:0.5; } 100% { opacity:0; transform:translate(-5px,-20px); } }
+                            @keyframes ukuNoteFloat4 { 0% { opacity:0; transform:translate(0,6px); } 30% { opacity:0.7; } 100% { opacity:0; transform:translate(10px,-28px); } }
+                            @keyframes ukuStrum { 0%,100% { transform:rotate(0deg); } 15% { transform:rotate(3deg); } 30% { transform:rotate(-2deg); } 45% { transform:rotate(1deg); } }
+                            @keyframes ukuSway { 0%,100% { transform:rotate(0deg); } 50% { transform:rotate(-3deg); } }
+                            @keyframes ukuTearDrop { 0% { opacity:0; transform:translateY(0); } 20% { opacity:0.6; } 100% { opacity:0; transform:translateY(18px); } }
+                            @keyframes ukuHeartPulse { 0%,100% { transform:scale(0.8); opacity:0.3; } 50% { transform:scale(1.2); opacity:0.8; } }
+                            @keyframes ukuSpotlight { 0%,100% { opacity:0.04; } 50% { opacity:0.08; } }
+                            .uku-note1 { animation: ukuNoteFloat1 2.5s ease-out infinite; }
+                            .uku-note2 { animation: ukuNoteFloat2 3s ease-out infinite 0.8s; }
+                            .uku-note3 { animation: ukuNoteFloat3 2.2s ease-out infinite 1.5s; }
+                            .uku-note4 { animation: ukuNoteFloat4 2.8s ease-out infinite 0.4s; }
+                            .uku-strum { animation: ukuStrum 1.8s ease-in-out infinite; transform-origin: 80px 105px; }
+                            .uku-body-sway { animation: ukuSway 4s ease-in-out infinite; transform-origin: 70px 80px; }
+                            .uku-tear1 { animation: ukuTearDrop 2s ease-in infinite; }
+                            .uku-tear2 { animation: ukuTearDrop 2s ease-in infinite 0.7s; }
+                            .uku-tear3 { animation: ukuTearDrop 2.5s ease-in infinite 1.2s; }
+                            .uku-heart { animation: ukuHeartPulse 2s ease-in-out infinite; transform-origin: center; }
+                            .uku-heart2 { animation: ukuHeartPulse 2.2s ease-in-out infinite 0.5s; transform-origin: center; }
+                            .uku-spotlight { animation: ukuSpotlight 3s ease-in-out infinite; }
+                        </style>
+                    </defs>
+
+                    <!-- === SPOTLIGHT von oben === -->
+                    <path d="M70,0 L40,170 L100,170 Z" fill="#f1c40f" opacity="0.04" class="uku-spotlight"/>
+
+                    <!-- === JONAS mit Ukulele (Strichmännchen-Stil) === -->
+                    <g class="uku-body-sway">
+                        <!-- Kopf -->
+                        <circle cx="70" cy="42" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+                        <!-- Lockige Haare -->
+                        <path d="M59,36 Q57,28 61,24 Q65,22 69,22" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M81,36 Q83,28 79,24 Q75,22 71,22" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                        <!-- Dutt -->
+                        <ellipse cx="70" cy="20" rx="7" ry="5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
+                        <path d="M65,18 Q70,15 75,18" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
+                        <!-- Geschlossene Augen (versunken in Musik) -->
+                        <path d="M63,40 Q66,42 69,40" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M71,40 Q74,42 77,40" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                        <!-- Sanftes Lächeln -->
+                        <path d="M65,48 Q70,52 75,48" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+
+                        <!-- Körper -->
+                        <path d="M70,56 Q70,72 68,88" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Beine (sitzend auf Hocker) -->
+                        <path d="M68,88 Q58,102 50,115" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M68,88 Q78,102 85,115" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                        <!-- Hocker -->
+                        <line x1="42" y1="118" x2="93" y2="118" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="48" y1="118" x2="45" y2="132" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="87" y1="118" x2="90" y2="132" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+
+                        <!-- === ARME + UKULELE === -->
+                        <g class="uku-strum">
+                            <!-- Linker Arm (hält Hals) -->
+                            <path d="M70,66 Q55,72 48,78" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                            <!-- Rechter Arm (zupft Saiten) -->
+                            <path d="M70,66 Q85,75 92,85" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+
+                            <!-- Ukulele (am Körper gehalten) -->
+                            <!-- Körper -->
+                            <path d="M78,95 Q62,90 60,80 Q58,68 68,62 Q78,58 88,62 Q96,66 97,78 Q98,90 88,96 Z" fill="white" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                            <!-- Taille -->
+                            <path d="M65,65 Q75,62 86,65" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+                            <!-- Schallloch -->
+                            <circle cx="78" cy="78" r="5.5" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+                            <circle cx="78" cy="78" r="7.5" fill="none" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
+                            <!-- Hals -->
+                            <path d="M62,62 L52,38 L60,36 L68,60" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
+                            <!-- Bünde -->
+                            <line x1="54" y1="44" x2="63" y2="42" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
+                            <line x1="55" y1="50" x2="64" y2="48" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
+                            <line x1="57" y1="55" x2="65" y2="53" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
+                            <!-- Kopfplatte -->
+                            <path d="M50,38 L46,28 Q53,24 60,28 L58,36" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+                            <!-- Wirbel -->
+                            <circle cx="48" cy="30" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                            <circle cx="48" cy="36" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                            <circle cx="58" cy="29" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                            <circle cx="58" cy="35" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                            <!-- Saiten -->
+                            <line x1="52" y1="38" x2="74" y2="90" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="54" y1="37" x2="77" y2="91" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="56" y1="37" x2="80" y2="91" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
+                            <!-- Steg -->
+                            <line x1="73" y1="90" x2="82" y2="91" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                            <!-- Finger an den Saiten -->
+                            <circle cx="91" cy="83" r="2" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+                        </g>
+                    </g>
+
+                    <!-- === NOTEN (animiert aufsteigend, mehr Vielfalt) === -->
+                    <text x="115" y="40" font-family="Permanent Marker, cursive" font-size="20" fill="#1a1a1a" class="uku-note1">&#9834;</text>
+                    <text x="125" y="60" font-family="Permanent Marker, cursive" font-size="15" fill="#1a1a1a" class="uku-note2">&#9835;</text>
+                    <text x="108" y="25" font-family="Caveat, cursive" font-size="13" fill="#888" class="uku-note3">~</text>
+                    <text x="135" y="48" font-family="Permanent Marker, cursive" font-size="12" fill="#888" class="uku-note4">&#9833;</text>
+
+                    <!-- === HERZEN (Publikum ist gerührt) === -->
+                    <path d="M148,78 Q148,72 152,72 Q156,72 156,78 Q156,84 148,90 Q140,84 140,78 Q140,72 144,72 Q148,72 148,78 Z" fill="none" stroke="#c0392b" stroke-width="1.2" class="uku-heart" opacity="0.5"/>
+                    <path d="M20,65 Q20,60 23,60 Q26,60 26,65 Q26,70 20,75 Q14,70 14,65 Q14,60 17,60 Q20,60 20,65 Z" fill="none" stroke="#c0392b" stroke-width="1" class="uku-heart2" opacity="0.4"/>
+
+                    <!-- === WEINENDES PUBLIKUM (2 kleine Strichmännchen am Rand) === -->
+                    <!-- Zuschauer links -->
+                    <circle cx="18" cy="135" r="5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                    <path d="M18,140 L18,152" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M18,144 L13,148" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                    <path d="M18,144 L23,148" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                    <!-- Tränen links -->
+                    <circle cx="16" cy="137" r="0.8" fill="#3498db" class="uku-tear1" opacity="0"/>
+                    <circle cx="20" cy="137" r="0.8" fill="#3498db" class="uku-tear2" opacity="0"/>
+
+                    <!-- Zuschauer rechts -->
+                    <circle cx="160" cy="132" r="5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                    <path d="M160,137 L160,149" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M160,141 L155,145" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                    <path d="M160,141 L165,145" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                    <!-- Träne rechts -->
+                    <circle cx="162" cy="134" r="0.8" fill="#3498db" class="uku-tear3" opacity="0"/>
+
+                    <!-- Taschentuch beim rechten Zuschauer -->
+                    <path d="M166,140 Q170,136 172,140 Q174,144 170,143" fill="white" stroke="#1a1a1a" stroke-width="0.8"/>
+
+                    <!-- Label -->
+                    <text x="100" y="172" font-family="Permanent Marker, cursive" font-size="10" fill="#888">VIRTUOSE</text>
+                </svg>

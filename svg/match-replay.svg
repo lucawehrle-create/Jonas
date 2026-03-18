@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <svg viewBox="0 0 520 380" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- ===== BODEN (leichte Linie + Schatten) ===== -->
+            <path d="M20,312 Q260,318 500,312" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.2"/>
+            <!-- Tisch-Schatten am Boden -->
+            <ellipse cx="257" cy="312" rx="180" ry="6" fill="#1a1a1a" opacity="0.04"/>
+
+            <!-- ===== TISCHTENNISPLATTE (3D-Ansicht, leichte Schrägperspektive) ===== -->
+
+            <!-- Tischplatte (schlank, Seitenansicht mit dünner Kante) -->
+            <path d="M60,192 L460,192 L460,197 L60,197 Z" fill="white" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round"/>
+            <!-- Randlinien auf Oberfläche (echte TT-Platte) -->
+            <line x1="65" y1="193" x2="455" y2="193" stroke="#1a1a1a" stroke-width="0.6" opacity="0.15"/>
+            <line x1="65" y1="196" x2="455" y2="196" stroke="#1a1a1a" stroke-width="0.6" opacity="0.15"/>
+            <!-- Mittellinie (längs) -->
+            <line x1="65" y1="194.5" x2="455" y2="194.5" stroke="#1a1a1a" stroke-width="0.5" opacity="0.1" stroke-dasharray="5,4"/>
+
+            <!-- ===== TISCHBEINE (schlank, mit Querstrebe) ===== -->
+            <!-- Linkes Beinpaar -->
+            <line x1="82" y1="197" x2="80" y2="300" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="95" y1="197" x2="93" y2="300" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Querstrebe links -->
+            <line x1="81" y1="250" x2="94" y2="250" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Rechtes Beinpaar -->
+            <line x1="425" y1="197" x2="423" y2="300" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="438" y1="197" x2="436" y2="300" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Querstrebe rechts -->
+            <line x1="424" y1="250" x2="437" y2="250" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Längs-Verstrebung -->
+            <path d="M87,270 Q260,262 430,270" fill="none" stroke="#1a1a1a" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>
+
+            <!-- ===== NETZ (sauber, mit Pfosten) ===== -->
+            <!-- Netzpfosten -->
+            <line x1="237" y1="165" x2="237" y2="197" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="279" y1="165" x2="279" y2="197" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Klemmen am Tisch -->
+            <rect x="233" y="193" width="8" height="4" rx="1" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+            <rect x="275" y="193" width="8" height="4" rx="1" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+            <!-- Netz-Oberkante -->
+            <line x1="237" y1="166" x2="279" y2="166" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <!-- Netz-Fäden (horizontal) -->
+            <line x1="238" y1="172" x2="278" y2="172" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
+            <line x1="238" y1="178" x2="278" y2="178" stroke="#1a1a1a" stroke-width="0.6" opacity="0.25"/>
+            <line x1="238" y1="184" x2="278" y2="184" stroke="#1a1a1a" stroke-width="0.5" opacity="0.2"/>
+            <line x1="238" y1="190" x2="278" y2="190" stroke="#1a1a1a" stroke-width="0.4" opacity="0.15"/>
+            <!-- Netz-Fäden (vertikal) -->
+            <line x1="248" y1="166" x2="248" y2="196" stroke="#1a1a1a" stroke-width="0.4" opacity="0.12"/>
+            <line x1="258" y1="166" x2="258" y2="196" stroke="#1a1a1a" stroke-width="0.4" opacity="0.12"/>
+            <line x1="268" y1="166" x2="268" y2="196" stroke="#1a1a1a" stroke-width="0.4" opacity="0.12"/>
+
+            <!-- ===== JONAS (rechts, auf dem Tisch stehend, mit erkennbaren Merkmalen) ===== -->
+
+            <!-- Beine (stehen auf Tisch, leicht gespreizt, stabil) -->
+            <path d="M355,190 Q348,172 340,158" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+            <path d="M375,190 Q382,172 388,158" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+            <!-- Sandalen (rosa Fussnägel angedeutet) -->
+            <path d="M349,190 L361,190" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M369,190 L381,190" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Rosa Zehen! -->
+            <circle cx="350" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
+            <circle cx="354" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
+            <circle cx="370" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
+            <circle cx="374" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
+
+            <!-- Körper (leicht nach hinten gelehnt, Siegerpose) -->
+            <path d="M364,158 Q366,138 364,115" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+
+            <!-- Kopf (größer, detaillierter – erkennbar als Jonas) -->
+            <circle cx="364" cy="88" r="22" fill="white" stroke="#1a1a1a" stroke-width="2.8"/>
+
+            <!-- Lockige Haare seitlich (Jonas' Erkennungsmerkmal!) -->
+            <path d="M346,78 Q342,65 348,58 Q354,52 362,52" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M382,78 Q386,65 380,58 Q374,52 366,52" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Locken-Textur -->
+            <path d="M344,72 Q340,66 346,60" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M384,72 Q388,66 382,60" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Dutt oben -->
+            <path d="M358,52 Q362,48 366,48 Q370,48 374,52" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            <ellipse cx="366" cy="42" rx="10" ry="8" fill="white" stroke="#1a1a1a" stroke-width="2.2"/>
+            <path d="M359,39 Q363,36 366,37 Q369,36 373,39" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M361,44 Q366,42 371,44" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+            <!-- Haargummi -->
+            <ellipse cx="366" cy="50" rx="6" ry="2" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+
+            <!-- Augen (selbstsicher, triumphierend) -->
+            <ellipse cx="356" cy="84" rx="4" ry="4.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+            <circle cx="357" cy="85" r="2.5" fill="#1a1a1a"/>
+            <circle cx="358" cy="84" r="0.8" fill="white"/>
+            <ellipse cx="372" cy="84" rx="4" ry="4.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+            <circle cx="373" cy="85" r="2.5" fill="#1a1a1a"/>
+            <circle cx="374" cy="84" r="0.8" fill="white"/>
+            <!-- Augenbraue (eine hochgezogen – Flex-Pose) -->
+            <path d="M351,76 Q356,73 361,77" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            <path d="M367,74 Q372,70 377,75" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- Schnurrbart (Jonas' Markenzeichen!) -->
+            <path d="M356,93 Q360,90 366,92 Q372,90 376,93" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            <path d="M356,93 Q354,94 352,93" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M376,93 Q378,94 380,93" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
+
+            <!-- Breites triumphierendes Grinsen -->
+            <path d="M357,98 Q366,108 375,98" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+
+            <!-- Krone (goldene Krone auf dem Dutt!) -->
+            <path d="M353,34 L353,22 L358,27 L366,16 L374,27 L379,22 L379,34 Z" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="356" cy="21" r="2" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1"/>
+            <circle cx="366" cy="14" r="2.5" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1"/>
+            <circle cx="376" cy="21" r="2" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1"/>
+
+            <!-- Rechter Arm: Schläger lässig über Schulter -->
+            <path d="M364,125 Q385,118 396,110" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+
+            <!-- TT-Schläger (über Schulter, leicht gekippt) -->
+            <!-- Griff -->
+            <path d="M398,108 L408,90" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- Schlägerkopf (rund, TT-typisch) -->
+            <circle cx="414" cy="74" r="17" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Belag-Mittellinie -->
+            <line x1="414" y1="58" x2="414" y2="90" stroke="#1a1a1a" stroke-width="0.6" opacity="0.15"/>
+            <!-- Belag-Rand (innerer Kreis = Belagkante) -->
+            <circle cx="414" cy="74" r="13.5" fill="none" stroke="#1a1a1a" stroke-width="0.5" opacity="0.12"/>
+
+            <!-- Faust um den Griff (geschlossene Silhouette) -->
+            <path d="M394,106 Q392,102 395,99 L400,98 Q404,99 405,103 L405,111 Q404,115 400,115 L396,114 Q393,112 394,106 Z" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+            <!-- Knöchel-Linien (angedeutet) -->
+            <path d="M395,103 Q398,102 401,103" fill="none" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>
+            <path d="M395,107 Q398,106 401,107" fill="none" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>
+            <!-- Daumen (liegt oben auf dem Griff) -->
+            <path d="M401,100 Q405,97 407,99 Q406,102 403,102" fill="white" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+
+            <!-- Linker Arm: Peace-Zeichen ✌️ -->
+            <path d="M364,125 Q342,115 328,102" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+
+            <!-- Hand als zusammenhängende Silhouette -->
+            <!-- Handfläche + eingeklappte Finger unten (eine geschlossene Form) -->
+            <path d="M323,100 Q320,96 322,92 L325,91 Q328,90 331,91 L334,92 Q336,96 335,100 Q336,103 334,106 Q330,108 326,106 Q322,104 323,100 Z" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+            <!-- Zeigefinger (nach oben-links, als Kontur mit Breite) -->
+            <path d="M323,92 Q322,86 320,80 Q319,76 320,74 Q321,72 323,74 Q324,77 325,84 L326,91" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
+            <!-- Mittelfinger (nach oben-rechts, V-Spreizung!) -->
+            <path d="M330,91 Q331,84 333,78 Q334,74 336,72 Q338,71 338,74 Q337,78 335,85 L333,92" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
+            <!-- Daumen (nach links, liegt über eingeklappten Fingern) -->
+            <path d="M323,100 Q319,100 317,102 Q316,104 318,105 Q320,105 323,103" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+
+            <!-- Goldene Sterne / Strahlen um Jonas (animiert funkelnd) -->
+            <g class="hero-star-1">
+                <path d="M300,50 L303,42 L306,50 L314,50 L308,55 L310,63 L303,58 L296,63 L298,55 L292,50 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
+            </g>
+            <g class="hero-star-2">
+                <path d="M445,55 L447,49 L449,55 L455,55 L451,59 L452,65 L447,61 L442,65 L443,59 L439,55 Z" fill="none" stroke="#f1c40f" stroke-width="1.3"/>
+            </g>
+            <g class="hero-star-3">
+                <path d="M310,120 L311,117 L312,120 L315,120 L313,122 L313,125 L311,123 L309,125 L309,122 L307,120 Z" fill="#f1c40f" stroke="none"/>
+            </g>
+            <g class="hero-star-4">
+                <path d="M440,100 L441,97 L442,100 L445,100 L443,102 L443,105 L441,103 L439,105 L439,102 L437,100 Z" fill="#f1c40f" stroke="none"/>
+            </g>
+            <!-- Strahlenlinien -->
+            <g class="hero-ray-1">
+                <line x1="340" y1="35" x2="335" y2="25" stroke="#f1c40f" stroke-width="1.2" stroke-linecap="round"/>
+            </g>
+            <g class="hero-ray-2">
+                <line x1="392" y1="35" x2="397" y2="25" stroke="#f1c40f" stroke-width="1.2" stroke-linecap="round"/>
+            </g>
+            <g class="hero-ray-3">
+                <line x1="310" y1="85" x2="298" y2="80" stroke="#f1c40f" stroke-width="1" stroke-linecap="round"/>
+            </g>
+            <g class="hero-ray-4">
+                <line x1="418" y1="95" x2="430" y2="90" stroke="#f1c40f" stroke-width="1" stroke-linecap="round"/>
+            </g>
+
+
+            <!-- ===== LUCA (auf allen Vieren kriechend unter dem Tisch) ===== -->
+
+            <!-- Rücken/Rumpf (HORIZONTAL, auf allen Vieren) -->
+            <path d="M95,268 Q130,264 165,268" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+
+            <!-- Kopf (vorne, tief, schaut nach rechts zum Ball) -->
+            <circle cx="175" cy="262" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+            <!-- Haare (kurz, struppig) -->
+            <path d="M165,254 Q167,247 173,244" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M173,244 Q178,241 183,244" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M183,244 Q187,247 188,254" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Augen (verzweifelt, nach rechts zum Ball schielend) -->
+            <ellipse cx="170" cy="259" rx="3" ry="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
+            <circle cx="171.5" cy="260" r="1.8" fill="#1a1a1a"/>
+            <ellipse cx="180" cy="259" rx="3" ry="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
+            <circle cx="181.5" cy="260" r="1.8" fill="#1a1a1a"/>
+            <!-- Besorgte Brauen -->
+            <path d="M166,254 Q170,251 174,255" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M177,255 Q181,251 185,254" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Offener Mund (schockiert) -->
+            <ellipse cx="176" cy="270" rx="4" ry="3" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+
+            <!-- Schweißtropfen -->
+            <path d="M192,252 Q194,247 196,252 Q194,257 192,252" fill="#1a1a1a" opacity="0.25"/>
+            <path d="M190,266 Q191,263 192,266 Q191,269 190,266" fill="#1a1a1a" opacity="0.15"/>
+
+            <!-- Rechter Arm (nach vorne, greift verzweifelt Richtung Ball) -->
+            <path d="M160,270 Q175,280 190,285" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Offene Hand (als zusammenhängende Silhouette, Finger gespreizt) -->
+            <path d="M190,282 Q193,278 196,276 Q198,275 199,277 Q198,280 196,283
+                     L202,278 Q204,276 205,278 Q204,281 201,285
+                     L207,281 Q209,280 210,282 Q209,285 205,288
+                     L208,287 Q210,286 210,288 Q209,291 205,292
+                     L198,293 Q194,293 191,290 Z" fill="white" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/>
+
+            <!-- Linker Arm (stützt sich auf dem Boden ab) -->
+            <path d="M155,270 Q148,280 146,290" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Flache Hand am Boden (als Silhouette) -->
+            <path d="M142,288 Q140,284 138,282 Q137,281 139,281 Q141,282 143,286
+                     L143,281 Q143,279 145,280 Q146,282 146,286
+                     L147,281 Q147,279 149,280 Q150,282 149,286
+                     L150,283 Q150,281 152,282 Q153,284 151,288
+                     L154,289 Q156,288 156,290 Q155,292 152,292
+                     L141,292 Q140,291 142,288 Z" fill="white" stroke="#1a1a1a" stroke-width="1.2" stroke-linejoin="round"/>
+
+            <!-- Hintere Beine (Knie am Boden, Vierfüßler-Pose) -->
+            <!-- Rechtes Bein (Knie auf dem Boden) -->
+            <path d="M100,268 Q105,282 110,298" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Unterschenkel nach hinten -->
+            <path d="M110,298 Q105,296 95,298" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Fuß -->
+            <path d="M95,296 Q92,294 90,298" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Linkes Bein -->
+            <path d="M92,266 Q88,280 85,298" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Unterschenkel nach hinten -->
+            <path d="M85,298 Q80,296 70,298" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Fuß -->
+            <path d="M70,296 Q67,294 65,298" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+
+            <!-- Hintern leicht angehoben (komisches Kriech-Detail) -->
+            <path d="M90,265 Q88,258 92,260" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+
+            <!-- Weggerollter Schläger am Boden (Lucas, hinter ihm) -->
+            <!-- Schlägerkopf (rund, wie Jonas' Schläger) -->
+            <circle cx="50" cy="286" r="14" fill="white" stroke="#1a1a1a" stroke-width="1.8" />
+            <!-- Belag-Rand -->
+            <circle cx="50" cy="286" r="10.5" fill="none" stroke="#1a1a1a" stroke-width="0.5" opacity="0.12"/>
+            <!-- Griff -->
+            <line x1="60" y1="296" x2="68" y2="312" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+
+
+            <!-- ===== BALL (unter dem Tisch, knapp vor Lucas greifender Hand) ===== -->
+            <circle cx="218" cy="285" r="6" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
+            <!-- Ball-Naht -->
+            <path d="M214,282 Q218,285 214,288" fill="none" stroke="#1a1a1a" stroke-width="0.8" opacity="0.4"/>
+            <!-- Flugbahn-Linie -->
+            <path d="M218,285 Q260,260 310,230 Q350,210 370,195" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-dasharray="4,4" opacity="0.15"/>
+            <!-- Aufprall-Sternchen -->
+            <line x1="212" y1="279" x2="209" y2="274" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+            <line x1="224" y1="279" x2="227" y2="274" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+            <line x1="218" y1="278" x2="218" y2="272" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+
+            <!-- ===== SPRECHBLASEN ===== -->
+
+            <!-- Jonas Sprechblase -->
+            <path d="M420,30 Q420,15 442,15 L480,15 Q495,15 495,30 L495,48 Q495,58 480,58 L440,58 L425,72 L432,58 L420,58 Q420,58 420,48 Z" fill="white" stroke="#1a1a1a" stroke-width="1.8" stroke-linejoin="round"/>
+            <text x="458" y="42" font-family="'Caveat', cursive" font-size="15" fill="#1a1a1a" text-anchor="middle" font-weight="700">GG EZ lol</text>
+
+            <!-- Luca Denkblase (über seinem Kopf) -->
+            <circle cx="182" cy="234" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+            <circle cx="186" cy="224" r="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+            <path d="M175,198 Q175,188 188,188 L212,188 Q222,188 222,198 L222,210 Q222,218 212,218 L188,218 Q175,218 175,210 Z" fill="white" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+            <text x="198" y="207" font-family="'Caveat', cursive" font-size="12" fill="#888" text-anchor="middle" font-weight="700">Wie...?!</text>
+
+            <!-- ===== LABELS ===== -->
+            <text x="366" y="8" font-family="'Permanent Marker', cursive" font-size="11" fill="#1a1a1a" text-anchor="middle" letter-spacing="0.15em">CHAMPION</text>
+            <path d="M340,11 L392,11" fill="none" stroke="#f1c40f" stroke-width="2.5" stroke-linecap="round"/>
+
+            <text x="135" y="330" font-family="'Caveat', cursive" font-size="13" fill="#888" text-anchor="middle">luca (versteht die Welt nicht mehr)</text>
+
+            <!-- Scoreboard am Netzpfosten -->
+            <rect x="237" y="145" width="42" height="18" rx="3" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
+            <text x="258" y="158" font-family="'Permanent Marker', cursive" font-size="9" fill="#1a1a1a" text-anchor="middle">11 : 0</text>
+        </svg>

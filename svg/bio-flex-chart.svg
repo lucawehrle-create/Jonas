@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+                <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Achsen (leicht wackelig für handgezeichneten Look) -->
+                    <path d="M80,272 Q215,270 360,272" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M80,272 Q78,155 80,45" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Pfeilspitzen -->
+                    <polygon points="360,272 348,266 348,278" fill="#1a1a1a"/>
+                    <polygon points="80,45 74,57 86,57" fill="#1a1a1a"/>
+
+                    <!-- Achsenbeschriftungen -->
+                    <text x="38" y="58" class="sketch-label" font-size="13" transform="rotate(-90, 38, 158)">FLEXIBILITÄT</text>
+                    <text x="305" y="296" class="sketch-label" font-size="14">KÖNNEN</text>
+
+                    <!-- Datenpunkte als kleine Figuren -->
+                    <!-- Luca (unten links, traurig) -->
+                    <circle cx="118" cy="235" r="8" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+                    <circle cx="115" cy="233" r="1.5" fill="#1a1a1a"/>
+                    <circle cx="121" cy="233" r="1.5" fill="#1a1a1a"/>
+                    <path d="M114,239 Q118,236 122,239" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <line x1="118" y1="243" x2="118" y2="258" stroke="#1a1a1a" stroke-width="1.8"/>
+                    <text x="98" y="270" class="sketch-label" font-size="10">LUCA</text>
+
+                    <!-- Average Human (Mitte) -->
+                    <circle cx="170" cy="198" r="5" fill="#1a1a1a"/>
+                    <text x="145" y="218" class="sketch-label-small" font-size="11">DURCH-</text>
+                    <text x="145" y="230" class="sketch-label-small" font-size="11">SCHNITT</text>
+
+                    <!-- Katze (flexibler als Menschen) -->
+                    <circle cx="155" cy="145" r="5" fill="#1a1a1a"/>
+                    <text x="110" y="142" class="sketch-label-small" font-size="11">KATZE</text>
+
+                    <!-- Yoga Master -->
+                    <circle cx="220" cy="155" r="5" fill="#1a1a1a"/>
+                    <text x="228" y="152" class="sketch-label-small" font-size="11">YOGA</text>
+                    <text x="228" y="164" class="sketch-label-small" font-size="11">MEISTER</text>
+
+                    <!-- JONAS: oben rechts, GROSS, mit Krone + Dutt + Schnurrbart -->
+                    <circle cx="320" cy="65" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+                    <!-- Locken angedeutet -->
+                    <path d="M308,58 Q306,54 310,52 Q314,50 318,50 Q322,50 326,52 Q330,54 332,58" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+                    <!-- Mini-Dutt -->
+                    <ellipse cx="320" cy="46" rx="6" ry="4" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <circle cx="315" cy="62" r="2.5" fill="#1a1a1a"/>
+                    <circle cx="325" cy="62" r="2.5" fill="#1a1a1a"/>
+                    <!-- Mini-Schnurrbart -->
+                    <path d="M315,68 Q318,66 320,67 Q322,66 325,68" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M314,70 Q320,76 326,70" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Mini-Krone (über Dutt) -->
+                    <path d="M314,40 L316,34 L318,38 L320,30 L322,38 L324,34 L326,40" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                    <text x="288" y="38" class="sketch-label" font-size="18">JONAS</text>
+
+                    <!-- Trendlinie -->
+                    <path d="M118,240 Q180,200 220,155 Q260,110 320,65" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="6,4" fill="none"/>
+
+                    <!-- "Off the charts" Pfeil, der über den Rand geht -->
+                    <path d="M336,58 Q350,45 365,35" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
+                    <polygon points="365,35 358,38 362,44" fill="#1a1a1a"/>
+                    <text x="340" y="25" class="sketch-label-small" font-size="11">(jenseits aller Skalen)</text>
+                    <text x="340" y="100" class="sketch-label" font-size="22">!</text>
+                </svg>

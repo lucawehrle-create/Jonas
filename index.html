@@ -2417,135 +2417,7 @@
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup('popupUkulele')">x</button>
             <div class="popup-illustration">
-                <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <style>
-                            @keyframes ukuNoteFloat1 { 0% { opacity:0; transform:translate(0,10px); } 30% { opacity:0.8; } 100% { opacity:0; transform:translate(-12px,-30px); } }
-                            @keyframes ukuNoteFloat2 { 0% { opacity:0; transform:translate(0,8px); } 35% { opacity:0.6; } 100% { opacity:0; transform:translate(8px,-25px); } }
-                            @keyframes ukuNoteFloat3 { 0% { opacity:0; transform:translate(0,5px); } 40% { opacity:0.5; } 100% { opacity:0; transform:translate(-5px,-20px); } }
-                            @keyframes ukuNoteFloat4 { 0% { opacity:0; transform:translate(0,6px); } 30% { opacity:0.7; } 100% { opacity:0; transform:translate(10px,-28px); } }
-                            @keyframes ukuStrum { 0%,100% { transform:rotate(0deg); } 15% { transform:rotate(3deg); } 30% { transform:rotate(-2deg); } 45% { transform:rotate(1deg); } }
-                            @keyframes ukuSway { 0%,100% { transform:rotate(0deg); } 50% { transform:rotate(-3deg); } }
-                            @keyframes ukuTearDrop { 0% { opacity:0; transform:translateY(0); } 20% { opacity:0.6; } 100% { opacity:0; transform:translateY(18px); } }
-                            @keyframes ukuHeartPulse { 0%,100% { transform:scale(0.8); opacity:0.3; } 50% { transform:scale(1.2); opacity:0.8; } }
-                            @keyframes ukuSpotlight { 0%,100% { opacity:0.04; } 50% { opacity:0.08; } }
-                            .uku-note1 { animation: ukuNoteFloat1 2.5s ease-out infinite; }
-                            .uku-note2 { animation: ukuNoteFloat2 3s ease-out infinite 0.8s; }
-                            .uku-note3 { animation: ukuNoteFloat3 2.2s ease-out infinite 1.5s; }
-                            .uku-note4 { animation: ukuNoteFloat4 2.8s ease-out infinite 0.4s; }
-                            .uku-strum { animation: ukuStrum 1.8s ease-in-out infinite; transform-origin: 80px 105px; }
-                            .uku-body-sway { animation: ukuSway 4s ease-in-out infinite; transform-origin: 70px 80px; }
-                            .uku-tear1 { animation: ukuTearDrop 2s ease-in infinite; }
-                            .uku-tear2 { animation: ukuTearDrop 2s ease-in infinite 0.7s; }
-                            .uku-tear3 { animation: ukuTearDrop 2.5s ease-in infinite 1.2s; }
-                            .uku-heart { animation: ukuHeartPulse 2s ease-in-out infinite; transform-origin: center; }
-                            .uku-heart2 { animation: ukuHeartPulse 2.2s ease-in-out infinite 0.5s; transform-origin: center; }
-                            .uku-spotlight { animation: ukuSpotlight 3s ease-in-out infinite; }
-                        </style>
-                    </defs>
-
-                    <!-- === SPOTLIGHT von oben === -->
-                    <path d="M70,0 L40,170 L100,170 Z" fill="#f1c40f" opacity="0.04" class="uku-spotlight"/>
-
-                    <!-- === JONAS mit Ukulele (Strichmännchen-Stil) === -->
-                    <g class="uku-body-sway">
-                        <!-- Kopf -->
-                        <circle cx="70" cy="42" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
-                        <!-- Lockige Haare -->
-                        <path d="M59,36 Q57,28 61,24 Q65,22 69,22" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                        <path d="M81,36 Q83,28 79,24 Q75,22 71,22" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                        <!-- Dutt -->
-                        <ellipse cx="70" cy="20" rx="7" ry="5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                        <path d="M65,18 Q70,15 75,18" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
-                        <!-- Geschlossene Augen (versunken in Musik) -->
-                        <path d="M63,40 Q66,42 69,40" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                        <path d="M71,40 Q74,42 77,40" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                        <!-- Sanftes Lächeln -->
-                        <path d="M65,48 Q70,52 75,48" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-
-                        <!-- Körper -->
-                        <path d="M70,56 Q70,72 68,88" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Beine (sitzend auf Hocker) -->
-                        <path d="M68,88 Q58,102 50,115" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <path d="M68,88 Q78,102 85,115" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Hocker -->
-                        <line x1="42" y1="118" x2="93" y2="118" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="48" y1="118" x2="45" y2="132" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                        <line x1="87" y1="118" x2="90" y2="132" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-
-                        <!-- === ARME + UKULELE === -->
-                        <g class="uku-strum">
-                            <!-- Linker Arm (hält Hals) -->
-                            <path d="M70,66 Q55,72 48,78" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                            <!-- Rechter Arm (zupft Saiten) -->
-                            <path d="M70,66 Q85,75 92,85" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-
-                            <!-- Ukulele (am Körper gehalten) -->
-                            <!-- Körper -->
-                            <path d="M78,95 Q62,90 60,80 Q58,68 68,62 Q78,58 88,62 Q96,66 97,78 Q98,90 88,96 Z" fill="white" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                            <!-- Taille -->
-                            <path d="M65,65 Q75,62 86,65" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
-                            <!-- Schallloch -->
-                            <circle cx="78" cy="78" r="5.5" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
-                            <circle cx="78" cy="78" r="7.5" fill="none" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
-                            <!-- Hals -->
-                            <path d="M62,62 L52,38 L60,36 L68,60" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                            <!-- Bünde -->
-                            <line x1="54" y1="44" x2="63" y2="42" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
-                            <line x1="55" y1="50" x2="64" y2="48" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
-                            <line x1="57" y1="55" x2="65" y2="53" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
-                            <!-- Kopfplatte -->
-                            <path d="M50,38 L46,28 Q53,24 60,28 L58,36" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                            <!-- Wirbel -->
-                            <circle cx="48" cy="30" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-                            <circle cx="48" cy="36" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-                            <circle cx="58" cy="29" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-                            <circle cx="58" cy="35" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-                            <!-- Saiten -->
-                            <line x1="52" y1="38" x2="74" y2="90" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
-                            <line x1="54" y1="37" x2="77" y2="91" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
-                            <line x1="56" y1="37" x2="80" y2="91" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
-                            <!-- Steg -->
-                            <line x1="73" y1="90" x2="82" y2="91" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                            <!-- Finger an den Saiten -->
-                            <circle cx="91" cy="83" r="2" fill="white" stroke="#1a1a1a" stroke-width="1"/>
-                        </g>
-                    </g>
-
-                    <!-- === NOTEN (animiert aufsteigend, mehr Vielfalt) === -->
-                    <text x="115" y="40" font-family="Permanent Marker, cursive" font-size="20" fill="#1a1a1a" class="uku-note1">&#9834;</text>
-                    <text x="125" y="60" font-family="Permanent Marker, cursive" font-size="15" fill="#1a1a1a" class="uku-note2">&#9835;</text>
-                    <text x="108" y="25" font-family="Caveat, cursive" font-size="13" fill="#888" class="uku-note3">~</text>
-                    <text x="135" y="48" font-family="Permanent Marker, cursive" font-size="12" fill="#888" class="uku-note4">&#9833;</text>
-
-                    <!-- === HERZEN (Publikum ist gerührt) === -->
-                    <path d="M148,78 Q148,72 152,72 Q156,72 156,78 Q156,84 148,90 Q140,84 140,78 Q140,72 144,72 Q148,72 148,78 Z" fill="none" stroke="#c0392b" stroke-width="1.2" class="uku-heart" opacity="0.5"/>
-                    <path d="M20,65 Q20,60 23,60 Q26,60 26,65 Q26,70 20,75 Q14,70 14,65 Q14,60 17,60 Q20,60 20,65 Z" fill="none" stroke="#c0392b" stroke-width="1" class="uku-heart2" opacity="0.4"/>
-
-                    <!-- === WEINENDES PUBLIKUM (2 kleine Strichmännchen am Rand) === -->
-                    <!-- Zuschauer links -->
-                    <circle cx="18" cy="135" r="5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-                    <path d="M18,140 L18,152" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                    <path d="M18,144 L13,148" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                    <path d="M18,144 L23,148" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                    <!-- Tränen links -->
-                    <circle cx="16" cy="137" r="0.8" fill="#3498db" class="uku-tear1" opacity="0"/>
-                    <circle cx="20" cy="137" r="0.8" fill="#3498db" class="uku-tear2" opacity="0"/>
-
-                    <!-- Zuschauer rechts -->
-                    <circle cx="160" cy="132" r="5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-                    <path d="M160,137 L160,149" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                    <path d="M160,141 L155,145" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                    <path d="M160,141 L165,145" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                    <!-- Träne rechts -->
-                    <circle cx="162" cy="134" r="0.8" fill="#3498db" class="uku-tear3" opacity="0"/>
-
-                    <!-- Taschentuch beim rechten Zuschauer -->
-                    <path d="M166,140 Q170,136 172,140 Q174,144 170,143" fill="white" stroke="#1a1a1a" stroke-width="0.8"/>
-
-                    <!-- Label -->
-                    <text x="100" y="172" font-family="Permanent Marker, cursive" font-size="10" fill="#888">VIRTUOSE</text>
-                </svg>
+                <div data-svg-src="svg/popup-ukulele.svg" data-svg-load="eager"></div>
             </div>
             <p class="popup-text">Die Finger tanzen, die Saiten weinen, das Publikum schluchzt.<br><em>Vier Saiten. Unendliche Emotionen.</em></p>
         </div>
@@ -2556,136 +2428,7 @@
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup('popupFussnagel')">x</button>
             <div class="popup-illustration">
-                <svg viewBox="0 0 180 175" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <style>
-                            @keyframes nailGlowP { 0%,100% { filter:brightness(1); } 50% { filter:brightness(1.4); } }
-                            @keyframes nailShineP { 0%,100% { opacity:0; } 50% { opacity:0.7; } }
-                            @keyframes nailSparkle { 0%,100% { opacity:0; transform:scale(0); } 50% { opacity:1; transform:scale(1); } }
-                            @keyframes footPresentWiggle { 0%,100% { transform:rotate(0deg); } 25% { transform:rotate(3deg); } 75% { transform:rotate(-3deg); } }
-                            @keyframes jonasPrideNod { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-2px); } }
-                            @keyframes cameraFlash { 0%,90%,100% { opacity:0; } 95% { opacity:0.3; } }
-                            @keyframes scienceGuyShake { 0%,100% { transform:rotate(0deg); } 25% { transform:rotate(-5deg); } 75% { transform:rotate(5deg); } }
-                            .nail-gp-1 { animation: nailGlowP 2s ease-in-out infinite; }
-                            .nail-gp-2 { animation: nailGlowP 2s ease-in-out infinite 0.5s; }
-                            .nail-gp-3 { animation: nailGlowP 2s ease-in-out infinite 1s; }
-                            .nail-gp-4 { animation: nailGlowP 2s ease-in-out infinite 1.5s; }
-                            .nail-sh { animation: nailShineP 2.5s ease-in-out infinite; }
-                            .nail-sparkle1 { animation: nailSparkle 1.3s ease-in-out infinite 0.2s; transform-origin: center; }
-                            .nail-sparkle2 { animation: nailSparkle 1.5s ease-in-out infinite 0.8s; transform-origin: center; }
-                            .nail-sparkle3 { animation: nailSparkle 1.1s ease-in-out infinite 1.3s; transform-origin: center; }
-                            .foot-present { animation: footPresentWiggle 2s ease-in-out infinite; transform-origin: 105px 135px; }
-                            .jonas-pride { animation: jonasPrideNod 2.5s ease-in-out infinite; }
-                            .cam-flash { animation: cameraFlash 4s ease-in-out infinite; }
-                            .science-guy { animation: scienceGuyShake 1.8s ease-in-out infinite; transform-origin: 160px 120px; }
-                        </style>
-                    </defs>
-
-                    <!-- === JONAS (Strichmännchen, stolz posierend) === -->
-                    <g class="jonas-pride">
-                        <!-- Kopf -->
-                        <circle cx="55" cy="40" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
-                        <!-- Lockige Haare -->
-                        <path d="M44,34 Q42,26 46,22 Q50,20 54,20" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                        <path d="M66,34 Q68,26 64,22 Q60,20 56,20" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                        <!-- Dutt -->
-                        <ellipse cx="55" cy="18" rx="7" ry="5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                        <path d="M50,16 Q55,13 60,16" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
-                        <!-- Selbstbewusste Augen -->
-                        <circle cx="50" cy="38" r="2" fill="#1a1a1a"/>
-                        <circle cx="60" cy="38" r="2" fill="#1a1a1a"/>
-                        <!-- Augenbraue (eine hochgezogen, cool) -->
-                        <path d="M57,33 Q61,30 64,33" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                        <!-- Stolzes Grinsen -->
-                        <path d="M49,46 Q55,51 61,46" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-
-                        <!-- Körper -->
-                        <path d="M55,54 Q55,72 54,90" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Linker Arm (Hüfte, Power-Pose) -->
-                        <path d="M55,64 Q40,68 35,78" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Hand an Hüfte -->
-                        <path d="M35,78 Q38,82 42,80" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                        <!-- Rechter Arm (zeigt auf den Fuss) -->
-                        <path d="M55,64 Q72,72 82,85" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Zeigefinger -->
-                        <path d="M82,85 L88,92" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-
-                        <!-- Linkes Bein (steht) -->
-                        <path d="M54,90 Q48,110 42,130" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Rechtes Bein (Fuss nach vorne gestreckt zum Zeigen) -->
-                        <path d="M54,90 Q68,100 80,108" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    </g>
-
-                    <!-- === DER BERÜHMTE FUSS (prominent, mit rosa Nägeln) === -->
-                    <g class="foot-present">
-                        <!-- Fuss -->
-                        <path d="M80,108 Q85,105 95,102 Q105,100 115,102 Q120,103 122,108 Q124,115 118,118 Q108,122 95,120 Q85,118 80,112 Z" fill="white" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Zehen -->
-                        <path d="M115,102 Q118,97 122,102" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M108,100 Q110,96 114,100" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M102,100 Q104,96 107,100" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
-                        <path d="M97,101 Q98,97 101,101" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                        <!-- PINK NÄGEL (der Star!) -->
-                        <ellipse cx="119" cy="100" rx="4.5" ry="3.5" fill="#ff69b4" stroke="#1a1a1a" stroke-width="1.5" class="nail-gp-1"/>
-                        <ellipse cx="111" cy="98" rx="3.8" ry="3" fill="#ff69b4" stroke="#1a1a1a" stroke-width="1.3" class="nail-gp-2"/>
-                        <ellipse cx="104" cy="98" rx="3.2" ry="2.5" fill="#ff69b4" stroke="#1a1a1a" stroke-width="1.3" class="nail-gp-3"/>
-                        <ellipse cx="98" cy="99" rx="2.8" ry="2.2" fill="#ff69b4" stroke="#1a1a1a" stroke-width="1.2" class="nail-gp-4"/>
-                        <!-- Glanzpunkte -->
-                        <ellipse cx="117" cy="98" rx="1.5" ry="1" fill="white" opacity="0" class="nail-sh"/>
-                        <ellipse cx="109" cy="96" rx="1.2" ry="0.8" fill="white" opacity="0" class="nail-sh" style="animation-delay:0.6s"/>
-                        <ellipse cx="103" cy="97" rx="1" ry="0.7" fill="white" opacity="0" class="nail-sh" style="animation-delay:1.2s"/>
-                    </g>
-
-                    <!-- === FUNKELN um die Nägel === -->
-                    <path d="M130,92 L132,86 L134,92 L140,92 L135,96 L137,102 L132,98 L127,102 L129,96 L124,92 Z" class="nail-sparkle1" fill="#ff69b4"/>
-                    <path d="M90,88 L91,84 L92,88 L96,88 L93,90 L94,94 L91,91 L88,94 L89,90 L86,88 Z" class="nail-sparkle2" fill="#ff69b4"/>
-                    <path d="M125,110 L126,107 L127,110 L130,110 L128,112 L128,115 L126,113 L124,115 L124,112 L122,110 Z" class="nail-sparkle3" fill="#ff69b4"/>
-
-                    <!-- === VERWIRRTER WISSENSCHAFTLER (rechts unten) === -->
-                    <g class="science-guy">
-                        <!-- Kopf -->
-                        <circle cx="160" cy="120" r="7" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                        <!-- Brille -->
-                        <circle cx="157" cy="119" r="3" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
-                        <circle cx="163" cy="119" r="3" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
-                        <line x1="160" y1="119" x2="160" y2="119" stroke="#1a1a1a" stroke-width="0.5"/>
-                        <!-- Verwirrte Augen -->
-                        <circle cx="157" cy="119" r="0.8" fill="#1a1a1a"/>
-                        <circle cx="163" cy="119" r="0.8" fill="#1a1a1a"/>
-                        <!-- O-Mund -->
-                        <circle cx="160" cy="124" r="1.5" fill="white" stroke="#1a1a1a" stroke-width="0.8"/>
-                        <!-- Haare (durcheinander) -->
-                        <path d="M154,114 Q152,108 155,106" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <path d="M158,113 Q159,107 162,106" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <path d="M164,114 Q167,109 165,106" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <!-- Körper -->
-                        <path d="M160,127 L160,142" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                        <!-- Arme (ratlos ausgestreckt) -->
-                        <path d="M160,132 Q152,130 148,134" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <path d="M160,132 Q168,130 172,134" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <!-- Klemmbrett -->
-                        <rect x="170" y="130" width="6" height="8" rx="1" fill="white" stroke="#1a1a1a" stroke-width="0.8"/>
-                        <line x1="171" y1="133" x2="175" y2="133" stroke="#1a1a1a" stroke-width="0.4"/>
-                        <line x1="171" y1="135" x2="174" y2="135" stroke="#1a1a1a" stroke-width="0.4"/>
-                        <!-- Fragezeichen -->
-                        <text x="153" y="108" font-family="Permanent Marker, cursive" font-size="9" fill="#888">?!</text>
-                        <text x="167" y="112" font-family="Caveat, cursive" font-size="7" fill="#888">???</text>
-                    </g>
-
-                    <!-- === KAMERA-BLITZ (Paparazzi-Effekt) === -->
-                    <circle cx="90" cy="50" r="60" fill="white" class="cam-flash" opacity="0"/>
-
-                    <!-- Beschriftungen -->
-                    <text x="4" y="70" font-family="Permanent Marker, cursive" font-size="8" fill="#888" transform="rotate(-12, 4, 70)">FASHION</text>
-                    <text x="4" y="82" font-family="Permanent Marker, cursive" font-size="8" fill="#888" transform="rotate(-12, 4, 82)">ICON</text>
-
-                    <!-- Pfeil zum Fuss -->
-                    <path d="M25,88 Q50,95 78,108" stroke="#888" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
-                    <polygon points="78,108 74,103 72,110" fill="#888"/>
-
-                    <!-- Label -->
-                    <text x="28" y="168" font-family="Permanent Marker, cursive" font-size="11" fill="#888">ROSA IST HALTUNG</text>
-                </svg>
+                <div data-svg-src="svg/popup-fussnagel.svg" data-svg-load="eager"></div>
             </div>
             <p class="popup-text">Konventionen? Nie gehört. Jonas macht seine eigenen Regeln.<br><em>Die Wissenschaft kapituliert. Die Mode applaudiert.</em></p>
         </div>
@@ -2696,119 +2439,7 @@
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup('popupMrMagic')">x</button>
             <div class="popup-illustration">
-                <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <style>
-                            @keyframes magicStarTwinkle1 { 0%,100% { opacity:0.3; transform:scale(0.6); } 50% { opacity:1; transform:scale(1.2); } }
-                            @keyframes magicStarTwinkle2 { 0%,100% { opacity:0.5; transform:scale(0.8); } 40% { opacity:1; transform:scale(1.3); } }
-                            @keyframes magicStarTwinkle3 { 0%,100% { opacity:0.2; transform:scale(0.5); } 60% { opacity:0.9; transform:scale(1.1); } }
-                            @keyframes magicWandWave { 0%,100% { transform:rotate(0deg); } 25% { transform:rotate(12deg); } 75% { transform:rotate(-8deg); } }
-                            @keyframes magicCardFallL { 0% { opacity:0; transform:translate(0,-20px) rotate(0deg); } 30% { opacity:1; } 100% { opacity:0.7; transform:translate(-18px,35px) rotate(-25deg); } }
-                            @keyframes magicCardFallR { 0% { opacity:0; transform:translate(0,-15px) rotate(0deg); } 35% { opacity:1; } 100% { opacity:0.7; transform:translate(15px,30px) rotate(20deg); } }
-                            @keyframes magicRabbitPeek { 0% { transform:translateY(8px); opacity:0; } 40% { transform:translateY(0); opacity:1; } 60% { transform:translateY(-2px); } 100% { transform:translateY(0); opacity:1; } }
-                            @keyframes magicSparkle { 0%,100% { opacity:0; transform:scale(0); } 50% { opacity:1; transform:scale(1); } }
-                            .magic-star1 { animation: magicStarTwinkle1 1.8s ease-in-out infinite; transform-origin: center; }
-                            .magic-star2 { animation: magicStarTwinkle2 2.2s ease-in-out infinite 0.3s; transform-origin: center; }
-                            .magic-star3 { animation: magicStarTwinkle3 1.5s ease-in-out infinite 0.6s; transform-origin: center; }
-                            .magic-star4 { animation: magicStarTwinkle1 2s ease-in-out infinite 1s; transform-origin: center; }
-                            .magic-star5 { animation: magicStarTwinkle2 1.6s ease-in-out infinite 0.5s; transform-origin: center; }
-                            .magic-wand { animation: magicWandWave 3s ease-in-out infinite; transform-origin: 110px 75px; }
-                            .magic-card-l { animation: magicCardFallL 2.5s ease-out infinite; }
-                            .magic-card-r { animation: magicCardFallR 2.8s ease-out infinite 0.4s; }
-                            .magic-rabbit { animation: magicRabbitPeek 1.5s ease-out forwards 0.3s; opacity: 0; }
-                            .magic-sparkle1 { animation: magicSparkle 1.2s ease-in-out infinite 0.2s; transform-origin: center; }
-                            .magic-sparkle2 { animation: magicSparkle 1.4s ease-in-out infinite 0.7s; transform-origin: center; }
-                            .magic-sparkle3 { animation: magicSparkle 1s ease-in-out infinite 1.1s; transform-origin: center; }
-                        </style>
-                    </defs>
-
-                    <!-- === JONAS als Zauberer (Strichmännchen-Stil) === -->
-                    <!-- Kopf -->
-                    <circle cx="65" cy="62" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
-                    <!-- Lockige Haare -->
-                    <path d="M54,56 Q52,48 56,44 Q60,42 64,42" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                    <path d="M76,56 Q78,48 74,44 Q70,42 66,42" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                    <!-- Dutt -->
-                    <ellipse cx="65" cy="40" rx="7" ry="5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                    <path d="M60,38 Q65,35 70,38" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
-                    <!-- Zylinderhut (auf dem Dutt!) -->
-                    <rect x="50" y="20" width="30" height="18" rx="2" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                    <ellipse cx="65" cy="38" rx="19" ry="4" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                    <ellipse cx="65" cy="20" rx="15" ry="3" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <!-- Hutband -->
-                    <line x1="50" y1="32" x2="80" y2="32" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
-                    <!-- Augen (verschmitzt zwinkend) -->
-                    <circle cx="60" cy="60" r="2" fill="#1a1a1a"/>
-                    <path d="M68,59 Q71,57 74,59" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                    <!-- Grinsen -->
-                    <path d="M58,68 Q65,73 72,68" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-
-                    <!-- Körper -->
-                    <path d="M65,76 Q65,95 64,112" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <!-- Linker Arm (hält Hut-Rand) -->
-                    <path d="M65,86 Q50,90 42,95" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <!-- Rechter Arm (schwingt Zauberstab) -->
-                    <g class="magic-wand">
-                        <path d="M65,86 Q82,80 95,72" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Zauberstab -->
-                        <line x1="95" y1="72" x2="120" y2="50" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                        <!-- Stab-Spitze (weiss) -->
-                        <line x1="115" y1="55" x2="120" y2="50" stroke="white" stroke-width="3" stroke-linecap="round"/>
-                        <!-- Funken vom Stab -->
-                        <circle cx="124" cy="46" r="2" class="magic-sparkle1" fill="#f1c40f"/>
-                        <circle cx="128" cy="52" r="1.5" class="magic-sparkle2" fill="#f1c40f"/>
-                        <circle cx="120" cy="42" r="1.2" class="magic-sparkle3" fill="#f1c40f"/>
-                    </g>
-                    <!-- Beine -->
-                    <path d="M64,112 Q56,130 48,145" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <path d="M64,112 Q72,130 78,145" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <!-- Umhang/Cape (weht leicht) -->
-                    <path d="M55,78 Q45,95 40,115 Q48,112 55,108" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-                    <path d="M75,78 Q80,95 82,115 Q76,112 72,108" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-
-                    <!-- === HASE schaut aus Reservehut am Boden === -->
-                    <g class="magic-rabbit">
-                        <!-- Kleiner Hut am Boden -->
-                        <rect x="5" y="120" width="24" height="14" rx="2" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                        <ellipse cx="17" cy="134" rx="16" ry="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                        <ellipse cx="17" cy="120" rx="12" ry="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-                        <!-- Hasenohren -->
-                        <ellipse cx="13" cy="112" rx="3" ry="8" fill="white" stroke="#1a1a1a" stroke-width="1.3" transform="rotate(-8, 13, 112)"/>
-                        <ellipse cx="21" cy="110" rx="3" ry="8" fill="white" stroke="#1a1a1a" stroke-width="1.3" transform="rotate(8, 21, 110)"/>
-                        <!-- Innenohr -->
-                        <ellipse cx="13" cy="112" rx="1.5" ry="5" fill="none" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3" transform="rotate(-8, 13, 112)"/>
-                        <ellipse cx="21" cy="110" rx="1.5" ry="5" fill="none" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3" transform="rotate(8, 21, 110)"/>
-                        <!-- Hasengesicht -->
-                        <circle cx="14" cy="122" r="1" fill="#1a1a1a"/>
-                        <circle cx="20" cy="122" r="1" fill="#1a1a1a"/>
-                        <path d="M15,125 Q17,127 19,125" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
-                        <!-- Schnurrhaare -->
-                        <path d="M11,124 L5,123" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
-                        <path d="M11,126 L5,127" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
-                        <path d="M23,124 L29,123" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
-                        <path d="M23,126 L29,127" stroke="#1a1a1a" stroke-width="0.5" opacity="0.4"/>
-                    </g>
-
-                    <!-- === KARTEN (fallen runter) === -->
-                    <g class="magic-card-l">
-                        <rect x="30" y="100" width="14" height="20" rx="1.5" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
-                        <text x="34" y="114" font-size="11" fill="#c0392b">&#9829;</text>
-                    </g>
-                    <g class="magic-card-r">
-                        <rect x="118" y="95" width="14" height="20" rx="1.5" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
-                        <text x="122" y="109" font-size="11" fill="#1a1a1a">&#9824;</text>
-                    </g>
-
-                    <!-- === MAGISCHE STERNE (funkelnd) === -->
-                    <path d="M130,20 L132,14 L134,20 L140,20 L135,24 L137,30 L132,26 L127,30 L129,24 L124,20 Z" class="magic-star1" fill="#f1c40f"/>
-                    <path d="M10,50 L11,46 L12,50 L16,50 L13,52 L14,56 L11,53 L8,56 L9,52 L6,50 Z" class="magic-star2" fill="#f1c40f"/>
-                    <path d="M140,70 L141,67 L142,70 L145,70 L143,72 L143,75 L141,73 L139,75 L139,72 L137,70 Z" class="magic-star3" fill="#f1c40f"/>
-                    <path d="M38,30 L39,27 L40,30 L43,30 L41,32 L41,35 L39,33 L37,35 L37,32 L35,30 Z" class="magic-star4" fill="#f1c40f"/>
-                    <path d="M110,100 L111,97 L112,100 L115,100 L113,102 L113,105 L111,103 L109,105 L109,102 L107,100 Z" class="magic-star5" fill="#f1c40f"/>
-
-                    <!-- Label -->
-                    <text x="40" y="155" font-family="Permanent Marker, cursive" font-size="11" fill="#888">MR. MAGIC</text>
-                </svg>
+                <div data-svg-src="svg/popup-mrmagic.svg" data-svg-load="eager"></div>
             </div>
             <p class="popup-text">Hocus Pocus... wo ist die Karte?<br><em>Im Ärmel. Sie war immer im Ärmel.</em></p>
         </div>
@@ -2819,152 +2450,7 @@
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup('popupFlexibilitaet')">x</button>
             <div class="popup-illustration">
-                <svg viewBox="0 0 180 175" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <style>
-                            @keyframes flexBreatheJ { 0%,100% { transform:scale(1); } 50% { transform:scale(1.02); } }
-                            @keyframes flexShockL { 0%,100% { opacity:0.2; transform:scaleX(0.8); } 50% { opacity:0.7; transform:scaleX(1.15); } }
-                            @keyframes flexJawDrop { 0%,70%,100% { transform:translateY(0); } 80% { transform:translateY(2px); } }
-                            @keyframes flexSweatDrop { 0% { opacity:0; transform:translateY(0); } 40% { opacity:0.5; } 100% { opacity:0; transform:translateY(12px); } }
-                            @keyframes flexRibbonWave { 0%,100% { transform:rotate(0deg); } 50% { transform:rotate(5deg); } }
-                            @keyframes flexStarBurst { 0%,100% { opacity:0; transform:scale(0.5); } 50% { opacity:0.8; transform:scale(1.1); } }
-                            @keyframes flexYogaGuyFaint { 0%,60%,100% { transform:rotate(0deg); } 70% { transform:rotate(-15deg); } 90% { transform:rotate(-25deg); } }
-                            .flex-body-j { animation: flexBreatheJ 3s ease-in-out infinite; transform-origin: 75px 70px; }
-                            .flex-shock-j1 { animation: flexShockL 1.5s ease-in-out infinite; transform-origin: right; }
-                            .flex-shock-j2 { animation: flexShockL 1.5s ease-in-out infinite 0.3s; transform-origin: right; }
-                            .flex-shock-j3 { animation: flexShockL 1.5s ease-in-out infinite 0.6s; transform-origin: right; }
-                            .flex-jaw { animation: flexJawDrop 3s ease-in-out infinite; }
-                            .flex-sweat1 { animation: flexSweatDrop 2s ease-in infinite 0.5s; }
-                            .flex-sweat2 { animation: flexSweatDrop 2s ease-in infinite 1.2s; }
-                            .flex-ribbon { animation: flexRibbonWave 2s ease-in-out infinite; transform-origin: 75px 8px; }
-                            .flex-star1 { animation: flexStarBurst 1.8s ease-in-out infinite; transform-origin: center; }
-                            .flex-star2 { animation: flexStarBurst 2s ease-in-out infinite 0.5s; transform-origin: center; }
-                            .flex-star3 { animation: flexStarBurst 1.5s ease-in-out infinite 1s; transform-origin: center; }
-                            .flex-yoga-faint { animation: flexYogaGuyFaint 4s ease-in-out infinite; transform-origin: 155px 155px; }
-                        </style>
-                    </defs>
-
-                    <!-- === BÜHNE / MATTE === -->
-                    <ellipse cx="75" cy="148" rx="55" ry="6" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.15"/>
-                    <!-- Yoga-Matte Andeutung -->
-                    <rect x="35" y="142" width="80" height="3" rx="1.5" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.2"/>
-
-                    <!-- === JONAS in Yoga-Pose (Strichmännchen, mit Dutt & Locken) === -->
-                    <g class="flex-body-j">
-                        <!-- Kopf -->
-                        <circle cx="75" cy="48" r="15" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
-                        <!-- Lockige Haare -->
-                        <path d="M64,42 Q62,34 66,30 Q70,28 74,28" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                        <path d="M86,42 Q88,34 84,30 Q80,28 76,28" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                        <!-- Dutt -->
-                        <ellipse cx="75" cy="26" rx="7" ry="5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                        <path d="M70,24 Q75,21 80,24" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
-
-                        <!-- Augen (konzentriert, leicht schielend nach unten zum Zeh) -->
-                        <circle cx="70" cy="46" r="2" fill="#1a1a1a"/>
-                        <circle cx="80" cy="46" r="2" fill="#1a1a1a"/>
-                        <!-- Pupillen zeigen nach unten -->
-                        <circle cx="70.5" cy="47" r="0.8" fill="white"/>
-                        <circle cx="80.5" cy="47" r="0.8" fill="white"/>
-
-                        <!-- Offener Mund (Zeh drin!) -->
-                        <ellipse cx="75" cy="55" rx="5" ry="4.5" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                        <!-- Zufriedene Augenbrauen -->
-                        <path d="M66,41 Q70,39 73,41" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                        <path d="M77,41 Q80,39 84,41" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-
-                        <!-- Körper -->
-                        <path d="M75,63 Q75,82 73,98" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Linker Arm (stützt sich locker ab) -->
-                        <path d="M75,73 Q58,78 45,90" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Hand aufgestützt -->
-                        <path d="M45,90 Q42,92 44,95" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                        <!-- Rechter Arm (hält Fuss zum Mund) -->
-                        <path d="M75,73 Q92,66 95,55" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Hand greift Fuss -->
-                        <circle cx="94" cy="54" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1"/>
-
-                        <!-- Linkes Bein (locker nach vorne) -->
-                        <path d="M73,98 Q60,115 52,135" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Linker Fuss -->
-                        <path d="M52,135 Q48,138 44,136" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-
-                        <!-- Rechtes Bein (HOCH zum Mund gezogen!) -->
-                        <path d="M73,98 Q100,88 105,70 Q108,56 98,48 Q92,44 85,47" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Fuss am Mund (rosa Nägel natürlich!) -->
-                        <path d="M85,47 Q80,44 78,48" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                        <!-- Rosa Nagel am Zeh im Mund -->
-                        <ellipse cx="82" cy="46" rx="2.5" ry="1.8" fill="#ff69b4" stroke="#1a1a1a" stroke-width="0.8"/>
-                    </g>
-
-                    <!-- === STAUNLINIEN (mehr + animiert) === -->
-                    <path d="M118,55 L130,52" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" class="flex-shock-j1"/>
-                    <path d="M120,63 L132,63" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" class="flex-shock-j2"/>
-                    <path d="M118,71 L130,74" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" class="flex-shock-j3"/>
-
-                    <!-- === GOLDENE STERNE (Wow-Effekt) === -->
-                    <path d="M22,35 L24,29 L26,35 L32,35 L27,39 L29,45 L24,41 L19,45 L21,39 L16,35 Z" class="flex-star1" fill="#f1c40f"/>
-                    <path d="M140,30 L141,27 L142,30 L145,30 L143,32 L143,35 L141,33 L139,35 L139,32 L137,30 Z" class="flex-star2" fill="#f1c40f"/>
-                    <path d="M10,80 L11,77 L12,80 L15,80 L13,82 L13,85 L11,83 L9,85 L9,82 L7,80 Z" class="flex-star3" fill="#f1c40f"/>
-
-                    <!-- === SCHOCKIERTER YOGAMEISTER (links unten) === -->
-                    <g class="flex-jaw">
-                        <!-- Kopf -->
-                        <circle cx="22" cy="120" r="7" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                        <!-- Stirnband -->
-                        <path d="M15,117 Q22,114 29,117" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                        <!-- Band-Ende -->
-                        <path d="M29,117 Q33,118 35,115" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
-                        <!-- Schockierte Augen (grosse Kreise) -->
-                        <circle cx="19" cy="120" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1"/>
-                        <circle cx="25" cy="120" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1"/>
-                        <circle cx="19" cy="120" r="1" fill="#1a1a1a"/>
-                        <circle cx="25" cy="120" r="1" fill="#1a1a1a"/>
-                        <!-- Offener Mund (Schock) -->
-                        <ellipse cx="22" cy="126" rx="2.5" ry="3" fill="white" stroke="#1a1a1a" stroke-width="1"/>
-                        <!-- Schweiss -->
-                        <circle cx="14" cy="118" r="1.2" fill="#3498db" class="flex-sweat1" opacity="0"/>
-                        <!-- Körper im Schneidersitz -->
-                        <path d="M22,127 L22,138" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                        <path d="M22,132 L16,135" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <path d="M22,132 L28,135" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <!-- Lotus-Sitz (gekreuzte Beine) -->
-                        <path d="M22,138 Q16,140 14,138 Q12,136 15,137" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <path d="M22,138 Q28,140 30,138 Q32,136 29,137" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                    </g>
-
-                    <!-- === OHNMÄCHTIGER ANATOM (rechts unten) === -->
-                    <g class="flex-yoga-faint">
-                        <!-- Kopf -->
-                        <circle cx="155" cy="128" r="6" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
-                        <!-- Brille -->
-                        <circle cx="153" cy="127" r="2.5" fill="none" stroke="#1a1a1a" stroke-width="0.7"/>
-                        <circle cx="158" cy="127" r="2.5" fill="none" stroke="#1a1a1a" stroke-width="0.7"/>
-                        <line x1="155.5" y1="127" x2="155.5" y2="127" stroke="#1a1a1a" stroke-width="0.5"/>
-                        <!-- X-Augen (ohnmächtig) -->
-                        <path d="M152,126 L154,128 M154,126 L152,128" stroke="#1a1a1a" stroke-width="0.8"/>
-                        <path d="M157,126 L159,128 M159,126 L157,128" stroke="#1a1a1a" stroke-width="0.8"/>
-                        <!-- Körper (kippt) -->
-                        <path d="M155,134 L155,148" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                        <!-- Arme (schlaff) -->
-                        <path d="M155,138 Q148,140 145,144" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <path d="M155,138 Q162,140 165,144" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                        <!-- Buch (fällt runter) -->
-                        <rect x="143" y="142" width="7" height="5" rx="0.5" fill="white" stroke="#1a1a1a" stroke-width="0.8" transform="rotate(15, 146, 144)"/>
-                        <text x="144" y="146" font-size="3" fill="#1a1a1a" transform="rotate(15, 146, 144)">ANAT.</text>
-                        <!-- Schweiss -->
-                        <circle cx="162" cy="125" r="1" fill="#3498db" class="flex-sweat2" opacity="0"/>
-                    </g>
-
-                    <!-- === BANNER oben === -->
-                    <g class="flex-ribbon">
-                        <path d="M30,10 Q75,4 120,10 Q125,10 125,14 Q125,18 120,18 Q75,12 30,18 Q25,18 25,14 Q25,10 30,10 Z" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-                        <text x="47" y="16" font-family="Permanent Marker, cursive" font-size="7" fill="#1a1a1a">WORLD RECORD</text>
-                    </g>
-
-                    <!-- Label -->
-                    <text x="40" y="168" font-family="Permanent Marker, cursive" font-size="10" fill="#888">ANATOMISCH UNMÖGLICH</text>
-                </svg>
+                <div data-svg-src="svg/popup-flex.svg" data-svg-load="eager"></div>
             </div>
             <p class="popup-text">Zeh. Mund. Kein Problem. Die Menge tobt.<br><em>Yogameister ohnmächtig. Anatomen ratlos. Jonas lächelt.</em></p>
         </div>
@@ -3194,54 +2680,7 @@
 
             <!-- Illustration: Baby mit Schläger -->
             <div class="bio-illustration reveal">
-                <svg viewBox="0 0 420 220" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Baby: runder Kopf, grosser als Körper -->
-                    <path d="M150,95 Q148,52 170,42 Q190,34 200,42 Q210,34 218,48 Q230,60 225,95 Q222,112 210,118 Q190,126 170,118 Q152,110 150,95 Z" fill="white" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                    <!-- Babyaugen: gross, rund, neugierig -->
-                    <ellipse cx="178" cy="82" rx="9" ry="10" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                    <circle cx="180" cy="84" r="5" fill="#1a1a1a"/>
-                    <circle cx="182" cy="82" r="1.5" fill="white"/>
-                    <ellipse cx="202" cy="82" rx="9" ry="10" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                    <circle cx="204" cy="84" r="5" fill="#1a1a1a"/>
-                    <circle cx="206" cy="82" r="1.5" fill="white"/>
-                    <!-- Mund: offenes Lächeln -->
-                    <path d="M183,100 Q190,110 200,100" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <!-- Lockige Haar-Büschel oben (Baby-Jonas!) -->
-                    <path d="M182,44 Q180,32 186,28 Q190,24 194,30" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M192,28 Q196,22 200,28 Q204,22 206,30" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M204,32 Q208,26 212,34" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                    <!-- Baby-Körper: Strampelanzug -->
-                    <path d="M172,120 Q168,130 165,155 Q162,175 170,185 L210,185 Q218,175 215,155 Q212,130 208,120" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <!-- Babybauch-Linie -->
-                    <path d="M178,140 Q190,148 202,140" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.2"/>
-                    <!-- Arm mit Schläger (rechts, kraftvoll ausgestreckt) -->
-                    <path d="M208,135 Q230,125 255,112 Q268,106 278,108" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                    <path d="M210,142 Q232,134 254,122" fill="none" stroke="#1a1a1a" stroke-width="1.5" opacity="0.2"/>
-                    <!-- Hand -->
-                    <path d="M276,104 Q282,100 285,106 Q286,112 280,114 Q276,112 276,106" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                    <!-- Schläger -->
-                    <ellipse cx="306" cy="92" rx="22" ry="28" fill="white" stroke="#1a1a1a" stroke-width="2.5" transform="rotate(-15, 306, 92)"/>
-                    <rect x="296" y="118" width="8" height="18" rx="3" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                    <!-- Linker Arm (entspannt) -->
-                    <path d="M172,135 Q155,145 148,160" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <!-- Brei-Spritzer! -->
-                    <circle cx="345" cy="68" r="7" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                    <circle cx="362" cy="82" r="4.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <circle cx="355" cy="55" r="5.5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                    <circle cx="338" cy="48" r="3" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <!-- Flugbahn -->
-                    <path d="M328,95 Q335,80 342,72" stroke="#1a1a1a" stroke-width="1.2" stroke-dasharray="4,3" fill="none"/>
-                    <!-- Spritz-Linien -->
-                    <line x1="354" y1="64" x2="362" y2="58" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                    <line x1="368" y1="78" x2="378" y2="76" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-
-                    <!-- Labels -->
-                    <text x="32" y="100" class="sketch-label" font-size="15" transform="rotate(-90, 55, 100)">ALTER: 0</text>
-                    <text x="335" y="38" class="sketch-label-small" font-size="13">BREI</text>
-                    <path d="M348,42 Q348,50 346,58" stroke="#888" stroke-width="1.2" fill="none"/>
-                    <polygon points="346,58 343,52 349,53" fill="#888"/>
-                    <text x="260" y="148" class="sketch-label-small" font-size="11">(already<tspan x="260" dy="14">a pro)</tspan></text>
-                </svg>
+                <div data-svg-src="svg/bio-skills.svg" data-svg-load="lazy"></div>
             </div>
 
             <p class="reveal">In den Hallen seiner Jugend perfektionierte Jonas jene Künste, die gewöhnliche Sterbliche nur aus der Ferne bewundern können. Sein Aufschlag &ndash; ein Donnerschlag der Götter. Seine Rückhand &ndash; ein Werk der Präzision, als hätte Michelangelo selbst den Schläger geführt. Sein Blick über das Netz &ndash; kalt, entschlossen, unerbittlich. <span class="latin">Magnus Iuvenis</span>, der Grosse Jüngling, so nannten ihn die Chronisten bereits früh.</p>
@@ -3250,92 +2689,7 @@
 
             <!-- Illustration: Jonas mit Ukulele -->
             <div class="bio-illustration reveal">
-                <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Kopf -->
-                    <path d="M170,75 Q168,40 190,30 Q210,22 225,32 Q240,42 238,75 Q236,95 225,102 Q210,110 190,102 Q172,92 170,75 Z" fill="white" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                    <!-- Lockige Haare, seitlich -->
-                    <path d="M174,58 Q170,42 178,34 Q186,28 196,28" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <path d="M240,58 Q244,42 236,34 Q228,28 218,28" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <!-- Locken-Textur -->
-                    <path d="M176,52 Q172,44 178,38" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M238,52 Q242,44 236,38" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                    <!-- Dutt oben -->
-                    <path d="M196,28 Q202,24 208,24 Q214,24 218,28" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                    <ellipse cx="207" cy="18" rx="13" ry="10" fill="white" stroke="#1a1a1a" stroke-width="2.2"/>
-                    <path d="M198,14 Q203,10 207,12 Q211,10 216,14" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                    <path d="M200,20 Q207,17 214,20" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                    <!-- Haargummi -->
-                    <ellipse cx="207" cy="26" rx="8" ry="2.5" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <!-- Geschlossene Augen (selig, geniessend) -->
-                    <path d="M188,64 Q194,58 200,64" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M212,64 Q218,58 224,64" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <!-- Schnurrbart -->
-                    <path d="M192,76 Q198,73 206,75 Q214,73 220,76" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <path d="M193,76 Q190,77 188,76" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M219,76 Q222,77 224,76" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                    <!-- Seliges Lächeln -->
-                    <path d="M195,82 Q207,92 218,82" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-
-                    <!-- Körper (sitzend, organisch) -->
-                    <path d="M185,106 Q178,115 175,135 Q172,160 180,185 Q186,200 195,205 L220,205 Q228,200 234,185 Q240,160 238,135 Q235,115 228,106" fill="white" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                    <!-- Shirt-Falte -->
-                    <path d="M198,130 Q205,145 202,175" stroke="#1a1a1a" stroke-width="0.8" fill="none" opacity="0.2"/>
-
-                    <!-- Beine (sitzend, übereinandergeschlagen) -->
-                    <path d="M185,202 Q165,215 155,240 Q148,260 155,275 Q160,282 170,278" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                    <path d="M225,202 Q245,215 258,235 Q268,255 262,275 Q258,282 250,278" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                    <!-- Fuss -->
-                    <path d="M170,278 Q178,284 184,278" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <path d="M250,278 Q242,284 236,278" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-
-                    <!-- Arme (halten Ukulele) -->
-                    <path d="M235,125 Q255,120 272,135 Q280,142 282,148" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-                    <path d="M235,135 Q248,145 260,158 Q265,164 268,170" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <!-- Hände (Finger angedeutet) -->
-                    <path d="M280,146 Q286,142 288,148 Q288,154 282,154" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
-                    <path d="M266,168 Q270,164 274,168 Q274,174 268,174" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
-
-                    <!-- UKULELE (detailliert) -->
-                    <!-- Körper -->
-                    <path d="M292,172 Q270,168 265,182 Q260,200 272,210 Q284,218 300,215 Q316,210 318,195 Q318,178 305,172 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <!-- Schallloch -->
-                    <circle cx="290" cy="195" r="6" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
-                    <!-- Rosette -->
-                    <circle cx="290" cy="195" r="8.5" fill="none" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3"/>
-                    <!-- Hals -->
-                    <path d="M284,172 L282,130 L292,130 L290,172" fill="white" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-                    <!-- Kopfplatte -->
-                    <path d="M280,130 L278,118 Q285,114 290,118 L288,130" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                    <!-- Wirbel -->
-                    <circle cx="278" cy="120" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <circle cx="278" cy="127" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <circle cx="292" cy="120" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <circle cx="292" cy="127" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <!-- Saiten -->
-                    <line x1="284" y1="132" x2="285" y2="210" stroke="#1a1a1a" stroke-width="0.7" opacity="0.5"/>
-                    <line x1="287" y1="132" x2="288" y2="212" stroke="#1a1a1a" stroke-width="0.7" opacity="0.5"/>
-                    <line x1="290" y1="132" x2="292" y2="212" stroke="#1a1a1a" stroke-width="0.7" opacity="0.5"/>
-                    <!-- Steg -->
-                    <line x1="283" y1="208" x2="296" y2="210" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-
-                    <!-- Noten (fliegen davon) -->
-                    <text x="315" y="125" font-family="Permanent Marker, cursive" font-size="26" fill="#1a1a1a" opacity="0.7">&#9834;</text>
-                    <text x="338" y="100" font-family="Permanent Marker, cursive" font-size="18" fill="#1a1a1a" opacity="0.5">&#9835;</text>
-                    <text x="310" y="90" font-family="Permanent Marker, cursive" font-size="20" fill="#1a1a1a" opacity="0.6">&#9833;</text>
-                    <text x="348" y="125" font-family="Caveat, cursive" font-size="14" fill="#888">~</text>
-
-                    <!-- Wellenlinien (Musik, Vibes) -->
-                    <path d="M105,145 Q110,132 115,145 Q120,158 125,145" stroke="#888" stroke-width="1.5" fill="none" opacity="0.4"/>
-                    <path d="M95,165 Q100,152 105,165 Q110,178 115,165" stroke="#888" stroke-width="1.5" fill="none" opacity="0.3"/>
-                    <path d="M115,125 Q120,115 125,125 Q130,135 135,125" stroke="#888" stroke-width="1.2" fill="none" opacity="0.3"/>
-
-                    <!-- Labels -->
-                    <text x="25" y="70" class="sketch-label" font-size="15">VIBES</text>
-                    <path d="M72,68 Q130,66 166,70" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
-                    <polygon points="166,70 160,66 160,74" fill="#1a1a1a"/>
-
-                    <text x="320" y="240" class="sketch-label-small" font-size="12">pures<tspan x="320" dy="14">Glück</tspan></text>
-                </svg>
+                <div data-svg-src="svg/bio-baby.svg" data-svg-load="lazy"></div>
             </div>
 
             <p class="reveal">Was viele nicht wissen: Jonas trägt im Verborgenen auch den Titel <span class="clickable-fact" onclick="openPopup('popupMrMagic')"><strong>Mr. Magic</strong></span>. In jungen Jahren versuchte er sich nämlich als Zauberkünstler &ndash; mit Kartentricks, mysteriösen Handbewegungen und dem unerschütterlichen Glauben, dass Magie real ist. Die Tricks mögen nicht immer geglückt sein, doch das Charisma dabei war stets überwältigend. Manche sagen, seine Tischtenniskünste seien nur eine Weiterentwicklung derselben Magie. <span class="latin">Magia in manibus eius.</span></p>
@@ -3346,65 +2700,7 @@
 
             <!-- Illustration: Flexibilitäts-Diagramm im Duck/Rabbit Stil -->
             <div class="bio-illustration reveal">
-                <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Achsen (leicht wackelig für handgezeichneten Look) -->
-                    <path d="M80,272 Q215,270 360,272" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M80,272 Q78,155 80,45" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                    <!-- Pfeilspitzen -->
-                    <polygon points="360,272 348,266 348,278" fill="#1a1a1a"/>
-                    <polygon points="80,45 74,57 86,57" fill="#1a1a1a"/>
-
-                    <!-- Achsenbeschriftungen -->
-                    <text x="38" y="58" class="sketch-label" font-size="13" transform="rotate(-90, 38, 158)">FLEXIBILITÄT</text>
-                    <text x="305" y="296" class="sketch-label" font-size="14">KÖNNEN</text>
-
-                    <!-- Datenpunkte als kleine Figuren -->
-                    <!-- Luca (unten links, traurig) -->
-                    <circle cx="118" cy="235" r="8" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                    <circle cx="115" cy="233" r="1.5" fill="#1a1a1a"/>
-                    <circle cx="121" cy="233" r="1.5" fill="#1a1a1a"/>
-                    <path d="M114,239 Q118,236 122,239" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <line x1="118" y1="243" x2="118" y2="258" stroke="#1a1a1a" stroke-width="1.8"/>
-                    <text x="98" y="270" class="sketch-label" font-size="10">LUCA</text>
-
-                    <!-- Average Human (Mitte) -->
-                    <circle cx="170" cy="198" r="5" fill="#1a1a1a"/>
-                    <text x="145" y="218" class="sketch-label-small" font-size="11">DURCH-</text>
-                    <text x="145" y="230" class="sketch-label-small" font-size="11">SCHNITT</text>
-
-                    <!-- Katze (flexibler als Menschen) -->
-                    <circle cx="155" cy="145" r="5" fill="#1a1a1a"/>
-                    <text x="110" y="142" class="sketch-label-small" font-size="11">KATZE</text>
-
-                    <!-- Yoga Master -->
-                    <circle cx="220" cy="155" r="5" fill="#1a1a1a"/>
-                    <text x="228" y="152" class="sketch-label-small" font-size="11">YOGA</text>
-                    <text x="228" y="164" class="sketch-label-small" font-size="11">MEISTER</text>
-
-                    <!-- JONAS: oben rechts, GROSS, mit Krone + Dutt + Schnurrbart -->
-                    <circle cx="320" cy="65" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
-                    <!-- Locken angedeutet -->
-                    <path d="M308,58 Q306,54 310,52 Q314,50 318,50 Q322,50 326,52 Q330,54 332,58" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                    <!-- Mini-Dutt -->
-                    <ellipse cx="320" cy="46" rx="6" ry="4" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-                    <circle cx="315" cy="62" r="2.5" fill="#1a1a1a"/>
-                    <circle cx="325" cy="62" r="2.5" fill="#1a1a1a"/>
-                    <!-- Mini-Schnurrbart -->
-                    <path d="M315,68 Q318,66 320,67 Q322,66 325,68" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M314,70 Q320,76 326,70" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                    <!-- Mini-Krone (über Dutt) -->
-                    <path d="M314,40 L316,34 L318,38 L320,30 L322,38 L324,34 L326,40" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-                    <text x="288" y="38" class="sketch-label" font-size="18">JONAS</text>
-
-                    <!-- Trendlinie -->
-                    <path d="M118,240 Q180,200 220,155 Q260,110 320,65" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="6,4" fill="none"/>
-
-                    <!-- "Off the charts" Pfeil, der über den Rand geht -->
-                    <path d="M336,58 Q350,45 365,35" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
-                    <polygon points="365,35 358,38 362,44" fill="#1a1a1a"/>
-                    <text x="340" y="25" class="sketch-label-small" font-size="11">(jenseits aller Skalen)</text>
-                    <text x="340" y="100" class="sketch-label" font-size="22">!</text>
-                </svg>
+                <div data-svg-src="svg/bio-flex-chart.svg" data-svg-load="lazy"></div>
             </div>
 
             <p class="reveal">So steht Jonas vor uns: Tischtennis-Gott, Ukulelen-Virtuose, Stilikone, anatomisches Wunder &ndash; und, vor allem, der ungeschlagene Champion des Büroturniers. <span class="latin">Victoriam aeternam.</span> Ewiger Sieg.</p>
@@ -3435,97 +2731,7 @@
          DIAGRAMM: Das grosse Turnier
          ================================================ -->
     <section class="diagram-section reveal">
-        <svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg">
-            <!-- Titel -->
-            <text x="140" y="28" class="sketch-label" font-size="20">DAS GROSSE TURNIER</text>
-            <path d="M140,32 Q260,37 410,32" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
-
-            <!-- Tisch (leicht perspektivisch) -->
-            <path d="M90,60 L420,60 L430,240 L80,240 Z" fill="white" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-            <!-- Mittellinie -->
-            <path d="M90,150 Q255,146 430,150" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="8,5" fill="none"/>
-            <!-- Netz (mit Pfosten) -->
-            <line x1="255" y1="55" x2="255" y2="245" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
-            <rect x="252" y="55" width="6" height="8" fill="#1a1a1a" rx="1"/>
-            <rect x="252" y="237" width="6" height="8" fill="#1a1a1a" rx="1"/>
-            <!-- Netz-Textur -->
-            <line x1="255" y1="70" x2="255" y2="232" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.3"/>
-
-            <!-- === JONAS (rechts, cool, mit Dutt + Schnurrbart) === -->
-            <g id="tournamentJonas">
-                <circle cx="380" cy="295" r="24" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
-                <!-- Lockige Haare + Dutt -->
-                <path d="M360,282 Q358,272 365,268 Q372,264 380,264 Q388,264 395,268 Q402,272 400,282" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                <path d="M362,278 Q359,274 362,270" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M398,278 Q401,274 398,270" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-                <ellipse cx="380" cy="260" rx="10" ry="7" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-                <path d="M374,258 Q380,254 386,258" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-                <!-- Augen (fokussiert) -->
-                <ellipse cx="374" cy="290" rx="4" ry="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                <circle cx="374" cy="290" r="2" fill="#1a1a1a"/>
-                <ellipse cx="386" cy="290" rx="4" ry="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                <circle cx="386" cy="290" r="2" fill="#1a1a1a"/>
-                <!-- Cool-Augenbrauen -->
-                <path d="M369,284 Q374,281 379,283" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
-                <path d="M381,283 Q386,281 391,284" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
-                <!-- Schnurrbart -->
-                <path d="M372,298 Q376,296 380,297 Q384,296 388,298" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                <!-- Grinsen -->
-                <path d="M373,302 Q380,308 387,302" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                <!-- Körper -->
-                <path d="M370,318 Q378,322 386,318" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-                <!-- Arm + Schläger -->
-                <path d="M368,325 Q350,310 338,290" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                <ellipse cx="325" cy="272" rx="15" ry="18" fill="white" stroke="#1a1a1a" stroke-width="2.2" transform="rotate(-10, 325, 272)"/>
-                <line x1="334" y1="287" x2="340" y2="295" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            </g>
-
-            <!-- === LUCA (links, panisch) === -->
-            <g id="tournamentLuca">
-                <circle cx="130" cy="295" r="24" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
-                <!-- Augen (weit aufgerissen) -->
-                <ellipse cx="124" cy="288" rx="5" ry="6" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                <circle cx="124" cy="289" r="2.5" fill="#1a1a1a"/>
-                <circle cx="125" cy="287.5" r="0.8" fill="white"/>
-                <ellipse cx="136" cy="288" rx="5" ry="6" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                <circle cx="136" cy="289" r="2.5" fill="#1a1a1a"/>
-                <circle cx="137" cy="287.5" r="0.8" fill="white"/>
-                <!-- Angst-Augenbrauen -->
-                <path d="M118,280 Q124,277 130,282" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
-                <path d="M132,282 Q138,277 144,280" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
-                <!-- Offener Mund -->
-                <ellipse cx="130" cy="304" rx="5" ry="6" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-                <!-- Schweisstropfen -->
-                <path d="M156,280 Q158,272 160,280 Q158,286 156,280" fill="#1a1a1a"/>
-                <path d="M160,292 Q162,286 164,292 Q162,296 160,292" fill="#1a1a1a" opacity="0.5"/>
-                <!-- Körper -->
-                <path d="M120,318 Q128,322 136,318" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-                <!-- Arm (schlaff) + Schläger (haengt) -->
-                <path d="M142,322 Q155,330 160,340" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-                <ellipse cx="170" cy="355" rx="12" ry="15" fill="white" stroke="#1a1a1a" stroke-width="2" transform="rotate(25, 170, 355)"/>
-                <line x1="162" y1="342" x2="166" y2="348" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-            </g>
-
-            <!-- Ball (fliegend) -->
-            <circle cx="290" cy="125" r="8" fill="white" stroke="#1a1a1a" stroke-width="2.2"/>
-            <path d="M284,122 Q290,128 296,122" fill="none" stroke="#1a1a1a" stroke-width="0.8" opacity="0.4"/>
-            <path d="M330,200 Q310,160 292,132" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="4,4" fill="none"/>
-            <line x1="300" y1="122" x2="308" y2="118" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="299" y1="128" x2="307" y2="128" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-
-            <!-- Labels -->
-            <text x="355" y="358" class="sketch-label" font-size="16">JONAS</text>
-            <text x="348" y="374" class="sketch-label-small" font-size="11">(ruhig, gefasst)</text>
-            <text x="88" y="358" class="sketch-label" font-size="16">LUCA</text>
-            <text x="88" y="374" class="sketch-label-small" font-size="11">(verängstigt)</text>
-
-            <!-- Scoreboard -->
-            <rect x="435" y="85" width="78" height="62" rx="2" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-            <text x="445" y="104" class="sketch-label" font-size="11">PUNKTE</text>
-            <line x1="440" y1="108" x2="508" y2="108" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
-            <text x="445" y="124" class="sketch-label" font-size="13">JONAS: &#8734;</text>
-            <text x="445" y="142" class="sketch-label-small" font-size="13">LUCA: 0</text>
-        </svg>
+        <div data-svg-src="svg/tournament.svg" data-svg-load="lazy"></div>
     </section>
     <p class="pong-hint" id="pongHint">Traust du dich? <span class="pong-hint-link" id="pongTrigger">Spiel gegen Jonas.</span></p>
 
@@ -3584,281 +2790,7 @@
 
     <!-- Illustration: Jonas triumphiert, Luca am Boden -->
     <div class="diagram-section reveal" style="padding: 20px 20px 10px;">
-        <svg viewBox="0 0 520 380" xmlns="http://www.w3.org/2000/svg">
-
-            <!-- ===== BODEN (leichte Linie + Schatten) ===== -->
-            <path d="M20,312 Q260,318 500,312" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.2"/>
-            <!-- Tisch-Schatten am Boden -->
-            <ellipse cx="257" cy="312" rx="180" ry="6" fill="#1a1a1a" opacity="0.04"/>
-
-            <!-- ===== TISCHTENNISPLATTE (3D-Ansicht, leichte Schrägperspektive) ===== -->
-
-            <!-- Tischplatte (schlank, Seitenansicht mit dünner Kante) -->
-            <path d="M60,192 L460,192 L460,197 L60,197 Z" fill="white" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round"/>
-            <!-- Randlinien auf Oberfläche (echte TT-Platte) -->
-            <line x1="65" y1="193" x2="455" y2="193" stroke="#1a1a1a" stroke-width="0.6" opacity="0.15"/>
-            <line x1="65" y1="196" x2="455" y2="196" stroke="#1a1a1a" stroke-width="0.6" opacity="0.15"/>
-            <!-- Mittellinie (längs) -->
-            <line x1="65" y1="194.5" x2="455" y2="194.5" stroke="#1a1a1a" stroke-width="0.5" opacity="0.1" stroke-dasharray="5,4"/>
-
-            <!-- ===== TISCHBEINE (schlank, mit Querstrebe) ===== -->
-            <!-- Linkes Beinpaar -->
-            <line x1="82" y1="197" x2="80" y2="300" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <line x1="95" y1="197" x2="93" y2="300" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <!-- Querstrebe links -->
-            <line x1="81" y1="250" x2="94" y2="250" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <!-- Rechtes Beinpaar -->
-            <line x1="425" y1="197" x2="423" y2="300" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <line x1="438" y1="197" x2="436" y2="300" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <!-- Querstrebe rechts -->
-            <line x1="424" y1="250" x2="437" y2="250" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <!-- Längs-Verstrebung -->
-            <path d="M87,270 Q260,262 430,270" fill="none" stroke="#1a1a1a" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>
-
-            <!-- ===== NETZ (sauber, mit Pfosten) ===== -->
-            <!-- Netzpfosten -->
-            <line x1="237" y1="165" x2="237" y2="197" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="279" y1="165" x2="279" y2="197" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Klemmen am Tisch -->
-            <rect x="233" y="193" width="8" height="4" rx="1" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-            <rect x="275" y="193" width="8" height="4" rx="1" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-            <!-- Netz-Oberkante -->
-            <line x1="237" y1="166" x2="279" y2="166" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
-            <!-- Netz-Fäden (horizontal) -->
-            <line x1="238" y1="172" x2="278" y2="172" stroke="#1a1a1a" stroke-width="0.6" opacity="0.3"/>
-            <line x1="238" y1="178" x2="278" y2="178" stroke="#1a1a1a" stroke-width="0.6" opacity="0.25"/>
-            <line x1="238" y1="184" x2="278" y2="184" stroke="#1a1a1a" stroke-width="0.5" opacity="0.2"/>
-            <line x1="238" y1="190" x2="278" y2="190" stroke="#1a1a1a" stroke-width="0.4" opacity="0.15"/>
-            <!-- Netz-Fäden (vertikal) -->
-            <line x1="248" y1="166" x2="248" y2="196" stroke="#1a1a1a" stroke-width="0.4" opacity="0.12"/>
-            <line x1="258" y1="166" x2="258" y2="196" stroke="#1a1a1a" stroke-width="0.4" opacity="0.12"/>
-            <line x1="268" y1="166" x2="268" y2="196" stroke="#1a1a1a" stroke-width="0.4" opacity="0.12"/>
-
-            <!-- ===== JONAS (rechts, auf dem Tisch stehend, mit erkennbaren Merkmalen) ===== -->
-
-            <!-- Beine (stehen auf Tisch, leicht gespreizt, stabil) -->
-            <path d="M355,190 Q348,172 340,158" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-            <path d="M375,190 Q382,172 388,158" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-            <!-- Sandalen (rosa Fussnägel angedeutet) -->
-            <path d="M349,190 L361,190" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M369,190 L381,190" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Rosa Zehen! -->
-            <circle cx="350" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
-            <circle cx="354" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
-            <circle cx="370" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
-            <circle cx="374" cy="189" r="1.5" fill="#e8a0bf" stroke="#1a1a1a" stroke-width="0.8"/>
-
-            <!-- Körper (leicht nach hinten gelehnt, Siegerpose) -->
-            <path d="M364,158 Q366,138 364,115" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-
-            <!-- Kopf (größer, detaillierter – erkennbar als Jonas) -->
-            <circle cx="364" cy="88" r="22" fill="white" stroke="#1a1a1a" stroke-width="2.8"/>
-
-            <!-- Lockige Haare seitlich (Jonas' Erkennungsmerkmal!) -->
-            <path d="M346,78 Q342,65 348,58 Q354,52 362,52" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <path d="M382,78 Q386,65 380,58 Q374,52 366,52" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <!-- Locken-Textur -->
-            <path d="M344,72 Q340,66 346,60" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M384,72 Q388,66 382,60" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <!-- Dutt oben -->
-            <path d="M358,52 Q362,48 366,48 Q370,48 374,52" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-            <ellipse cx="366" cy="42" rx="10" ry="8" fill="white" stroke="#1a1a1a" stroke-width="2.2"/>
-            <path d="M359,39 Q363,36 366,37 Q369,36 373,39" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-            <path d="M361,44 Q366,42 371,44" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
-            <!-- Haargummi -->
-            <ellipse cx="366" cy="50" rx="6" ry="2" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
-
-            <!-- Augen (selbstsicher, triumphierend) -->
-            <ellipse cx="356" cy="84" rx="4" ry="4.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-            <circle cx="357" cy="85" r="2.5" fill="#1a1a1a"/>
-            <circle cx="358" cy="84" r="0.8" fill="white"/>
-            <ellipse cx="372" cy="84" rx="4" ry="4.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-            <circle cx="373" cy="85" r="2.5" fill="#1a1a1a"/>
-            <circle cx="374" cy="84" r="0.8" fill="white"/>
-            <!-- Augenbraue (eine hochgezogen – Flex-Pose) -->
-            <path d="M351,76 Q356,73 361,77" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-            <path d="M367,74 Q372,70 377,75" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-
-            <!-- Schnurrbart (Jonas' Markenzeichen!) -->
-            <path d="M356,93 Q360,90 366,92 Q372,90 376,93" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-            <path d="M356,93 Q354,94 352,93" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
-            <path d="M376,93 Q378,94 380,93" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
-
-            <!-- Breites triumphierendes Grinsen -->
-            <path d="M357,98 Q366,108 375,98" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-
-            <!-- Krone (goldene Krone auf dem Dutt!) -->
-            <path d="M353,34 L353,22 L358,27 L366,16 L374,27 L379,22 L379,34 Z" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1.8" stroke-linejoin="round"/>
-            <circle cx="356" cy="21" r="2" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1"/>
-            <circle cx="366" cy="14" r="2.5" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1"/>
-            <circle cx="376" cy="21" r="2" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1"/>
-
-            <!-- Rechter Arm: Schläger lässig über Schulter -->
-            <path d="M364,125 Q385,118 396,110" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-
-            <!-- TT-Schläger (über Schulter, leicht gekippt) -->
-            <!-- Griff -->
-            <path d="M398,108 L408,90" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/>
-            <!-- Schlägerkopf (rund, TT-typisch) -->
-            <circle cx="414" cy="74" r="17" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-            <!-- Belag-Mittellinie -->
-            <line x1="414" y1="58" x2="414" y2="90" stroke="#1a1a1a" stroke-width="0.6" opacity="0.15"/>
-            <!-- Belag-Rand (innerer Kreis = Belagkante) -->
-            <circle cx="414" cy="74" r="13.5" fill="none" stroke="#1a1a1a" stroke-width="0.5" opacity="0.12"/>
-
-            <!-- Faust um den Griff (geschlossene Silhouette) -->
-            <path d="M394,106 Q392,102 395,99 L400,98 Q404,99 405,103 L405,111 Q404,115 400,115 L396,114 Q393,112 394,106 Z" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-            <!-- Knöchel-Linien (angedeutet) -->
-            <path d="M395,103 Q398,102 401,103" fill="none" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>
-            <path d="M395,107 Q398,106 401,107" fill="none" stroke="#1a1a1a" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>
-            <!-- Daumen (liegt oben auf dem Griff) -->
-            <path d="M401,100 Q405,97 407,99 Q406,102 403,102" fill="white" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
-
-            <!-- Linker Arm: Peace-Zeichen ✌️ -->
-            <path d="M364,125 Q342,115 328,102" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-
-            <!-- Hand als zusammenhängende Silhouette -->
-            <!-- Handfläche + eingeklappte Finger unten (eine geschlossene Form) -->
-            <path d="M323,100 Q320,96 322,92 L325,91 Q328,90 331,91 L334,92 Q336,96 335,100 Q336,103 334,106 Q330,108 326,106 Q322,104 323,100 Z" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-            <!-- Zeigefinger (nach oben-links, als Kontur mit Breite) -->
-            <path d="M323,92 Q322,86 320,80 Q319,76 320,74 Q321,72 323,74 Q324,77 325,84 L326,91" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
-            <!-- Mittelfinger (nach oben-rechts, V-Spreizung!) -->
-            <path d="M330,91 Q331,84 333,78 Q334,74 336,72 Q338,71 338,74 Q337,78 335,85 L333,92" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
-            <!-- Daumen (nach links, liegt über eingeklappten Fingern) -->
-            <path d="M323,100 Q319,100 317,102 Q316,104 318,105 Q320,105 323,103" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-
-            <!-- Goldene Sterne / Strahlen um Jonas (animiert funkelnd) -->
-            <g class="hero-star-1">
-                <path d="M300,50 L303,42 L306,50 L314,50 L308,55 L310,63 L303,58 L296,63 L298,55 L292,50 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
-            </g>
-            <g class="hero-star-2">
-                <path d="M445,55 L447,49 L449,55 L455,55 L451,59 L452,65 L447,61 L442,65 L443,59 L439,55 Z" fill="none" stroke="#f1c40f" stroke-width="1.3"/>
-            </g>
-            <g class="hero-star-3">
-                <path d="M310,120 L311,117 L312,120 L315,120 L313,122 L313,125 L311,123 L309,125 L309,122 L307,120 Z" fill="#f1c40f" stroke="none"/>
-            </g>
-            <g class="hero-star-4">
-                <path d="M440,100 L441,97 L442,100 L445,100 L443,102 L443,105 L441,103 L439,105 L439,102 L437,100 Z" fill="#f1c40f" stroke="none"/>
-            </g>
-            <!-- Strahlenlinien -->
-            <g class="hero-ray-1">
-                <line x1="340" y1="35" x2="335" y2="25" stroke="#f1c40f" stroke-width="1.2" stroke-linecap="round"/>
-            </g>
-            <g class="hero-ray-2">
-                <line x1="392" y1="35" x2="397" y2="25" stroke="#f1c40f" stroke-width="1.2" stroke-linecap="round"/>
-            </g>
-            <g class="hero-ray-3">
-                <line x1="310" y1="85" x2="298" y2="80" stroke="#f1c40f" stroke-width="1" stroke-linecap="round"/>
-            </g>
-            <g class="hero-ray-4">
-                <line x1="418" y1="95" x2="430" y2="90" stroke="#f1c40f" stroke-width="1" stroke-linecap="round"/>
-            </g>
-
-
-            <!-- ===== LUCA (auf allen Vieren kriechend unter dem Tisch) ===== -->
-
-            <!-- Rücken/Rumpf (HORIZONTAL, auf allen Vieren) -->
-            <path d="M95,268 Q130,264 165,268" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-
-            <!-- Kopf (vorne, tief, schaut nach rechts zum Ball) -->
-            <circle cx="175" cy="262" r="14" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
-            <!-- Haare (kurz, struppig) -->
-            <path d="M165,254 Q167,247 173,244" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M173,244 Q178,241 183,244" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M183,244 Q187,247 188,254" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <!-- Augen (verzweifelt, nach rechts zum Ball schielend) -->
-            <ellipse cx="170" cy="259" rx="3" ry="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
-            <circle cx="171.5" cy="260" r="1.8" fill="#1a1a1a"/>
-            <ellipse cx="180" cy="259" rx="3" ry="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
-            <circle cx="181.5" cy="260" r="1.8" fill="#1a1a1a"/>
-            <!-- Besorgte Brauen -->
-            <path d="M166,254 Q170,251 174,255" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M177,255 Q181,251 185,254" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <!-- Offener Mund (schockiert) -->
-            <ellipse cx="176" cy="270" rx="4" ry="3" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-
-            <!-- Schweißtropfen -->
-            <path d="M192,252 Q194,247 196,252 Q194,257 192,252" fill="#1a1a1a" opacity="0.25"/>
-            <path d="M190,266 Q191,263 192,266 Q191,269 190,266" fill="#1a1a1a" opacity="0.15"/>
-
-            <!-- Rechter Arm (nach vorne, greift verzweifelt Richtung Ball) -->
-            <path d="M160,270 Q175,280 190,285" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Offene Hand (als zusammenhängende Silhouette, Finger gespreizt) -->
-            <path d="M190,282 Q193,278 196,276 Q198,275 199,277 Q198,280 196,283
-                     L202,278 Q204,276 205,278 Q204,281 201,285
-                     L207,281 Q209,280 210,282 Q209,285 205,288
-                     L208,287 Q210,286 210,288 Q209,291 205,292
-                     L198,293 Q194,293 191,290 Z" fill="white" stroke="#1a1a1a" stroke-width="1.3" stroke-linejoin="round"/>
-
-            <!-- Linker Arm (stützt sich auf dem Boden ab) -->
-            <path d="M155,270 Q148,280 146,290" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Flache Hand am Boden (als Silhouette) -->
-            <path d="M142,288 Q140,284 138,282 Q137,281 139,281 Q141,282 143,286
-                     L143,281 Q143,279 145,280 Q146,282 146,286
-                     L147,281 Q147,279 149,280 Q150,282 149,286
-                     L150,283 Q150,281 152,282 Q153,284 151,288
-                     L154,289 Q156,288 156,290 Q155,292 152,292
-                     L141,292 Q140,291 142,288 Z" fill="white" stroke="#1a1a1a" stroke-width="1.2" stroke-linejoin="round"/>
-
-            <!-- Hintere Beine (Knie am Boden, Vierfüßler-Pose) -->
-            <!-- Rechtes Bein (Knie auf dem Boden) -->
-            <path d="M100,268 Q105,282 110,298" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Unterschenkel nach hinten -->
-            <path d="M110,298 Q105,296 95,298" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <!-- Fuß -->
-            <path d="M95,296 Q92,294 90,298" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-            <!-- Linkes Bein -->
-            <path d="M92,266 Q88,280 85,298" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Unterschenkel nach hinten -->
-            <path d="M85,298 Q80,296 70,298" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
-            <!-- Fuß -->
-            <path d="M70,296 Q67,294 65,298" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
-
-            <!-- Hintern leicht angehoben (komisches Kriech-Detail) -->
-            <path d="M90,265 Q88,258 92,260" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
-
-            <!-- Weggerollter Schläger am Boden (Lucas, hinter ihm) -->
-            <!-- Schlägerkopf (rund, wie Jonas' Schläger) -->
-            <circle cx="50" cy="286" r="14" fill="white" stroke="#1a1a1a" stroke-width="1.8" />
-            <!-- Belag-Rand -->
-            <circle cx="50" cy="286" r="10.5" fill="none" stroke="#1a1a1a" stroke-width="0.5" opacity="0.12"/>
-            <!-- Griff -->
-            <line x1="60" y1="296" x2="68" y2="312" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
-
-
-            <!-- ===== BALL (unter dem Tisch, knapp vor Lucas greifender Hand) ===== -->
-            <circle cx="218" cy="285" r="6" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
-            <!-- Ball-Naht -->
-            <path d="M214,282 Q218,285 214,288" fill="none" stroke="#1a1a1a" stroke-width="0.8" opacity="0.4"/>
-            <!-- Flugbahn-Linie -->
-            <path d="M218,285 Q260,260 310,230 Q350,210 370,195" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-dasharray="4,4" opacity="0.15"/>
-            <!-- Aufprall-Sternchen -->
-            <line x1="212" y1="279" x2="209" y2="274" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
-            <line x1="224" y1="279" x2="227" y2="274" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
-            <line x1="218" y1="278" x2="218" y2="272" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
-
-            <!-- ===== SPRECHBLASEN ===== -->
-
-            <!-- Jonas Sprechblase -->
-            <path d="M420,30 Q420,15 442,15 L480,15 Q495,15 495,30 L495,48 Q495,58 480,58 L440,58 L425,72 L432,58 L420,58 Q420,58 420,48 Z" fill="white" stroke="#1a1a1a" stroke-width="1.8" stroke-linejoin="round"/>
-            <text x="458" y="42" font-family="'Caveat', cursive" font-size="15" fill="#1a1a1a" text-anchor="middle" font-weight="700">GG EZ lol</text>
-
-            <!-- Luca Denkblase (über seinem Kopf) -->
-            <circle cx="182" cy="234" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1"/>
-            <circle cx="186" cy="224" r="3.5" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-            <path d="M175,198 Q175,188 188,188 L212,188 Q222,188 222,198 L222,210 Q222,218 212,218 L188,218 Q175,218 175,210 Z" fill="white" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
-            <text x="198" y="207" font-family="'Caveat', cursive" font-size="12" fill="#888" text-anchor="middle" font-weight="700">Wie...?!</text>
-
-            <!-- ===== LABELS ===== -->
-            <text x="366" y="8" font-family="'Permanent Marker', cursive" font-size="11" fill="#1a1a1a" text-anchor="middle" letter-spacing="0.15em">CHAMPION</text>
-            <path d="M340,11 L392,11" fill="none" stroke="#f1c40f" stroke-width="2.5" stroke-linecap="round"/>
-
-            <text x="135" y="330" font-family="'Caveat', cursive" font-size="13" fill="#888" text-anchor="middle">luca (versteht die Welt nicht mehr)</text>
-
-            <!-- Scoreboard am Netzpfosten -->
-            <rect x="237" y="145" width="42" height="18" rx="3" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
-            <text x="258" y="158" font-family="'Permanent Marker', cursive" font-size="9" fill="#1a1a1a" text-anchor="middle">11 : 0</text>
-        </svg>
+        <div data-svg-src="svg/match-replay.svg" data-svg-load="lazy"></div>
     </div>
 
     <!-- Trenner -->
@@ -4253,6 +3185,109 @@
          JAVASCRIPT
          ================================================ -->
     <script>
+        /* ============================================
+           SVG LAZY LOADER – lädt ausgelagerte SVGs
+           ============================================ */
+        (function initSvgLoader() {
+            const eagerEls = document.querySelectorAll('[data-svg-src][data-svg-load="eager"]');
+            const lazyEls = document.querySelectorAll('[data-svg-src][data-svg-load="lazy"]');
+
+            function loadSvg(el) {
+                const src = el.dataset.svgSrc;
+                if (!src || el.dataset.svgLoaded) return;
+                el.dataset.svgLoaded = '1';
+                fetch(src)
+                    .then(function(r) { return r.text(); })
+                    .then(function(svgText) {
+                        // Remove XML declaration if present
+                        svgText = svgText.replace(/<\?xml[^?]*\?>\s*/g, '');
+                        el.innerHTML = svgText;
+                        // Notify that SVG has been injected (for JS that depends on SVG content)
+                        document.dispatchEvent(new CustomEvent('svg-loaded', { detail: { src: src, el: el } }));
+                    });
+            }
+
+            // Eager: load immediately (popup SVGs etc.)
+            eagerEls.forEach(loadSvg);
+
+            // Lazy: load when approaching viewport
+            if ('IntersectionObserver' in window) {
+                var lazyObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            loadSvg(entry.target);
+                            lazyObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { rootMargin: '300px' });
+                lazyEls.forEach(function(el) { lazyObserver.observe(el); });
+            } else {
+                // Fallback: load all
+                lazyEls.forEach(loadSvg);
+            }
+        })();
+
+        /* ============================================
+           ANIMATIONS-OPTIMIERUNG – pausiert off-screen
+           ============================================ */
+        (function initAnimationOptimizer() {
+            if (!('IntersectionObserver' in window)) return;
+
+            // Pause CSS animations for elements not in viewport
+            var animatedSections = document.querySelectorAll(
+                '.hero-illustration, .bio-illustration, .diagram-section, ' +
+                '.popup-illustration, .idle-figure, .idle-friends'
+            );
+
+            var animObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    var el = entry.target;
+                    if (entry.isIntersecting) {
+                        el.style.animationPlayState = '';
+                        el.querySelectorAll('*').forEach(function(child) {
+                            child.style.animationPlayState = '';
+                        });
+                    } else {
+                        el.style.animationPlayState = 'paused';
+                        el.querySelectorAll('*').forEach(function(child) {
+                            child.style.animationPlayState = 'paused';
+                        });
+                    }
+                });
+            }, { rootMargin: '100px' });
+
+            animatedSections.forEach(function(el) { animObserver.observe(el); });
+
+            // Also handle popup overlays: pause when not active
+            var popups = document.querySelectorAll('.popup-overlay');
+            var popupObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(m) {
+                    var overlay = m.target;
+                    var illust = overlay.querySelector('.popup-illustration');
+                    if (!illust) return;
+                    if (overlay.classList.contains('active')) {
+                        illust.querySelectorAll('*').forEach(function(c) {
+                            c.style.animationPlayState = '';
+                        });
+                    } else {
+                        illust.querySelectorAll('*').forEach(function(c) {
+                            c.style.animationPlayState = 'paused';
+                        });
+                    }
+                });
+            });
+            popups.forEach(function(p) {
+                popupObserver.observe(p, { attributes: true, attributeFilter: ['class'] });
+                // Initially pause all popup illustrations
+                var illust = p.querySelector('.popup-illustration');
+                if (illust) {
+                    illust.querySelectorAll('*').forEach(function(c) {
+                        c.style.animationPlayState = 'paused';
+                    });
+                }
+            });
+        })();
+
         /* ============================================
            Hero-Titel: Buchstabe für Buchstabe
            ============================================ */
@@ -5420,6 +4455,21 @@
             document.addEventListener('touchstart', onUserActivity, { passive: true });
             document.addEventListener('scroll', onUserActivity, { passive: true });
 
+            // Pause idle system when tab hidden
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    clearTimeout(idleTimer);
+                    clearTimeout(escalateTimer);
+                    clearInterval(eyeTrackInterval);
+                    clearInterval(tapInterval);
+                    clearInterval(shakeInterval);
+                } else if (!isVisible) {
+                    idleTimer = setTimeout(showIdleFigure, idleDelay);
+                } else {
+                    startEyeTracking();
+                }
+            });
+
             idleTimer = setTimeout(showIdleFigure, idleDelay);
         })();
 
@@ -5586,10 +4636,20 @@
            HOVER auf Turnier-Ball → fliegt Luca ins Gesicht
            ============================================ */
         (function initBallHover() {
-            const diagramSvg = document.querySelector('.diagram-section svg');
-            if (!diagramSvg) return;
-            const ball = diagramSvg.querySelector('circle[r="8"]');
-            if (!ball) return;
+            function setup() {
+                const diagramSvg = document.querySelector('.diagram-section svg');
+                if (!diagramSvg) return false;
+                const ball = diagramSvg.querySelector('circle[r="8"]');
+                if (!ball) return false;
+                initBallEvents(diagramSvg, ball);
+                return true;
+            }
+            if (!setup()) {
+                document.addEventListener('svg-loaded', function handler() {
+                    if (setup()) document.removeEventListener('svg-loaded', handler);
+                });
+            }
+            function initBallEvents(diagramSvg, ball) {
             let animating = false;
 
             ball.style.cursor = 'pointer';
@@ -5639,46 +4699,52 @@
                     ball.setAttribute('cy', cy);
                 }, 25);
             });
+            }
         })();
 
         /* ============================================
            KLICK AUF LUCA IM TURNIER-DIAGRAMM → faellt um
            ============================================ */
         (function initLucaRagdoll() {
-            const lucaGroup = document.getElementById('tournamentLuca');
-            if (!lucaGroup) return;
-
-            lucaGroup.style.cursor = 'pointer';
-            let fallen = false;
-
-            lucaGroup.addEventListener('click', () => {
-                if (fallen) return;
-                fallen = true;
-                if (typeof unlockAchievement === 'function') unlockAchievement('ragdoll');
-
-                let angle = 0;
-                const fall = setInterval(() => {
-                    angle += 3;
-                    lucaGroup.setAttribute('transform', 'rotate(' + angle + ', 130, 320)');
-                    if (angle >= 90) {
-                        clearInterval(fall);
-                        const diagramSvg = lucaGroup.closest('svg');
-                        const oof = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                        oof.setAttribute('x', '130');
-                        oof.setAttribute('y', '265');
-                        oof.setAttribute('class', 'sketch-label');
-                        oof.setAttribute('font-size', '14');
-                        oof.setAttribute('text-anchor', 'middle');
-                        oof.textContent = 'oof';
-                        diagramSvg.appendChild(oof);
-                        setTimeout(() => {
-                            oof.remove();
-                            lucaGroup.setAttribute('transform', '');
-                            fallen = false;
-                        }, 1500);
-                    }
-                }, 25);
-            });
+            function setup() {
+                const lucaGroup = document.getElementById('tournamentLuca');
+                if (!lucaGroup) return false;
+                lucaGroup.style.cursor = 'pointer';
+                let fallen = false;
+                lucaGroup.addEventListener('click', () => {
+                    if (fallen) return;
+                    fallen = true;
+                    if (typeof unlockAchievement === 'function') unlockAchievement('ragdoll');
+                    let angle = 0;
+                    const fall = setInterval(() => {
+                        angle += 3;
+                        lucaGroup.setAttribute('transform', 'rotate(' + angle + ', 130, 320)');
+                        if (angle >= 90) {
+                            clearInterval(fall);
+                            const diagramSvg = lucaGroup.closest('svg');
+                            const oof = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                            oof.setAttribute('x', '130');
+                            oof.setAttribute('y', '265');
+                            oof.setAttribute('class', 'sketch-label');
+                            oof.setAttribute('font-size', '14');
+                            oof.setAttribute('text-anchor', 'middle');
+                            oof.textContent = 'oof';
+                            diagramSvg.appendChild(oof);
+                            setTimeout(() => {
+                                oof.remove();
+                                lucaGroup.setAttribute('transform', '');
+                                fallen = false;
+                            }, 1500);
+                        }
+                    }, 25);
+                });
+                return true;
+            }
+            if (!setup()) {
+                document.addEventListener('svg-loaded', function handler() {
+                    if (setup()) document.removeEventListener('svg-loaded', handler);
+                });
+            }
         })();
 
         /* ============================================
@@ -6073,6 +5139,7 @@
             const lastWin = new Date('2002-01-14T00:00:00');
             const countEl = document.getElementById('countdownDays');
             const detailEl = document.getElementById('countdownDetail');
+            let countdownInterval;
 
             function update() {
                 const now = new Date();
@@ -6084,7 +5151,17 @@
                 if (detailEl) detailEl.textContent = hours + ' Stunden, ' + mins + ' Minuten und es werden immer mehr...';
             }
             update();
-            setInterval(update, 60000);
+            countdownInterval = setInterval(update, 60000);
+
+            // Pause when tab hidden, resume when visible
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    clearInterval(countdownInterval);
+                } else {
+                    update();
+                    countdownInterval = setInterval(update, 60000);
+                }
+            });
         })();
 
         /* ============================================
@@ -6133,6 +5210,8 @@
             let lastTime = 0;
             let animId;
 
+            let tickerClosed = false;
+
             function tick(timestamp) {
                 if (!lastTime) lastTime = timestamp;
                 const delta = (timestamp - lastTime) / 1000;
@@ -6144,8 +5223,20 @@
             }
             animId = requestAnimationFrame(tick);
 
+            // Pause ticker when tab hidden
+            document.addEventListener('visibilitychange', function() {
+                if (tickerClosed) return;
+                if (document.hidden) {
+                    cancelAnimationFrame(animId);
+                } else {
+                    lastTime = 0;
+                    animId = requestAnimationFrame(tick);
+                }
+            });
+
             // Close button
             closeBtn.addEventListener('click', () => {
+                tickerClosed = true;
                 cancelAnimationFrame(animId);
                 ticker.style.transform = 'translateY(100%)';
                 ticker.style.transition = 'transform 0.4s ease-in';
@@ -6466,12 +5557,15 @@
                 return { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
             }
 
+            let scratchCount = 0;
             function scratch(pos) {
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.beginPath();
                 ctx.arc(pos.x, pos.y, 22, 0, Math.PI * 2);
                 ctx.fill();
-                checkReveal();
+                scratchCount++;
+                // Only check reveal every 5th scratch to avoid expensive getImageData on every move
+                if (scratchCount % 5 === 0) checkReveal();
             }
 
             function checkReveal() {

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+                <svg viewBox="0 0 180 175" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <style>
+                            @keyframes flexBreatheJ { 0%,100% { transform:scale(1); } 50% { transform:scale(1.02); } }
+                            @keyframes flexShockL { 0%,100% { opacity:0.2; transform:scaleX(0.8); } 50% { opacity:0.7; transform:scaleX(1.15); } }
+                            @keyframes flexJawDrop { 0%,70%,100% { transform:translateY(0); } 80% { transform:translateY(2px); } }
+                            @keyframes flexSweatDrop { 0% { opacity:0; transform:translateY(0); } 40% { opacity:0.5; } 100% { opacity:0; transform:translateY(12px); } }
+                            @keyframes flexRibbonWave { 0%,100% { transform:rotate(0deg); } 50% { transform:rotate(5deg); } }
+                            @keyframes flexStarBurst { 0%,100% { opacity:0; transform:scale(0.5); } 50% { opacity:0.8; transform:scale(1.1); } }
+                            @keyframes flexYogaGuyFaint { 0%,60%,100% { transform:rotate(0deg); } 70% { transform:rotate(-15deg); } 90% { transform:rotate(-25deg); } }
+                            .flex-body-j { animation: flexBreatheJ 3s ease-in-out infinite; transform-origin: 75px 70px; }
+                            .flex-shock-j1 { animation: flexShockL 1.5s ease-in-out infinite; transform-origin: right; }
+                            .flex-shock-j2 { animation: flexShockL 1.5s ease-in-out infinite 0.3s; transform-origin: right; }
+                            .flex-shock-j3 { animation: flexShockL 1.5s ease-in-out infinite 0.6s; transform-origin: right; }
+                            .flex-jaw { animation: flexJawDrop 3s ease-in-out infinite; }
+                            .flex-sweat1 { animation: flexSweatDrop 2s ease-in infinite 0.5s; }
+                            .flex-sweat2 { animation: flexSweatDrop 2s ease-in infinite 1.2s; }
+                            .flex-ribbon { animation: flexRibbonWave 2s ease-in-out infinite; transform-origin: 75px 8px; }
+                            .flex-star1 { animation: flexStarBurst 1.8s ease-in-out infinite; transform-origin: center; }
+                            .flex-star2 { animation: flexStarBurst 2s ease-in-out infinite 0.5s; transform-origin: center; }
+                            .flex-star3 { animation: flexStarBurst 1.5s ease-in-out infinite 1s; transform-origin: center; }
+                            .flex-yoga-faint { animation: flexYogaGuyFaint 4s ease-in-out infinite; transform-origin: 155px 155px; }
+                        </style>
+                    </defs>
+
+                    <!-- === BÜHNE / MATTE === -->
+                    <ellipse cx="75" cy="148" rx="55" ry="6" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.15"/>
+                    <!-- Yoga-Matte Andeutung -->
+                    <rect x="35" y="142" width="80" height="3" rx="1.5" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.2"/>
+
+                    <!-- === JONAS in Yoga-Pose (Strichmännchen, mit Dutt & Locken) === -->
+                    <g class="flex-body-j">
+                        <!-- Kopf -->
+                        <circle cx="75" cy="48" r="15" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+                        <!-- Lockige Haare -->
+                        <path d="M64,42 Q62,34 66,30 Q70,28 74,28" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M86,42 Q88,34 84,30 Q80,28 76,28" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+                        <!-- Dutt -->
+                        <ellipse cx="75" cy="26" rx="7" ry="5" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
+                        <path d="M70,24 Q75,21 80,24" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
+
+                        <!-- Augen (konzentriert, leicht schielend nach unten zum Zeh) -->
+                        <circle cx="70" cy="46" r="2" fill="#1a1a1a"/>
+                        <circle cx="80" cy="46" r="2" fill="#1a1a1a"/>
+                        <!-- Pupillen zeigen nach unten -->
+                        <circle cx="70.5" cy="47" r="0.8" fill="white"/>
+                        <circle cx="80.5" cy="47" r="0.8" fill="white"/>
+
+                        <!-- Offener Mund (Zeh drin!) -->
+                        <ellipse cx="75" cy="55" rx="5" ry="4.5" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+                        <!-- Zufriedene Augenbrauen -->
+                        <path d="M66,41 Q70,39 73,41" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M77,41 Q80,39 84,41" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+
+                        <!-- Körper -->
+                        <path d="M75,63 Q75,82 73,98" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Linker Arm (stützt sich locker ab) -->
+                        <path d="M75,73 Q58,78 45,90" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                        <!-- Hand aufgestützt -->
+                        <path d="M45,90 Q42,92 44,95" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+                        <!-- Rechter Arm (hält Fuss zum Mund) -->
+                        <path d="M75,73 Q92,66 95,55" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                        <!-- Hand greift Fuss -->
+                        <circle cx="94" cy="54" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+
+                        <!-- Linkes Bein (locker nach vorne) -->
+                        <path d="M73,98 Q60,115 52,135" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+                        <!-- Linker Fuss -->
+                        <path d="M52,135 Q48,138 44,136" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+
+                        <!-- Rechtes Bein (HOCH zum Mund gezogen!) -->
+                        <path d="M73,98 Q100,88 105,70 Q108,56 98,48 Q92,44 85,47" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Fuss am Mund (rosa Nägel natürlich!) -->
+                        <path d="M85,47 Q80,44 78,48" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Rosa Nagel am Zeh im Mund -->
+                        <ellipse cx="82" cy="46" rx="2.5" ry="1.8" fill="#ff69b4" stroke="#1a1a1a" stroke-width="0.8"/>
+                    </g>
+
+                    <!-- === STAUNLINIEN (mehr + animiert) === -->
+                    <path d="M118,55 L130,52" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" class="flex-shock-j1"/>
+                    <path d="M120,63 L132,63" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" class="flex-shock-j2"/>
+                    <path d="M118,71 L130,74" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" class="flex-shock-j3"/>
+
+                    <!-- === GOLDENE STERNE (Wow-Effekt) === -->
+                    <path d="M22,35 L24,29 L26,35 L32,35 L27,39 L29,45 L24,41 L19,45 L21,39 L16,35 Z" class="flex-star1" fill="#f1c40f"/>
+                    <path d="M140,30 L141,27 L142,30 L145,30 L143,32 L143,35 L141,33 L139,35 L139,32 L137,30 Z" class="flex-star2" fill="#f1c40f"/>
+                    <path d="M10,80 L11,77 L12,80 L15,80 L13,82 L13,85 L11,83 L9,85 L9,82 L7,80 Z" class="flex-star3" fill="#f1c40f"/>
+
+                    <!-- === SCHOCKIERTER YOGAMEISTER (links unten) === -->
+                    <g class="flex-jaw">
+                        <!-- Kopf -->
+                        <circle cx="22" cy="120" r="7" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+                        <!-- Stirnband -->
+                        <path d="M15,117 Q22,114 29,117" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                        <!-- Band-Ende -->
+                        <path d="M29,117 Q33,118 35,115" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-linecap="round"/>
+                        <!-- Schockierte Augen (grosse Kreise) -->
+                        <circle cx="19" cy="120" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+                        <circle cx="25" cy="120" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+                        <circle cx="19" cy="120" r="1" fill="#1a1a1a"/>
+                        <circle cx="25" cy="120" r="1" fill="#1a1a1a"/>
+                        <!-- Offener Mund (Schock) -->
+                        <ellipse cx="22" cy="126" rx="2.5" ry="3" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+                        <!-- Schweiss -->
+                        <circle cx="14" cy="118" r="1.2" fill="#3498db" class="flex-sweat1" opacity="0"/>
+                        <!-- Körper im Schneidersitz -->
+                        <path d="M22,127 L22,138" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M22,132 L16,135" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                        <path d="M22,132 L28,135" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                        <!-- Lotus-Sitz (gekreuzte Beine) -->
+                        <path d="M22,138 Q16,140 14,138 Q12,136 15,137" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                        <path d="M22,138 Q28,140 30,138 Q32,136 29,137" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- === OHNMÄCHTIGER ANATOM (rechts unten) === -->
+                    <g class="flex-yoga-faint">
+                        <!-- Kopf -->
+                        <circle cx="155" cy="128" r="6" fill="white" stroke="#1a1a1a" stroke-width="1.3"/>
+                        <!-- Brille -->
+                        <circle cx="153" cy="127" r="2.5" fill="none" stroke="#1a1a1a" stroke-width="0.7"/>
+                        <circle cx="158" cy="127" r="2.5" fill="none" stroke="#1a1a1a" stroke-width="0.7"/>
+                        <line x1="155.5" y1="127" x2="155.5" y2="127" stroke="#1a1a1a" stroke-width="0.5"/>
+                        <!-- X-Augen (ohnmächtig) -->
+                        <path d="M152,126 L154,128 M154,126 L152,128" stroke="#1a1a1a" stroke-width="0.8"/>
+                        <path d="M157,126 L159,128 M159,126 L157,128" stroke="#1a1a1a" stroke-width="0.8"/>
+                        <!-- Körper (kippt) -->
+                        <path d="M155,134 L155,148" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+                        <!-- Arme (schlaff) -->
+                        <path d="M155,138 Q148,140 145,144" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                        <path d="M155,138 Q162,140 165,144" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round"/>
+                        <!-- Buch (fällt runter) -->
+                        <rect x="143" y="142" width="7" height="5" rx="0.5" fill="white" stroke="#1a1a1a" stroke-width="0.8" transform="rotate(15, 146, 144)"/>
+                        <text x="144" y="146" font-size="3" fill="#1a1a1a" transform="rotate(15, 146, 144)">ANAT.</text>
+                        <!-- Schweiss -->
+                        <circle cx="162" cy="125" r="1" fill="#3498db" class="flex-sweat2" opacity="0"/>
+                    </g>
+
+                    <!-- === BANNER oben === -->
+                    <g class="flex-ribbon">
+                        <path d="M30,10 Q75,4 120,10 Q125,10 125,14 Q125,18 120,18 Q75,12 30,18 Q25,18 25,14 Q25,10 30,10 Z" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+                        <text x="47" y="16" font-family="Permanent Marker, cursive" font-size="7" fill="#1a1a1a">WORLD RECORD</text>
+                    </g>
+
+                    <!-- Label -->
+                    <text x="40" y="168" font-family="Permanent Marker, cursive" font-size="10" fill="#888">ANATOMISCH UNMÖGLICH</text>
+                </svg>
