@@ -529,32 +529,9 @@
         body.jonas-mode .scratch-card { border-color: #ff69b4; }
 
         /* ============================================
-           ACHIEVEMENT-LEISTE – Easter Egg Fortschritt
+           ACHIEVEMENT-PANEL – Gefundene Easter Eggs
+           Pergament-Stil passend zum Egg Codex
            ============================================ */
-        .achievement-bar {
-            position: fixed;
-            top: 72px;
-            left: 10px;
-            right: auto;
-            width: min(340px, 90vw);
-            background: var(--white);
-            color: var(--black);
-            font-family: var(--font-hand);
-            z-index: 9999;
-            transform: translateY(-10px) scale(0.95);
-            opacity: 0;
-            pointer-events: none;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-            padding: 0;
-            border: var(--line-width) solid var(--black);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-hover);
-        }
-        .achievement-bar.visible {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-            pointer-events: auto;
-        }
         .achievement-toggle {
             position: fixed;
             top: 18px;
@@ -577,116 +554,279 @@
         .achievement-toggle:hover {
             transform: scale(1.1);
             box-shadow: var(--shadow-hover);
+            background: var(--gold);
         }
         .achievement-toggle.has-new {
-            animation: achievePulse 1s ease-in-out 3;
+            animation: achievePulse 0.8s ease-in-out 3;
         }
         @keyframes achievePulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-            50% { transform: scale(1.2); box-shadow: 0 0 16px rgba(241,196,15,0.6); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); background: var(--gold-soft); }
         }
-        .achievement-bar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px 8px;
-            border-bottom: 1px solid var(--grey-border);
-        }
-        .achievement-bar-header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .achievement-bar-title {
+        /* Kleiner Zähler-Badge am Toggle */
+        .achievement-toggle-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            background: var(--gold);
+            color: var(--black);
             font-family: var(--font-label);
-            font-size: 1rem;
-            font-weight: 700;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border: 1.5px solid var(--black);
+            line-height: 1;
         }
-        .achievement-count {
-            font-size: 0.85rem;
+
+        /* Panel (Pergament-Dropdown) */
+        .achievement-panel {
+            position: fixed;
+            top: 74px;
+            left: 12px;
+            width: min(360px, calc(100vw - 24px));
+            background: #fdf6e3;
+            color: var(--black);
+            font-family: var(--font-body);
+            z-index: 9999;
+            transform: scale(0.92) rotate(-1deg) translateY(-12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform var(--transition), opacity var(--transition);
+            border: var(--line-width) solid var(--black);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-hover);
+            overflow: hidden;
+        }
+        .achievement-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg, transparent 0px, transparent 28px,
+                rgba(0,0,0,0.035) 28px, rgba(0,0,0,0.035) 29px
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+        .achievement-panel.visible {
+            transform: scale(1) rotate(0deg) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Header */
+        .achievement-header {
+            position: relative;
+            z-index: 1;
+            padding: 20px 22px 0;
+            text-align: center;
+        }
+        .achievement-title {
+            font-family: var(--font-label);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            display: inline-block;
+            position: relative;
+        }
+        .achievement-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: -3%;
+            width: 106%;
+            height: 2.5px;
+            background: var(--gold);
+            border-radius: 2px;
+            transform: rotate(-0.5deg);
+        }
+        .achievement-subtitle {
+            font-family: var(--font-hand);
+            font-size: 0.95rem;
             color: var(--grey);
-            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        /* Fortschrittsbalken */
+        .achievement-progress-wrap {
+            position: relative;
+            z-index: 1;
+            padding: 14px 22px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .achievement-progress {
-            width: 100%;
-            height: 6px;
-            background: var(--grey-border);
-            border-radius: 3px;
+            flex: 1;
+            height: 8px;
+            background: rgba(0,0,0,0.08);
+            border-radius: 4px;
             overflow: hidden;
-            margin: 0 16px 10px;
+            border: 1px solid rgba(0,0,0,0.1);
         }
         .achievement-progress-fill {
             height: 100%;
-            background: var(--gold);
-            border-radius: 3px;
-            transition: width 0.6s ease-out;
+            background: linear-gradient(90deg, var(--gold), #f9d423);
+            border-radius: 4px;
+            transition: width 0.8s var(--ease);
             width: 0;
         }
-        .achievement-icons {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, 42px);
-            gap: 8px;
-            justify-content: center;
-            padding: 6px 16px 16px;
+        .achievement-count {
+            font-family: var(--font-label);
+            font-size: 0.8rem;
+            color: var(--grey);
+            white-space: nowrap;
+            min-width: 42px;
+            text-align: right;
         }
-        .achievement-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 8px;
-            background: var(--off-white);
+
+        /* Egg-Grid */
+        .achievement-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            padding: 16px 22px 20px;
+        }
+        .achievement-egg {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 2px 5px;
+            border-radius: 6px;
+            border: 1.5px dashed transparent;
+            transition: all var(--transition);
+            cursor: default;
+            position: relative;
+        }
+        .achievement-egg-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.06);
             border: 1.5px solid var(--grey-border);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            opacity: 0.3;
-            filter: grayscale(1);
-            transition: opacity 0.4s, transform 0.4s, filter 0.4s, border-color 0.4s;
-            position: relative;
-            cursor: default;
+            font-size: 1.15rem;
+            filter: grayscale(1) brightness(0.6);
+            opacity: 0.4;
+            transition: all 0.4s var(--ease);
         }
-        .achievement-icon.unlocked {
-            opacity: 1;
+        .achievement-egg-label {
+            font-family: var(--font-hand);
+            font-size: 0.65rem;
+            color: var(--grey-light);
+            text-align: center;
+            line-height: 1.15;
+            transition: color 0.4s;
+            max-width: 58px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        /* Locked: Fragezeichen */
+        .achievement-egg.locked .achievement-egg-icon::after {
+            content: '?';
+            position: absolute;
+            font-family: var(--font-label);
+            font-size: 0.9rem;
+            color: var(--grey-light);
+        }
+        .achievement-egg.locked .achievement-egg-icon > span {
+            visibility: hidden;
+        }
+
+        /* Unlocked State */
+        .achievement-egg.unlocked .achievement-egg-icon {
             filter: none;
+            opacity: 1;
             background: var(--white);
             border-color: var(--gold);
-            box-shadow: 0 1px 3px rgba(241,196,15,0.25);
+            box-shadow: 0 0 0 2px var(--gold-soft), var(--shadow);
         }
-        .achievement-icon.just-unlocked {
-            animation: achieveUnlock 0.6s ease-out;
+        .achievement-egg.unlocked .achievement-egg-label {
+            color: var(--black);
+            font-weight: 700;
         }
-        @keyframes achieveUnlock {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); opacity: 1; }
+        .achievement-egg.unlocked {
+            border-color: var(--gold-soft);
+            background: rgba(241,196,15,0.06);
         }
-        .achievement-icon[title]:hover::after {
-            content: attr(title);
+
+        /* Hover */
+        .achievement-egg:hover .achievement-egg-icon {
+            transform: translateY(-2px);
+        }
+        .achievement-egg.unlocked:hover .achievement-egg-icon {
+            transform: translateY(-2px) scale(1.1);
+            box-shadow: 0 0 0 3px var(--gold-soft), var(--shadow-hover);
+        }
+
+        /* Unlock-Animation */
+        .achievement-egg.just-unlocked .achievement-egg-icon {
+            animation: eggUnlock 0.7s var(--ease);
+        }
+        @keyframes eggUnlock {
+            0% { transform: scale(0) rotate(-30deg); }
+            50% { transform: scale(1.3) rotate(5deg); }
+            70% { transform: scale(0.95) rotate(-2deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        /* Alle gefunden */
+        .achievement-complete-msg {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 0 22px 18px;
+            font-family: var(--font-label);
+            font-size: 0.85rem;
+            color: var(--gold);
+            display: none;
+        }
+
+        /* Close-Button */
+        .achievement-close {
             position: absolute;
-            bottom: calc(100% + 6px);
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--black);
-            color: var(--white);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            pointer-events: none;
-            z-index: 10;
-        }
-        .achievement-bar-close {
+            top: 12px;
+            right: 14px;
             background: none;
             border: none;
-            color: var(--grey);
             font-size: 1.4rem;
+            color: var(--grey);
             cursor: pointer;
-            padding: 0;
+            z-index: 2;
+            transition: transform var(--transition), color var(--transition);
             line-height: 1;
         }
-        .achievement-bar-close:hover { color: var(--black); }
-        body.jonas-mode .achievement-bar { background: #fff0f5; border-color: #ff69b4; }
-        body.jonas-mode .achievement-toggle { background: #fff0f5; border-color: #ff69b4; color: #ff69b4; }
+        .achievement-close:hover {
+            color: var(--black);
+            transform: rotate(90deg);
+        }
+
+        /* Jonas-Modus Anpassungen */
+        body.jonas-mode .achievement-panel { background: #fff0f5; border-color: #ff69b4; }
+        body.jonas-mode .achievement-panel::before {
+            background: repeating-linear-gradient(
+                0deg, transparent 0px, transparent 28px,
+                rgba(255,105,180,0.06) 28px, rgba(255,105,180,0.06) 29px
+            );
+        }
+        body.jonas-mode .achievement-toggle { border-color: #ff69b4; }
+        body.jonas-mode .achievement-toggle:hover { background: #ffb6d5; }
+        body.jonas-mode .achievement-toggle-badge { background: #ff69b4; color: white; border-color: #d63384; }
+        body.jonas-mode .achievement-title::after { background: #ff69b4; }
+        body.jonas-mode .achievement-egg.unlocked .achievement-egg-icon {
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 2px rgba(255,105,180,0.2), var(--shadow);
+        }
+        body.jonas-mode .achievement-progress-fill { background: linear-gradient(90deg, #ff69b4, #ffb6d5); }
 
         /* ============================================
            FOOTER
@@ -1531,8 +1671,14 @@
             .music-btn, .jonas-mode-btn, .achievement-toggle { top: 12px; width: 40px; height: 40px; font-size: 14px; }
             .music-btn { right: 12px; }
             .jonas-mode-btn { left: 12px; }
-            .achievement-toggle { left: 58px; font-size: 1rem; }
-            .achievement-bar { top: 58px; left: 6px; width: min(320px, 92vw); }
+            .achievement-toggle { left: 58px; width: 40px; height: 40px; font-size: 1rem; }
+            .achievement-toggle-badge { top: -3px; right: -3px; min-width: 16px; height: 16px; font-size: 0.55rem; }
+            .achievement-panel { top: 58px; left: 6px; width: min(340px, calc(100vw - 12px)); }
+            .achievement-grid { grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 12px 16px 16px; }
+            .achievement-egg-icon { width: 32px; height: 32px; font-size: 1rem; }
+            .achievement-egg-label { font-size: 0.6rem; }
+            .achievement-header { padding: 16px 16px 0; }
+            .achievement-progress-wrap { padding: 12px 16px 0; }
             .side-runner { display: none; }
             .custom-context-menu { min-width: 180px; font-size: 1rem; }
             .pong-overlay canvas { width: 90vw; }
@@ -5424,18 +5570,23 @@
         })();
     </script>
 
-    <!-- Achievement-Leiste -->
-    <button class="achievement-toggle" id="achieveToggle" title="Easter Eggs">&#x1F3C6;</button>
-    <div class="achievement-bar" id="achieveBar">
-        <div class="achievement-bar-header">
-            <div class="achievement-bar-header-left">
-                <span class="achievement-bar-title">Gefundene Easter Eggs</span>
-                <span class="achievement-count" id="achieveCount">0 / 17</span>
-            </div>
-            <button class="achievement-bar-close" id="achieveClose">&times;</button>
+    <!-- Achievement-Panel -->
+    <button class="achievement-toggle" id="achieveToggle" title="Gefundene Easter Eggs">
+        &#x1F3C6;
+        <span class="achievement-toggle-badge" id="achieveBadge">0</span>
+    </button>
+    <div class="achievement-panel" id="achievePanel">
+        <button class="achievement-close" id="achieveClose">&times;</button>
+        <div class="achievement-header">
+            <div class="achievement-title">Gefundene Easter Eggs</div>
+            <div class="achievement-subtitle" id="achieveSubtitle">Entdecke alle Geheimnisse dieser Seite</div>
         </div>
-        <div class="achievement-progress"><div class="achievement-progress-fill" id="achieveFill"></div></div>
-        <div class="achievement-icons" id="achieveIcons"></div>
+        <div class="achievement-progress-wrap">
+            <div class="achievement-progress"><div class="achievement-progress-fill" id="achieveFill"></div></div>
+            <span class="achievement-count" id="achieveCount">0 / 15</span>
+        </div>
+        <div class="achievement-grid" id="achieveGrid"></div>
+        <div class="achievement-complete-msg" id="achieveComplete">&#x2728; Alle Geheimnisse entdeckt! &#x2728;</div>
     </div>
 
     <script>
@@ -5508,7 +5659,7 @@
                     card.classList.add('revealed');
                     canvas.style.transition = 'opacity 0.5s';
                     canvas.style.opacity = '0';
-                    if (typeof unlockAchievement === 'function') unlockAchievement('scratch' + idx);
+                    if (typeof unlockAchievement === 'function') unlockAchievement('scratch');
                 }
             }
 
@@ -5538,54 +5689,94 @@
     })();
 
     /* ============================================
-       ACHIEVEMENT-SYSTEM – Easter Egg Fortschritt
+       ACHIEVEMENT-SYSTEM – Gefundene Easter Eggs
        ============================================ */
     var unlockAchievement;
     (() => {
         const achievements = [
-            { id: 'crown',     icon: '\u{1F451}', name: 'Krone antippen' },
-            { id: 'konami',    icon: '\u2B06',     name: 'Konami Code' },
-            { id: 'luca',      icon: '\u{1F62D}', name: '"luca" tippen' },
-            { id: 'jonas',     icon: '\u{1F389}', name: '"jonas" tippen' },
-            { id: 'triple',    icon: '\u{1F504}', name: 'Dreifach-Klick' },
-            { id: 'context',   icon: '\u{1F5B1}', name: 'Rechtsklick-Menü' },
-            { id: 'copy',      icon: '\u{1F4CB}', name: 'Kopierschutz' },
-            { id: 'pong',      icon: '\u{1F3D3}', name: 'Pong spielen' },
-            { id: 'jonasmode', icon: '\u{1F338}', name: 'Jonas-Modus' },
-            { id: 'idle',      icon: '\u{1F44B}', name: 'Winkende Figur' },
-            { id: 'rating',    icon: '\u2B50',     name: 'Bewertung' },
-            { id: 'butterfly', icon: '\u{1F98B}', name: 'Schmetterlinge' },
-            { id: 'ragdoll',   icon: '\u{1F3AD}', name: 'Luca-Ragdoll' },
-            { id: 'rematch',   icon: '\u274C',     name: 'Rematch-Button' },
-            { id: 'scratch0',  icon: '\u{1F3B5}', name: 'Rubbelkarte 1' },
-            { id: 'scratch1',  icon: '\u{1F9D8}', name: 'Rubbelkarte 2' },
-            { id: 'scratch2',  icon: '\u{1F451}', name: 'Rubbelkarte 3' },
+            { id: 'crown',     icon: '\u{1F451}', name: 'Krone' },
+            { id: 'konami',    icon: '\u2B06\uFE0F',  name: 'Konami' },
+            { id: 'luca',      icon: '\u{1F62D}', name: '"luca"' },
+            { id: 'jonas',     icon: '\u{1F389}', name: '"jonas"' },
+            { id: 'triple',    icon: '\u{1F504}', name: '3x Klick' },
+            { id: 'context',   icon: '\u{1F5B1}\uFE0F', name: 'Rechtsklick' },
+            { id: 'copy',      icon: '\u{1F4CB}', name: 'Kopieren' },
+            { id: 'pong',      icon: '\u{1F3D3}', name: 'Pong' },
+            { id: 'jonasmode', icon: '\u{1F338}', name: 'Rosa' },
+            { id: 'idle',      icon: '\u{1F44B}', name: 'Idle' },
+            { id: 'rating',    icon: '\u2B50',     name: 'Sterne' },
+            { id: 'butterfly', icon: '\u{1F98B}', name: 'Falter' },
+            { id: 'ragdoll',   icon: '\u{1F3AD}', name: 'Ragdoll' },
+            { id: 'rematch',   icon: '\u274C',     name: 'Rematch' },
+            { id: 'scratch',   icon: '\u{1F3B4}', name: 'Rubbeln' },
         ];
 
         const unlocked = new Set(JSON.parse(localStorage.getItem('jonasAchievements') || '[]'));
-        const bar = document.getElementById('achieveBar');
+        // Alte scratch0/1/2 zu neuem scratch migrieren
+        let migrated = false;
+        ['scratch0','scratch1','scratch2'].forEach(old => {
+            if (unlocked.has(old)) { unlocked.delete(old); unlocked.add('scratch'); migrated = true; }
+        });
+        if (migrated) localStorage.setItem('jonasAchievements', JSON.stringify([...unlocked]));
+
+        const panel = document.getElementById('achievePanel');
         const toggle = document.getElementById('achieveToggle');
+        const badge = document.getElementById('achieveBadge');
         const closeBtn = document.getElementById('achieveClose');
         const countEl = document.getElementById('achieveCount');
         const fillEl = document.getElementById('achieveFill');
-        const iconsEl = document.getElementById('achieveIcons');
-        let barOpen = false;
+        const gridEl = document.getElementById('achieveGrid');
+        const subtitleEl = document.getElementById('achieveSubtitle');
+        const completeEl = document.getElementById('achieveComplete');
+        let panelOpen = false;
 
         function save() {
             localStorage.setItem('jonasAchievements', JSON.stringify([...unlocked]));
         }
 
         function render() {
-            countEl.textContent = unlocked.size + ' / ' + achievements.length;
-            fillEl.style.width = (unlocked.size / achievements.length * 100) + '%';
-            iconsEl.innerHTML = '';
+            const found = unlocked.size;
+            const total = achievements.length;
+            countEl.textContent = found + ' / ' + total;
+            fillEl.style.width = (found / total * 100) + '%';
+            badge.textContent = found;
+
+            // Subtitle anpassen
+            if (found === 0) subtitleEl.textContent = 'Entdecke alle Geheimnisse dieser Seite';
+            else if (found < 5) subtitleEl.textContent = 'Guter Anfang! Weiter suchen...';
+            else if (found < 10) subtitleEl.textContent = 'Du bist auf einer heißen Spur!';
+            else if (found < total) subtitleEl.textContent = 'Fast geschafft! Nur noch ' + (total - found) + '...';
+
+            // Grid aufbauen
+            gridEl.innerHTML = '';
             achievements.forEach(a => {
-                const el = document.createElement('div');
-                el.className = 'achievement-icon' + (unlocked.has(a.id) ? ' unlocked' : '');
-                el.textContent = a.icon;
-                el.setAttribute('title', a.name + (unlocked.has(a.id) ? ' \u2714' : ' ???'));
-                iconsEl.appendChild(el);
+                const isUnlocked = unlocked.has(a.id);
+                const egg = document.createElement('div');
+                egg.className = 'achievement-egg ' + (isUnlocked ? 'unlocked' : 'locked');
+                egg.dataset.id = a.id;
+
+                const iconWrap = document.createElement('div');
+                iconWrap.className = 'achievement-egg-icon';
+                const iconSpan = document.createElement('span');
+                iconSpan.textContent = a.icon;
+                iconWrap.appendChild(iconSpan);
+
+                const label = document.createElement('div');
+                label.className = 'achievement-egg-label';
+                label.textContent = isUnlocked ? a.name : '???';
+
+                egg.appendChild(iconWrap);
+                egg.appendChild(label);
+                gridEl.appendChild(egg);
             });
+
+            // Alle gefunden?
+            if (found === total) {
+                completeEl.style.display = 'block';
+                subtitleEl.textContent = 'Meister der Geheimnisse!';
+            } else {
+                completeEl.style.display = 'none';
+            }
         }
 
         unlockAchievement = function(id) {
@@ -5599,46 +5790,37 @@
             void toggle.offsetWidth;
             toggle.classList.add('has-new');
 
-            // Kurz die Bar zeigen wenn geschlossen
-            if (!barOpen) {
-                bar.classList.add('visible');
-                setTimeout(() => { if (!barOpen) bar.classList.remove('visible'); }, 2500);
+            // Kurz das Panel zeigen wenn geschlossen
+            if (!panelOpen) {
+                panel.classList.add('visible');
+                setTimeout(() => { if (!panelOpen) panel.classList.remove('visible'); }, 3000);
             }
 
-            // Icon Animation
-            const idx = achievements.findIndex(a => a.id === id);
-            const icons = iconsEl.querySelectorAll('.achievement-icon');
-            if (icons[idx]) {
-                icons[idx].classList.add('just-unlocked');
-                setTimeout(() => icons[idx].classList.remove('just-unlocked'), 700);
-            }
-
-            // Alle gefunden?
-            if (unlocked.size === achievements.length) {
-                setTimeout(() => {
-                    countEl.textContent = 'ALLE GEFUNDEN! \u{1F3C6}';
-                    countEl.style.fontSize = '1.1rem';
-                }, 300);
+            // Egg Unlock-Animation
+            const egg = gridEl.querySelector('[data-id="' + id + '"]');
+            if (egg) {
+                egg.classList.add('just-unlocked');
+                setTimeout(() => egg.classList.remove('just-unlocked'), 800);
             }
         };
 
         toggle.addEventListener('click', () => {
-            barOpen = !barOpen;
-            bar.classList.toggle('visible', barOpen);
+            panelOpen = !panelOpen;
+            panel.classList.toggle('visible', panelOpen);
         });
         closeBtn.addEventListener('click', () => {
-            barOpen = false;
-            bar.classList.remove('visible');
+            panelOpen = false;
+            panel.classList.remove('visible');
+        });
+        // Klick außerhalb schließt Panel
+        document.addEventListener('click', (e) => {
+            if (panelOpen && !panel.contains(e.target) && !toggle.contains(e.target)) {
+                panelOpen = false;
+                panel.classList.remove('visible');
+            }
         });
 
         render();
-        // Zeige kurz beim Laden wenn schon Achievements vorhanden
-        if (unlocked.size > 0 && unlocked.size < achievements.length) {
-            setTimeout(() => {
-                bar.classList.add('visible');
-                setTimeout(() => { if (!barOpen) bar.classList.remove('visible'); }, 2000);
-            }, 3000);
-        }
     })();
     </script>
 
