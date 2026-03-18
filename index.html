@@ -463,6 +463,215 @@
         }
 
         /* ============================================
+           RUBBELKARTEN – Geheimnisse freirubbeln
+           ============================================ */
+        .scratch-section {
+            text-align: center;
+            padding: 40px 20px 50px;
+        }
+        .scratch-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .scratch-card {
+            position: relative;
+            width: min(260px, 80vw);
+            height: 180px;
+            border: 2.5px solid var(--black);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: crosshair;
+            box-shadow: 3px 3px 0 var(--grey-border);
+            transition: box-shadow 0.2s;
+        }
+        .scratch-card:hover {
+            box-shadow: 4px 4px 0 var(--grey-light);
+        }
+        .scratch-secret {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            font-family: var(--font-hand);
+            font-size: 1rem;
+            line-height: 1.5;
+            text-align: center;
+            background: var(--white);
+            color: var(--black);
+        }
+        .scratch-secret .scratch-emoji {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .scratch-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        .scratch-card.revealed .scratch-canvas {
+            pointer-events: none;
+        }
+        .scratch-hint {
+            font-family: var(--font-hand);
+            font-size: 0.9rem;
+            color: var(--grey);
+            margin-top: 14px;
+        }
+        body.jonas-mode .scratch-card { border-color: #ff69b4; }
+
+        /* ============================================
+           ACHIEVEMENT-LEISTE – Easter Egg Fortschritt
+           ============================================ */
+        .achievement-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--black);
+            color: var(--white);
+            font-family: var(--font-hand);
+            z-index: 99000;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-out;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+        }
+        .achievement-bar.visible {
+            transform: translateY(0);
+        }
+        .achievement-toggle {
+            position: fixed;
+            bottom: 12px;
+            right: 12px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--black);
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 99001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .achievement-toggle:hover {
+            transform: scale(1.1);
+        }
+        .achievement-toggle.has-new {
+            animation: achievePulse 1s ease-in-out 3;
+        }
+        @keyframes achievePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+            50% { transform: scale(1.2); box-shadow: 0 0 16px rgba(241,196,15,0.6); }
+        }
+        .achievement-bar-inner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .achievement-bar-inner::-webkit-scrollbar { height: 0; }
+        .achievement-count {
+            font-size: 0.95rem;
+            white-space: nowrap;
+            color: var(--gold);
+            font-weight: 700;
+            min-width: fit-content;
+        }
+        .achievement-progress {
+            width: 80px;
+            min-width: 80px;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .achievement-progress-fill {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 4px;
+            transition: width 0.6s ease-out;
+            width: 0;
+        }
+        .achievement-icons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+        .achievement-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            opacity: 0.35;
+            transition: opacity 0.4s, transform 0.4s, background 0.4s;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .achievement-icon.unlocked {
+            opacity: 1;
+            background: #2a2a2a;
+            border: 1.5px solid var(--gold);
+        }
+        .achievement-icon.just-unlocked {
+            animation: achieveUnlock 0.6s ease-out;
+        }
+        @keyframes achieveUnlock {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .achievement-icon[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--black);
+            color: var(--white);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            pointer-events: none;
+            border: 1px solid var(--gold);
+        }
+        .achievement-bar-close {
+            background: none;
+            border: none;
+            color: var(--grey);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        body.jonas-mode .achievement-bar { background: #2d0a1a; }
+        body.jonas-mode .achievement-toggle { background: #2d0a1a; border-color: #ff69b4; color: #ff69b4; }
+
+        /* ============================================
            FOOTER
            ============================================ */
         footer {
@@ -2687,6 +2896,50 @@
     </div>
 
     <!-- ================================================
+         RUBBELKARTEN – Geheimnisse freirubbeln
+         ================================================ -->
+    <section class="scratch-section">
+        <div class="section-header reveal">
+            <h2 class="section-title">Arcana Jonasius</h2>
+            <p class="section-subtitle">Rubbel die Karten frei, um Jonas' Geheimnisse zu enthüllen</p>
+        </div>
+        <div class="scratch-grid">
+            <div class="scratch-card" id="scratchCard0">
+                <div class="scratch-secret">
+                    <div class="scratch-emoji">&#x1F3B5;</div>
+                    <div>Jonas kann jedes Lied auf der Ukulele spielen &ndash; aber nur wenn niemand zuschaut. Alleine im Büro? Konzert-Level.</div>
+                </div>
+                <canvas class="scratch-canvas"></canvas>
+            </div>
+            <div class="scratch-card" id="scratchCard1">
+                <div class="scratch-secret">
+                    <div class="scratch-emoji">&#x1F9D8;</div>
+                    <div>Jonas' Yoga-Geheimnis: Er kann seinen großen Zeh in den Mund stecken. Ja, wirklich. Nein, man gewöhnt sich nicht daran.</div>
+                </div>
+                <canvas class="scratch-canvas"></canvas>
+            </div>
+            <div class="scratch-card" id="scratchCard2">
+                <div class="scratch-secret">
+                    <div class="scratch-emoji">&#x1F451;</div>
+                    <div>Jonas hat noch nie ein Tischtennisspiel gegen Luca verloren. Nicht einmal. Nicht ein einziges Mal. Wirklich nicht.</div>
+                </div>
+                <canvas class="scratch-canvas"></canvas>
+            </div>
+        </div>
+        <p class="scratch-hint">&#x261D; Mit der Maus oder dem Finger darüber kratzen!</p>
+    </section>
+
+    <!-- Trenner -->
+    <div class="divider">
+        <svg viewBox="0 0 300 30" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,15 Q20,5 40,15 Q60,25 80,15 Q100,5 120,15 L125,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M135,8 L142,15 L135,22 L128,15 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
+            <circle cx="135" cy="15" r="2" fill="#f1c40f"/>
+            <path d="M145,15 Q165,5 185,15 Q205,25 225,15 Q245,5 265,15 Q285,25 300,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <!-- ================================================
          FOOTER
          ================================================ -->
     <footer>
@@ -3017,6 +3270,10 @@
                 <div class="egg-item-title">&#x274C; Rematch-Button</div>
                 <div class="egg-item-desc">Klicke auf &bdquo;Rematch anfordern?&ldquo; – ein riesiges &bdquo;NEIN&ldquo; erscheint.</div>
             </div>
+            <div class="egg-item">
+                <div class="egg-item-title">&#x1F3B4; Rubbelkarten</div>
+                <div class="egg-item-desc">Rubbel die drei Karten in der &bdquo;Arcana Jonasius&ldquo;-Sektion frei, um Geheimnisse zu enthüllen.</div>
+            </div>
         </div>
     </div>
 
@@ -3197,6 +3454,7 @@
             crown.addEventListener('click', () => {
                 if (animating) return;
                 animating = true;
+                if (typeof unlockAchievement === 'function') unlockAchievement('crown');
 
                 // Krone schwebt nach oben, kippt lustig, und setzt sich zurück
                 let t = 0;
@@ -3413,6 +3671,7 @@
 
                 if (clicks >= 3) {
                     clicks = 0;
+                    if (typeof unlockAchievement === 'function') unlockAchievement('triple');
                     document.body.classList.add('flipped');
                     const flipText = document.getElementById('flipText');
                     flipText.classList.add('show');
@@ -3432,6 +3691,7 @@
             document.addEventListener('copy', (e) => {
                 e.preventDefault();
                 popup.classList.add('show');
+                if (typeof unlockAchievement === 'function') unlockAchievement('copy');
                 setTimeout(() => popup.classList.remove('show'), 2000);
             });
         })();
@@ -3447,6 +3707,7 @@
                 menu.style.left = Math.min(e.clientX, window.innerWidth - 240) + 'px';
                 menu.style.top = Math.min(e.clientY, window.innerHeight - 200) + 'px';
                 menu.classList.add('show');
+                if (typeof unlockAchievement === 'function') unlockAchievement('context');
             });
 
             document.addEventListener('click', () => {
@@ -4100,6 +4361,7 @@
             }
 
             function showIdleFigure() {
+                if (typeof unlockAchievement === 'function') unlockAchievement('idle');
                 currentStage = 0;
                 const pos = pickPosition();
                 currentPos = pos;
@@ -4210,6 +4472,7 @@
                 const stars = '\u2605\u2605\u2605\u2605\u2605';
                 const msg = responses[Math.floor(Math.random() * responses.length)];
                 result.innerHTML = stars + '<br><span style="font-family:var(--font-hand);font-size:1rem;color:#888;">' + msg + '</span>';
+                if (typeof unlockAchievement === 'function') unlockAchievement('rating');
             });
         })();
 
@@ -4305,6 +4568,7 @@
                 // Label
                 const label = document.createElement('div');
                 label.textContent = 'APOTHEOSE';
+                if (typeof unlockAchievement === 'function') unlockAchievement('konami');
                 label.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:Permanent Marker,cursive;font-size:clamp(2rem,5vw,4rem);color:#1a1a1a;opacity:0;animation:fadeIn 1s 1.5s forwards;letter-spacing:0.2em;';
 
                 // Chor-Sound
@@ -4417,6 +4681,7 @@
             lucaGroup.addEventListener('click', () => {
                 if (fallen) return;
                 fallen = true;
+                if (typeof unlockAchievement === 'function') unlockAchievement('ragdoll');
 
                 let angle = 0;
                 const fall = setInterval(() => {
@@ -4637,6 +4902,7 @@
                 reset();
                 overlay.classList.add('active');
                 running = true;
+                if (typeof unlockAchievement === 'function') unlockAchievement('pong');
                 gameLoop();
             }
 
@@ -4689,6 +4955,7 @@
             btn.addEventListener('click', () => {
                 if (running) return;
                 running = true;
+                if (typeof unlockAchievement === 'function') unlockAchievement('rematch');
                 btn.classList.add('loading');
                 btn.textContent = '';
                 status.textContent = '';
@@ -4763,6 +5030,7 @@
                 document.body.classList.toggle('jonas-mode', active);
                 btn.classList.toggle('active', active);
                 btn.innerHTML = active ? '&#9829;' : '&#9787;';
+                if (active && typeof unlockAchievement === 'function') unlockAchievement('jonasmode');
                 btn.title = active ? 'Zurück zum Normal-Modus' : 'Jonas Mode';
 
                 // Kurze Partikel-Explosion beim Aktivieren
@@ -4802,6 +5070,7 @@
                 if (buffer.includes(target)) {
                     buffer = '';
                     overlay.classList.add('active');
+                    if (typeof unlockAchievement === 'function') unlockAchievement('luca');
 
                     // Traenen-Animation
                     const tears = overlay.querySelectorAll('circle[opacity="0.4"]');
@@ -4852,6 +5121,7 @@
             }
 
             function showShakeMsg() {
+                if (typeof unlockAchievement === 'function') unlockAchievement('shake');
                 const messages = [
                     'Du kannst Jonas nicht abschütteln.',
                     'Netter Versuch. Jonas bleibt.',
@@ -5019,6 +5289,7 @@
             logo.addEventListener('click', () => {
                 if (active) return;
                 active = true;
+                if (typeof unlockAchievement === 'function') unlockAchievement('butterfly');
 
                 const count = 50;
                 for (let i = 0; i < count; i++) {
@@ -5172,6 +5443,7 @@
                     if (buffer.endsWith(target)) {
                         buffer = '';
                         spawnConfetti();
+                        if (typeof unlockAchievement === 'function') unlockAchievement('jonas');
                         // Kurze Nachricht
                         const msg = document.createElement('div');
                         msg.textContent = 'JONAS! 👑';
@@ -5215,6 +5487,221 @@
         })();
     </script>
 
+    <!-- Achievement-Leiste -->
+    <button class="achievement-toggle" id="achieveToggle" title="Easter Eggs">&#x1F3C6;</button>
+    <div class="achievement-bar" id="achieveBar">
+        <div class="achievement-bar-inner">
+            <span class="achievement-count" id="achieveCount">0 / 18</span>
+            <div class="achievement-progress"><div class="achievement-progress-fill" id="achieveFill"></div></div>
+            <div class="achievement-icons" id="achieveIcons"></div>
+            <button class="achievement-bar-close" id="achieveClose">&times;</button>
+        </div>
+    </div>
+
+    <script>
+    /* ============================================
+       RUBBELKARTEN – Canvas-basiertes Freirubbeln
+       ============================================ */
+    (() => {
+        document.querySelectorAll('.scratch-card').forEach((card, idx) => {
+            const canvas = card.querySelector('.scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            let scratching = false;
+            let revealed = false;
+
+            function initCanvas() {
+                const rect = card.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                canvas.style.width = rect.width + 'px';
+                canvas.style.height = rect.height + 'px';
+                ctx.scale(dpr, dpr);
+
+                // Graue Rubbelschicht zeichnen
+                ctx.fillStyle = '#c0c0c0';
+                ctx.fillRect(0, 0, rect.width, rect.height);
+
+                // Muster draufzeichnen
+                ctx.fillStyle = '#aaa';
+                ctx.font = '14px "Patrick Hand", cursive';
+                ctx.textAlign = 'center';
+                for (let y = 25; y < rect.height; y += 35) {
+                    for (let x = 30; x < rect.width; x += 70) {
+                        ctx.fillText('???', x + (y % 70 === 25 ? 0 : 35), y);
+                    }
+                }
+
+                // Hinweis
+                ctx.fillStyle = '#888';
+                ctx.font = 'bold 16px "Patrick Hand", cursive';
+                ctx.textAlign = 'center';
+                ctx.fillText('Hier rubbeln!', rect.width / 2, rect.height / 2 + 6);
+            }
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const touch = e.touches ? e.touches[0] : e;
+                return { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+            }
+
+            function scratch(pos) {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 22, 0, Math.PI * 2);
+                ctx.fill();
+                checkReveal();
+            }
+
+            function checkReveal() {
+                if (revealed) return;
+                const dpr = window.devicePixelRatio || 1;
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imageData.data;
+                let transparent = 0;
+                for (let i = 3; i < pixels.length; i += 16) { // Sample every 4th pixel
+                    if (pixels[i] < 128) transparent++;
+                }
+                const total = pixels.length / 16;
+                if (transparent / total > 0.45) {
+                    revealed = true;
+                    card.classList.add('revealed');
+                    canvas.style.transition = 'opacity 0.5s';
+                    canvas.style.opacity = '0';
+                    if (typeof unlockAchievement === 'function') unlockAchievement('scratch' + idx);
+                }
+            }
+
+            canvas.addEventListener('mousedown', (e) => { scratching = true; scratch(getPos(e)); });
+            canvas.addEventListener('mousemove', (e) => { if (scratching) scratch(getPos(e)); });
+            canvas.addEventListener('mouseup', () => { scratching = false; });
+            canvas.addEventListener('mouseleave', () => { scratching = false; });
+
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); scratching = true; scratch(getPos(e)); }, { passive: false });
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if (scratching) scratch(getPos(e)); }, { passive: false });
+            canvas.addEventListener('touchend', () => { scratching = false; });
+
+            // Init on visibility
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    initCanvas();
+                    observer.disconnect();
+                }
+            }, { threshold: 0.1 });
+            observer.observe(card);
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                if (!revealed) initCanvas();
+            });
+        });
+    })();
+
+    /* ============================================
+       ACHIEVEMENT-SYSTEM – Easter Egg Fortschritt
+       ============================================ */
+    var unlockAchievement;
+    (() => {
+        const achievements = [
+            { id: 'crown',     icon: '\u{1F451}', name: 'Krone antippen' },
+            { id: 'konami',    icon: '\u2B06',     name: 'Konami Code' },
+            { id: 'luca',      icon: '\u{1F62D}', name: '"luca" tippen' },
+            { id: 'jonas',     icon: '\u{1F389}', name: '"jonas" tippen' },
+            { id: 'triple',    icon: '\u{1F504}', name: 'Dreifach-Klick' },
+            { id: 'context',   icon: '\u{1F5B1}', name: 'Rechtsklick-Menü' },
+            { id: 'copy',      icon: '\u{1F4CB}', name: 'Kopierschutz' },
+            { id: 'shake',     icon: '\u{1F4F1}', name: 'Handy schütteln' },
+            { id: 'pong',      icon: '\u{1F3D3}', name: 'Pong spielen' },
+            { id: 'jonasmode', icon: '\u{1F338}', name: 'Jonas-Modus' },
+            { id: 'idle',      icon: '\u{1F44B}', name: 'Winkende Figur' },
+            { id: 'rating',    icon: '\u2B50',     name: 'Bewertung' },
+            { id: 'butterfly', icon: '\u{1F98B}', name: 'Schmetterlinge' },
+            { id: 'ragdoll',   icon: '\u{1F3AD}', name: 'Luca-Ragdoll' },
+            { id: 'rematch',   icon: '\u274C',     name: 'Rematch-Button' },
+            { id: 'scratch0',  icon: '\u{1F3B5}', name: 'Rubbelkarte 1' },
+            { id: 'scratch1',  icon: '\u{1F9D8}', name: 'Rubbelkarte 2' },
+            { id: 'scratch2',  icon: '\u{1F451}', name: 'Rubbelkarte 3' },
+        ];
+
+        const unlocked = new Set(JSON.parse(localStorage.getItem('jonasAchievements') || '[]'));
+        const bar = document.getElementById('achieveBar');
+        const toggle = document.getElementById('achieveToggle');
+        const closeBtn = document.getElementById('achieveClose');
+        const countEl = document.getElementById('achieveCount');
+        const fillEl = document.getElementById('achieveFill');
+        const iconsEl = document.getElementById('achieveIcons');
+        let barOpen = false;
+
+        function save() {
+            localStorage.setItem('jonasAchievements', JSON.stringify([...unlocked]));
+        }
+
+        function render() {
+            countEl.textContent = unlocked.size + ' / ' + achievements.length;
+            fillEl.style.width = (unlocked.size / achievements.length * 100) + '%';
+            iconsEl.innerHTML = '';
+            achievements.forEach(a => {
+                const el = document.createElement('div');
+                el.className = 'achievement-icon' + (unlocked.has(a.id) ? ' unlocked' : '');
+                el.textContent = a.icon;
+                el.setAttribute('title', a.name + (unlocked.has(a.id) ? ' \u2714' : ' ???'));
+                iconsEl.appendChild(el);
+            });
+        }
+
+        unlockAchievement = function(id) {
+            if (unlocked.has(id)) return;
+            unlocked.add(id);
+            save();
+            render();
+
+            // Pulse-Animation auf Toggle
+            toggle.classList.remove('has-new');
+            void toggle.offsetWidth;
+            toggle.classList.add('has-new');
+
+            // Kurz die Bar zeigen wenn geschlossen
+            if (!barOpen) {
+                bar.classList.add('visible');
+                setTimeout(() => { if (!barOpen) bar.classList.remove('visible'); }, 2500);
+            }
+
+            // Icon Animation
+            const idx = achievements.findIndex(a => a.id === id);
+            const icons = iconsEl.querySelectorAll('.achievement-icon');
+            if (icons[idx]) {
+                icons[idx].classList.add('just-unlocked');
+                setTimeout(() => icons[idx].classList.remove('just-unlocked'), 700);
+            }
+
+            // Alle gefunden?
+            if (unlocked.size === achievements.length) {
+                setTimeout(() => {
+                    countEl.textContent = 'ALLE GEFUNDEN! \u{1F3C6}';
+                    countEl.style.fontSize = '1.1rem';
+                }, 300);
+            }
+        };
+
+        toggle.addEventListener('click', () => {
+            barOpen = !barOpen;
+            bar.classList.toggle('visible', barOpen);
+        });
+        closeBtn.addEventListener('click', () => {
+            barOpen = false;
+            bar.classList.remove('visible');
+        });
+
+        render();
+        // Zeige kurz beim Laden wenn schon Achievements vorhanden
+        if (unlocked.size > 0 && unlocked.size < achievements.length) {
+            setTimeout(() => {
+                bar.classList.add('visible');
+                setTimeout(() => { if (!barOpen) bar.classList.remove('visible'); }, 2000);
+            }, 3000);
+        }
+    })();
+    </script>
 
 </body>
 </html>
