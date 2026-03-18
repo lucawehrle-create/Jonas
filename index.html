@@ -483,6 +483,165 @@
         }
 
         /* ============================================
+           COOLNESS-SKALA – Interaktives Chart
+           ============================================ */
+        .coolness-wrapper {
+            max-width: 720px;
+            margin: 40px auto 0;
+            text-align: center;
+        }
+
+        .coolness-heading {
+            font-family: var(--font-label);
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--black);
+            margin-bottom: 4px;
+        }
+
+        .coolness-subheading {
+            font-family: var(--font-hand);
+            font-size: 1rem;
+            color: var(--grey);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .coolness-napkin {
+            position: relative;
+            background: var(--white);
+            border: var(--line-width) solid var(--black);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow);
+            padding: 24px 16px 12px 16px;
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 29px,
+                    rgba(0,0,0,0.025) 29px,
+                    rgba(0,0,0,0.025) 30px
+                );
+            transform: rotate(-0.4deg);
+            filter: url(#sketchy);
+        }
+
+        .coolness-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Line animation */
+        .coolness-line {
+            stroke-dasharray: var(--line-len);
+            stroke-dashoffset: var(--line-len);
+            transition: stroke-dashoffset 2.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .coolness-napkin.drawing .coolness-line {
+            stroke-dashoffset: 0;
+        }
+
+        /* Gold glow on peaks */
+        .coolness-glow {
+            opacity: 0;
+            transition: opacity 1s ease-in 0.3s;
+        }
+
+        .coolness-napkin.drawn .coolness-glow {
+            opacity: 0.35;
+        }
+
+        /* Data points */
+        .coolness-point circle {
+            transition: r 0.2s var(--ease), fill 0.2s var(--ease);
+            cursor: pointer;
+        }
+
+        .coolness-point:hover circle {
+            r: 9;
+        }
+
+        .coolness-point.peak circle {
+            fill: var(--gold);
+        }
+
+        /* Annotations */
+        .coolness-annotations {
+            opacity: 0;
+            transition: opacity 0.8s ease-in 0.5s;
+        }
+
+        .coolness-napkin.drawn .coolness-annotations {
+            opacity: 1;
+        }
+
+        /* Tooltip */
+        .coolness-tooltip {
+            position: absolute;
+            background: var(--white);
+            border: var(--line-width) solid var(--black);
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            font-family: var(--font-hand);
+            font-size: 1rem;
+            max-width: 230px;
+            box-shadow: var(--shadow);
+            pointer-events: none;
+            z-index: 10;
+            transform: translate(-50%, -100%) translateY(-12px);
+            opacity: 0;
+            transition: opacity 0.2s;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .coolness-tooltip.visible {
+            opacity: 1;
+        }
+
+        .coolness-tooltip-age {
+            font-family: var(--font-label);
+            font-size: 0.8rem;
+            color: var(--gold);
+            margin-bottom: 3px;
+        }
+
+        .coolness-tooltip-stars {
+            margin-top: 4px;
+            color: var(--gold);
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        .coolness-disclaimer {
+            font-family: var(--font-hand);
+            font-size: 0.85rem;
+            color: var(--grey);
+            margin-top: 14px;
+            font-style: italic;
+        }
+
+        .coolness-footnote {
+            font-family: var(--font-hand);
+            font-size: 0.78rem;
+            color: var(--grey-light);
+            margin-top: 6px;
+        }
+
+        body.jonas-mode .coolness-napkin { border-color: #ff69b4; }
+        body.jonas-mode .coolness-point.peak circle { fill: #ff69b4; }
+        body.jonas-mode .coolness-tooltip-age { color: #ff69b4; }
+        body.jonas-mode .coolness-tooltip-stars { color: #ff69b4; }
+
+        @media (max-width: 600px) {
+            .coolness-napkin {
+                padding: 16px 8px 8px;
+                transform: rotate(0deg);
+            }
+        }
+
+        /* ============================================
            RUBBELKARTEN – Geheimnisse freirubbeln
            ============================================ */
         .scratch-section {
@@ -2711,6 +2870,24 @@
             </div>
 
             <p class="reveal">So steht Jonas vor uns: Tischtennis-Gott, Ukulelen-Virtuose, Stilikone, anatomisches Wunder &ndash; und, vor allem, der ungeschlagene Champion des Büroturniers. <span class="latin">Victoriam aeternam.</span> Ewiger Sieg.</p>
+
+            <!-- Coolness-Skala -->
+            <div class="coolness-wrapper reveal">
+                <p class="coolness-heading">Jonas' Coolness-Skala</p>
+                <p class="coolness-subheading">Von Jonas persönlich gezeichnet. Wissenschaftlich verifiziert. &trade;</p>
+                <div class="coolness-napkin" id="coolnessNapkin">
+                    <svg class="coolness-svg" id="coolnessSvg" viewBox="0 0 640 380" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Wird per JavaScript befüllt -->
+                    </svg>
+                    <div class="coolness-tooltip" id="coolnessTooltip">
+                        <div class="coolness-tooltip-age"></div>
+                        <div class="coolness-tooltip-text"></div>
+                        <div class="coolness-tooltip-stars"></div>
+                    </div>
+                </div>
+                <p class="coolness-disclaimer">* Fehlerbalken: &plusmn;0. Jonas irrt sich nie.</p>
+                <p class="coolness-footnote">Luca wurde nicht in die Studie aufgenommen &ndash; Skala geht nicht in den Negativbereich.</p>
+            </div>
         </div>
     </section>
 
@@ -3510,6 +3687,217 @@
 
             document.querySelectorAll('.bio-illustration, .diagram-section').forEach(el => {
                 svgObserver.observe(el);
+            });
+        })();
+
+        /* ============================================
+           COOLNESS-SKALA – Interaktives Chart
+           ============================================ */
+        (function initCoolnessChart() {
+            const svg = document.getElementById('coolnessSvg');
+            const napkin = document.getElementById('coolnessNapkin');
+            const tooltip = document.getElementById('coolnessTooltip');
+            if (!svg || !napkin) return;
+
+            // Daten
+            const data = [
+                { age: 0,  c: 1.5, label: 'Geburt', text: 'Kam auf die Welt. Noch nicht cool, aber schon laut.' },
+                { age: 3,  c: 3,   label: 'Kleinkind', text: 'Hat zum ersten Mal einen Ball geworfen. Traf Papa ins Gesicht. Respekt.' },
+                { age: 6,  c: 5.5, label: 'Grundschule', text: 'Erste Tischtennisplatte entdeckt. Die Platte hat gewonnen.' },
+                { age: 9,  c: 9.5, label: 'Kindheits-Peak', text: 'Schulhof-König. Konnte rülpsen UND gleichzeitig Mathe. Legende.', peak: true },
+                { age: 12, c: 6,   label: 'Pre-Teen', text: 'Pubertät nähert sich. Die Stimme kippte, aber der Aufschlag nicht.' },
+                { age: 15, c: 3.5, label: 'Teenager-Tief', text: 'Dunkle Phase. Ukulele-Emo-Songs im Keller. Wir sprechen nicht darüber.' },
+                { age: 18, c: 5,   label: 'Abi', text: 'Abitur bestanden. Coolness steigt. Endlich Bier trinken – legal.' },
+                { age: 20, c: 7.5, label: 'Aufstieg', text: 'Studium, WG-Partys, Tischtennis-Turniere. Der Phönix erhebt sich.' },
+                { age: 23, c: 9.8, label: 'Absoluter Zenit', text: 'Jonas erreicht die höchste Coolness-Stufe der Menschheit. Wissenschaftler sind ratlos.', peak: true },
+                { age: 26, c: 7,   label: 'Berufseinstieg', text: 'Hat einen Job. Muss Steuererklärung machen. Coolness sinkt automatisch.' },
+                { age: 29, c: 5.5, label: 'Heute-ish', text: 'Besiegt immer noch Luca. Aber trinkt jetzt Kräutertee. Hmm.' },
+            ];
+
+            // Chart-Dimensionen innerhalb viewBox 640x380
+            const m = { t: 30, r: 25, b: 50, l: 55 };
+            const W = 640 - m.l - m.r; // 560
+            const H = 380 - m.t - m.b; // 300
+
+            function x(age) { return m.l + (age / 30) * W; }
+            function y(c) { return m.t + H - (c / 10) * H; }
+
+            // Wackelige Linie für handgezeichneten Look
+            function wobbleLine(x1, y1, x2, y2, amp) {
+                amp = amp || 1.5;
+                const mx = (x1 + x2) / 2 + (Math.random() - 0.5) * amp * 2;
+                const my = (y1 + y2) / 2 + (Math.random() - 0.5) * amp * 2;
+                return 'Q' + mx + ',' + my + ' ' + x2 + ',' + y2;
+            }
+
+            // --- Gitternetz (dezent) ---
+            let gridHTML = '<g opacity="0.12" stroke="#888" stroke-width="0.8" stroke-dasharray="4,6">';
+            for (let i = 2; i <= 10; i += 2) {
+                const yy = y(i);
+                gridHTML += '<line x1="' + m.l + '" y1="' + yy + '" x2="' + (640 - m.r) + '" y2="' + (yy + (Math.random()-0.5)*1.5) + '"/>';
+            }
+            gridHTML += '</g>';
+
+            // --- Achsen ---
+            let axesHTML = '<g stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" fill="none">';
+            // Y-Achse
+            axesHTML += '<path d="M' + m.l + ',' + (m.t - 5) + ' L' + m.l + ',' + (m.t + H + 2) + '"/>';
+            // X-Achse
+            axesHTML += '<path d="M' + (m.l - 2) + ',' + (m.t + H) + ' L' + (640 - m.r + 5) + ',' + (m.t + H) + '"/>';
+            // Pfeilspitzen
+            axesHTML += '<path d="M' + (m.l - 4) + ',' + (m.t + 2) + ' L' + m.l + ',' + (m.t - 8) + ' L' + (m.l + 4) + ',' + (m.t + 2) + '"/>';
+            axesHTML += '<path d="M' + (640 - m.r - 2) + ',' + (m.t + H - 4) + ' L' + (640 - m.r + 8) + ',' + (m.t + H) + ' L' + (640 - m.r - 2) + ',' + (m.t + H + 4) + '"/>';
+            axesHTML += '</g>';
+
+            // --- Achsen-Labels ---
+            let labelsHTML = '<g font-family="Caveat, cursive" fill="#1a1a1a">';
+            // Y-Achse: 0, 2, 4, 6, 8, 10
+            for (let i = 0; i <= 10; i += 2) {
+                labelsHTML += '<text x="' + (m.l - 10) + '" y="' + (y(i) + 5) + '" text-anchor="end" font-size="14">' + i + '</text>';
+            }
+            // X-Achse: Alter-Markierungen
+            [0, 5, 10, 15, 20, 25, 30].forEach(function(age) {
+                labelsHTML += '<text x="' + x(age) + '" y="' + (m.t + H + 22) + '" text-anchor="middle" font-size="13">' + age + '</text>';
+            });
+            // Achsentitel
+            labelsHTML += '<text x="' + (640 / 2) + '" y="' + (m.t + H + 42) + '" text-anchor="middle" font-family="Permanent Marker, cursive" font-size="14">Alter (Jahre)</text>';
+            labelsHTML += '<text x="14" y="' + (m.t + H / 2) + '" text-anchor="middle" font-family="Permanent Marker, cursive" font-size="14" transform="rotate(-90 14 ' + (m.t + H / 2) + ')">Coolness</text>';
+            labelsHTML += '</g>';
+
+            // --- Catmull-Rom Spline → SVG-Pfad ---
+            function catmullRomPath(pts) {
+                if (pts.length < 2) return '';
+                var d = 'M' + pts[0][0] + ',' + pts[0][1];
+                for (var i = 0; i < pts.length - 1; i++) {
+                    var p0 = pts[Math.max(0, i - 1)];
+                    var p1 = pts[i];
+                    var p2 = pts[Math.min(pts.length - 1, i + 1)];
+                    var p3 = pts[Math.min(pts.length - 1, i + 2)];
+                    var tension = 0.35;
+                    var cp1x = p1[0] + (p2[0] - p0[0]) * tension + (Math.random() - 0.5) * 2;
+                    var cp1y = p1[1] + (p2[1] - p0[1]) * tension + (Math.random() - 0.5) * 2;
+                    var cp2x = p2[0] - (p3[0] - p1[0]) * tension + (Math.random() - 0.5) * 2;
+                    var cp2y = p2[1] - (p3[1] - p1[1]) * tension + (Math.random() - 0.5) * 2;
+                    d += ' C' + cp1x.toFixed(1) + ',' + cp1y.toFixed(1) + ' ' + cp2x.toFixed(1) + ',' + cp2y.toFixed(1) + ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1);
+                }
+                return d;
+            }
+
+            var pts = data.map(function(d) { return [x(d.age), y(d.c)]; });
+            var pathD = catmullRomPath(pts);
+
+            // Doppellinie für Kugelschreiber-Effekt
+            var pts2 = data.map(function(d) { return [x(d.age) + 1.2, y(d.c) + 0.8]; });
+            var pathD2 = catmullRomPath(pts2);
+
+            // --- Hauptlinie + Doppellinie ---
+            var lineHTML = '<path class="coolness-line" d="' + pathD + '" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>';
+            lineHTML += '<path class="coolness-line" d="' + pathD2 + '" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>';
+
+            // --- Goldener Glow bei Peaks ---
+            var glowHTML = '';
+            data.forEach(function(d) {
+                if (d.peak) {
+                    glowHTML += '<circle class="coolness-glow" cx="' + x(d.age) + '" cy="' + y(d.c) + '" r="22" fill="#f1c40f" opacity="0"/>';
+                }
+            });
+
+            // --- Datenpunkte ---
+            var pointsHTML = '<g class="coolness-points">';
+            data.forEach(function(d) {
+                var cls = 'coolness-point' + (d.peak ? ' peak' : '');
+                pointsHTML += '<g class="' + cls + '" data-idx="' + data.indexOf(d) + '">';
+                pointsHTML += '<circle cx="' + x(d.age) + '" cy="' + y(d.c) + '" r="6" fill="' + (d.peak ? '#f1c40f' : '#fff') + '" stroke="#1a1a1a" stroke-width="2"/>';
+                if (d.peak) {
+                    // Kleine Krone über Peak-Punkten
+                    var cx = x(d.age), cy = y(d.c) - 18;
+                    pointsHTML += '<path d="M' + (cx-7) + ',' + cy + ' L' + (cx-7) + ',' + (cy-8) + ' L' + (cx-3.5) + ',' + (cy-3) + ' L' + cx + ',' + (cy-10) + ' L' + (cx+3.5) + ',' + (cy-3) + ' L' + (cx+7) + ',' + (cy-8) + ' L' + (cx+7) + ',' + cy + ' Z" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1" stroke-linejoin="round"/>';
+                }
+                pointsHTML += '</g>';
+            });
+            pointsHTML += '</g>';
+
+            // --- Annotations (erscheinen nach dem Zeichnen) ---
+            var annoHTML = '<g class="coolness-annotations" font-family="Caveat, cursive" fill="#888" font-size="12">';
+            // Pfeil + "lol" beim Teenager-Tief
+            var lolX = x(15), lolY = y(3.5);
+            annoHTML += '<text x="' + (lolX + 18) + '" y="' + (lolY - 2) + '" font-size="16" fill="#1a1a1a" transform="rotate(-8 ' + (lolX+18) + ' ' + (lolY-2) + ')">lol</text>';
+            annoHTML += '<path d="M' + (lolX + 14) + ',' + (lolY - 2) + ' Q' + (lolX + 8) + ',' + (lolY + 2) + ' ' + (lolX + 4) + ',' + (lolY - 1) + '" fill="none" stroke="#1a1a1a" stroke-width="1.2" marker-end="none"/>';
+            // "HIER!!!" am Absoluten Zenit
+            var hX = x(23), hY = y(9.8);
+            annoHTML += '<text x="' + (hX + 14) + '" y="' + (hY + 4) + '" font-family="Permanent Marker, cursive" font-size="13" fill="#f1c40f" transform="rotate(-12 ' + (hX+14) + ' ' + (hY+4) + ')">HIER!!!</text>';
+            annoHTML += '<path d="M' + (hX + 12) + ',' + (hY + 2) + ' L' + (hX + 4) + ',' + (hY - 1) + '" fill="none" stroke="#f1c40f" stroke-width="1.5"/>';
+            annoHTML += '</g>';
+
+            // SVG zusammenbauen
+            svg.innerHTML = gridHTML + axesHTML + labelsHTML + glowHTML + lineHTML + pointsHTML + annoHTML;
+
+            // Pfadlänge messen und setzen
+            svg.querySelectorAll('.coolness-line').forEach(function(path) {
+                var len = path.getTotalLength();
+                path.style.setProperty('--line-len', len);
+                path.style.strokeDasharray = len;
+                path.style.strokeDashoffset = len;
+            });
+
+            // --- Scroll-Animation ---
+            var chartObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        napkin.classList.add('drawing');
+                        setTimeout(function() {
+                            napkin.classList.add('drawn');
+                        }, 3000);
+                        chartObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.25 });
+            chartObserver.observe(napkin);
+
+            // --- Tooltip-Interaktion ---
+            var tooltipAge = tooltip.querySelector('.coolness-tooltip-age');
+            var tooltipText = tooltip.querySelector('.coolness-tooltip-text');
+            var tooltipStars = tooltip.querySelector('.coolness-tooltip-stars');
+
+            svg.querySelectorAll('.coolness-point').forEach(function(point) {
+                var idx = +point.dataset.idx;
+                var item = data[idx];
+
+                function showTooltip() {
+                    var circle = point.querySelector('circle');
+                    var svgRect = svg.getBoundingClientRect();
+                    var napkinRect = napkin.getBoundingClientRect();
+                    var cx = +circle.getAttribute('cx');
+                    var cy = +circle.getAttribute('cy');
+                    var scaleX = svgRect.width / 640;
+                    var scaleY = svgRect.height / 380;
+
+                    tooltipAge.textContent = 'Alter ' + item.age + ' – ' + item.label;
+                    tooltipText.textContent = item.text;
+                    var full = Math.round(item.c);
+                    tooltipStars.textContent = '\u2605'.repeat(full) + '\u2606'.repeat(10 - full);
+
+                    tooltip.style.left = ((cx * scaleX) + (svgRect.left - napkinRect.left)) + 'px';
+                    tooltip.style.top = ((cy * scaleY) + (svgRect.top - napkinRect.top)) + 'px';
+                    tooltip.classList.add('visible');
+                }
+
+                function hideTooltip() {
+                    tooltip.classList.remove('visible');
+                }
+
+                point.addEventListener('mouseenter', showTooltip);
+                point.addEventListener('mouseleave', hideTooltip);
+                point.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    showTooltip();
+                    setTimeout(hideTooltip, 3000);
+                }, { passive: false });
+            });
+
+            // Klick außerhalb schließt Tooltip
+            napkin.addEventListener('click', function() {
+                tooltip.classList.remove('visible');
             });
         })();
 
