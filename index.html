@@ -5963,161 +5963,34 @@
                 }
             });
 
-            function launchGoat() {
-                // === OVERLAY ===
-                const ov = document.createElement('div');
-                ov.style.cssText = 'position:fixed;inset:0;z-index:300000;background:rgba(0,0,0,0);pointer-events:all;' +
-                    'display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;' +
-                    'transition:background 1.2s ease;';
-                document.body.appendChild(ov);
+            /* ---------- HILFSFUNKTIONEN ---------- */
 
-                // Fade to black
-                requestAnimationFrame(() => { ov.style.background = 'rgba(0,0,0,0.95)'; });
-
-                // === SPOTLIGHT (delayed) ===
-                setTimeout(() => {
-                    const spot = document.createElement('div');
-                    spot.style.cssText = 'position:absolute;width:300px;height:300px;border-radius:50%;' +
-                        'background:radial-gradient(circle,rgba(241,196,15,0.15) 0%,transparent 70%);' +
-                        'top:50%;left:50%;transform:translate(-50%,-60%);opacity:0;transition:opacity 1s ease;';
-                    ov.appendChild(spot);
-                    requestAnimationFrame(() => { spot.style.opacity = '1'; });
-                }, 800);
-
-                // === MASSIVE CROWN SVG ===
-                setTimeout(() => {
-                    const crown = document.createElement('div');
-                    crown.innerHTML = '<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 30px rgba(241,196,15,0.6))">' +
-                        '<path d="M10,65 L25,15 L40,45 L60,5 L80,45 L95,15 L110,65 Z" fill="#f1c40f" stroke="#d4a017" stroke-width="2"/>' +
-                        '<rect x="10" y="60" width="100" height="12" rx="3" fill="#f1c40f" stroke="#d4a017" stroke-width="2"/>' +
-                        '<circle cx="35" cy="55" r="4" fill="#e74c3c"/>' +
-                        '<circle cx="60" cy="50" r="5" fill="#3498db"/>' +
-                        '<circle cx="85" cy="55" r="4" fill="#2ecc71"/>' +
-                        '</svg>';
-                    crown.style.cssText = 'position:absolute;top:-200px;left:50%;width:clamp(180px,40vw,280px);' +
-                        'transform:translateX(-50%);transition:top 1.5s cubic-bezier(0.34,1.56,0.64,1),filter 0.3s;' +
-                        'z-index:2;';
-                    ov.appendChild(crown);
-                    requestAnimationFrame(() => {
-                        crown.style.top = 'calc(50% - clamp(120px,20vw,180px))';
-                    });
-
-                    // Crown glow pulse
-                    let pulse = 0;
-                    const pInt = setInterval(() => {
-                        pulse++;
-                        const g = 30 + 20 * Math.sin(pulse * 0.15);
-                        crown.querySelector('svg').style.filter = 'drop-shadow(0 0 ' + g + 'px rgba(241,196,15,0.7))';
-                    }, 50);
-                    setTimeout(() => clearInterval(pInt), 10000);
-                }, 1200);
-
-                // === G.O.A.T. LETTERS ===
-                const letters = ['G', '.', 'O', '.', 'A', '.', 'T', '.'];
-                const letterEls = [];
-                letters.forEach((ch, i) => {
-                    setTimeout(() => {
-                        const el = document.createElement('span');
-                        el.textContent = ch;
-                        el.style.cssText = 'position:absolute;top:50%;left:50%;font-family:"Permanent Marker",cursive;' +
-                            'font-size:clamp(3rem,12vw,7rem);color:#f1c40f;z-index:3;' +
-                            'text-shadow:0 0 40px rgba(241,196,15,0.8),0 0 80px rgba(241,196,15,0.4),3px 3px 0 #1a1a1a;' +
-                            'transform:translate(-50%,-50%) scale(3);opacity:0;' +
-                            'transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;';
-                        ov.appendChild(el);
-                        letterEls.push(el);
-
-                        // Position: spread letters horizontally
-                        const totalW = letters.length * 0.8;
-                        const offsetX = (i - (letters.length - 1) / 2) * (ch === '.' ? 0.5 : 1);
-                        requestAnimationFrame(() => {
-                            el.style.opacity = '1';
-                            el.style.transform = 'translate(calc(-50% + ' + (offsetX * (window.innerWidth < 600 ? 28 : 50)) + 'px),-50%) scale(1)';
-                        });
-
-                        // Partikel-Explosion pro Buchstabe
-                        if (ch !== '.') spawnBurst(ov, 50 + (i / letters.length) * (window.innerWidth < 600 ? 56 : 100) * (i - 3.5) / 3.5 + 50, 50);
-                    }, 2200 + i * 250);
-                });
-
-                // === SUBTITLE ===
-                setTimeout(() => {
-                    const sub = document.createElement('div');
-                    sub.textContent = 'Greatest Of All Time';
-                    sub.style.cssText = 'position:absolute;top:calc(50% + clamp(40px,8vw,70px));left:50%;' +
-                        'transform:translateX(-50%);font-family:"Caveat",cursive;font-size:clamp(1.2rem,4vw,2rem);' +
-                        'color:#fff;letter-spacing:0.15em;opacity:0;transition:opacity 1s ease;z-index:3;' +
-                        'text-shadow:0 0 20px rgba(241,196,15,0.5);white-space:nowrap;';
-                    ov.appendChild(sub);
-                    requestAnimationFrame(() => { sub.style.opacity = '1'; });
-                }, 4500);
-
-                // === GOLDEN RAIN / FIREWORKS ===
-                setTimeout(() => spawnFireworks(ov), 3000);
-                setTimeout(() => spawnGoldenRain(ov), 4000);
-
-                // === JONAS SILHOUETTE (aufsteigend) ===
-                setTimeout(() => {
-                    const fig = document.createElement('div');
-                    fig.innerHTML = '<svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">' +
-                        '<circle cx="30" cy="12" r="10" fill="none" stroke="#f1c40f" stroke-width="2"/>' +
-                        '<line x1="30" y1="22" x2="30" y2="58" stroke="#f1c40f" stroke-width="2"/>' +
-                        '<line x1="30" y1="35" x2="12" y2="28" stroke="#f1c40f" stroke-width="2"/>' +
-                        '<line x1="30" y1="35" x2="48" y2="28" stroke="#f1c40f" stroke-width="2"/>' +
-                        '<line x1="30" y1="58" x2="18" y2="80" stroke="#f1c40f" stroke-width="2"/>' +
-                        '<line x1="30" y1="58" x2="42" y2="80" stroke="#f1c40f" stroke-width="2"/>' +
-                        '<circle cx="30" cy="5" r="0" fill="#f1c40f" opacity="0.6">' +
-                        '<animate attributeName="r" values="0;20;0" dur="2s" repeatCount="indefinite"/>' +
-                        '<animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>' +
-                        '</circle>' +
-                        '</svg>';
-                    fig.style.cssText = 'position:absolute;bottom:-120px;left:50%;width:80px;' +
-                        'transform:translateX(-50%);z-index:1;opacity:0;' +
-                        'transition:bottom 3s cubic-bezier(0.22,1,0.36,1),opacity 1s ease;' +
-                        'filter:drop-shadow(0 0 20px rgba(241,196,15,0.5));';
-                    ov.appendChild(fig);
-                    requestAnimationFrame(() => {
-                        fig.style.opacity = '1';
-                        fig.style.bottom = 'calc(50% - 130px)';
-                    });
-                }, 5200);
-
-                // === TEXT: "DER UNBESIEGBARE" ===
-                setTimeout(() => {
-                    const txt = document.createElement('div');
-                    txt.textContent = '— DER UNBESIEGBARE —';
-                    txt.style.cssText = 'position:absolute;bottom:clamp(60px,12vh,120px);left:50%;' +
-                        'transform:translateX(-50%);font-family:"Permanent Marker",cursive;' +
-                        'font-size:clamp(0.9rem,3vw,1.5rem);color:#f1c40f;letter-spacing:0.3em;' +
-                        'opacity:0;transition:opacity 1.5s ease;z-index:3;' +
-                        'text-shadow:0 0 15px rgba(241,196,15,0.6);white-space:nowrap;';
-                    ov.appendChild(txt);
-                    requestAnimationFrame(() => { txt.style.opacity = '1'; });
-                }, 6500);
-
-                // === FADE OUT & CLEANUP ===
-                setTimeout(() => {
-                    ov.style.transition = 'opacity 2s ease';
-                    ov.style.opacity = '0';
-                    setTimeout(() => {
-                        ov.remove();
-                        goatActive = false;
-                    }, 2200);
-                }, 9500);
+            function shake(el, intensity, dur) {
+                const start = performance.now();
+                function step(now) {
+                    const t = (now - start) / dur;
+                    if (t >= 1) { el.style.transform = ''; return; }
+                    const d = intensity * (1 - t);
+                    el.style.transform = 'translate(' + (Math.random() * d * 2 - d) + 'px,' + (Math.random() * d * 2 - d) + 'px)';
+                    requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
             }
 
-            // --- Partikel-Burst an Position ---
-            function spawnBurst(parent, xPct, yPct) {
-                for (let i = 0; i < 12; i++) {
+            function spawnBurst(parent, xPct, yPct, count, maxDist) {
+                count = count || 20;
+                maxDist = maxDist || 120;
+                for (let i = 0; i < count; i++) {
                     const p = document.createElement('div');
-                    const angle = (Math.PI * 2 / 12) * i + Math.random() * 0.3;
-                    const dist = 40 + Math.random() * 80;
-                    const size = 3 + Math.random() * 5;
-                    const colors = ['#f1c40f', '#e74c3c', '#fff', '#3498db', '#2ecc71'];
+                    const angle = (Math.PI * 2 / count) * i + Math.random() * 0.4;
+                    const dist = 30 + Math.random() * maxDist;
+                    const size = 2 + Math.random() * 6;
+                    const colors = ['#f1c40f', '#ffd700', '#fff', '#e74c3c', '#ff6b6b', '#3498db', '#2ecc71'];
                     p.style.cssText = 'position:absolute;width:' + size + 'px;height:' + size + 'px;' +
                         'border-radius:50%;background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
-                        'left:' + xPct + '%;top:' + yPct + '%;z-index:4;pointer-events:none;' +
-                        'opacity:1;transition:all 0.8s cubic-bezier(0.22,1,0.36,1);';
+                        'left:' + xPct + '%;top:' + yPct + '%;z-index:10;pointer-events:none;' +
+                        'opacity:1;transition:all 1s cubic-bezier(0.22,1,0.36,1);' +
+                        'box-shadow:0 0 ' + (size * 2) + 'px ' + colors[Math.floor(Math.random() * colors.length)] + ';';
                     parent.appendChild(p);
                     requestAnimationFrame(() => {
                         p.style.left = 'calc(' + xPct + '% + ' + (Math.cos(angle) * dist) + 'px)';
@@ -6125,46 +5998,445 @@
                         p.style.opacity = '0';
                         p.style.transform = 'scale(0)';
                     });
-                    setTimeout(() => p.remove(), 900);
+                    setTimeout(() => p.remove(), 1100);
                 }
             }
 
-            // --- Fireworks ---
-            function spawnFireworks(parent) {
-                const count = 5;
-                for (let i = 0; i < count; i++) {
-                    setTimeout(() => {
-                        const x = 15 + Math.random() * 70;
-                        const y = 15 + Math.random() * 50;
-                        spawnBurst(parent, x, y);
-                    }, i * 400);
+            function spawnShockwave(parent, xPct, yPct, color) {
+                const ring = document.createElement('div');
+                ring.style.cssText = 'position:absolute;left:' + xPct + '%;top:' + yPct + '%;' +
+                    'width:0;height:0;border-radius:50%;pointer-events:none;z-index:5;' +
+                    'border:3px solid ' + (color || 'rgba(241,196,15,0.6)') + ';' +
+                    'transform:translate(-50%,-50%);' +
+                    'transition:all 1.2s cubic-bezier(0.22,1,0.36,1);opacity:1;';
+                parent.appendChild(ring);
+                requestAnimationFrame(() => {
+                    ring.style.width = '600px';
+                    ring.style.height = '600px';
+                    ring.style.opacity = '0';
+                    ring.style.borderWidth = '1px';
+                });
+                setTimeout(() => ring.remove(), 1300);
+            }
+
+            function spawnStars(parent) {
+                for (let i = 0; i < 80; i++) {
+                    const star = document.createElement('div');
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    const size = 1 + Math.random() * 2;
+                    const delay = Math.random() * 3;
+                    star.style.cssText = 'position:absolute;left:' + x + '%;top:' + y + '%;' +
+                        'width:' + size + 'px;height:' + size + 'px;border-radius:50%;' +
+                        'background:#fff;z-index:1;pointer-events:none;opacity:0;' +
+                        'animation:goatStarTwinkle 2s ease-in-out ' + delay + 's infinite;';
+                    star.className = 'goat-star';
+                    parent.appendChild(star);
                 }
             }
 
-            // --- Golden Rain ---
             function spawnGoldenRain(parent) {
-                for (let i = 0; i < 60; i++) {
+                for (let i = 0; i < 100; i++) {
                     setTimeout(() => {
                         const drop = document.createElement('div');
                         const x = Math.random() * 100;
-                        const size = 2 + Math.random() * 4;
-                        const dur = 2 + Math.random() * 3;
-                        drop.style.cssText = 'position:absolute;left:' + x + '%;top:-10px;width:' + size + 'px;height:' + (size * 3) + 'px;' +
-                            'background:linear-gradient(to bottom,#f1c40f,rgba(241,196,15,0));border-radius:50%;' +
-                            'z-index:1;pointer-events:none;opacity:0.8;';
+                        const size = 2 + Math.random() * 5;
+                        const dur = 1.5 + Math.random() * 3;
+                        const drift = (Math.random() - 0.5) * 60;
+                        drop.style.cssText = 'position:absolute;left:' + x + '%;top:-10px;' +
+                            'width:' + size + 'px;height:' + (size * 4) + 'px;' +
+                            'background:linear-gradient(to bottom,#ffd700,rgba(241,196,15,0));border-radius:' + size + 'px;' +
+                            'z-index:2;pointer-events:none;opacity:0;' +
+                            'box-shadow:0 0 ' + (size * 3) + 'px rgba(241,196,15,0.4);';
                         parent.appendChild(drop);
-
+                        const startX = parseFloat(drop.style.left);
                         const start = performance.now();
                         function fall(now) {
                             const t = Math.min((now - start) / (dur * 1000), 1);
-                            drop.style.top = (t * 110) + '%';
-                            drop.style.opacity = t > 0.7 ? (1 - t) / 0.3 * 0.8 : 0.8;
+                            const yPos = t * 120;
+                            const xPos = startX + Math.sin(t * Math.PI * 2) * drift / 100;
+                            drop.style.top = yPos + '%';
+                            drop.style.left = xPos + '%';
+                            drop.style.opacity = t < 0.1 ? t / 0.1 * 0.9 : t > 0.7 ? (1 - t) / 0.3 * 0.9 : 0.9;
                             if (t < 1) requestAnimationFrame(fall);
                             else drop.remove();
                         }
                         requestAnimationFrame(fall);
-                    }, Math.random() * 4000);
+                    }, Math.random() * 6000);
                 }
+            }
+
+            function spawnLightning(parent, startX, startY) {
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('viewBox', '0 0 100 100');
+                svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;opacity:1;' +
+                    'transition:opacity 0.3s ease;';
+                let path = 'M' + startX + ',' + startY;
+                let x = startX, y = startY;
+                const segments = 8 + Math.floor(Math.random() * 6);
+                for (let i = 0; i < segments; i++) {
+                    x += (Math.random() - 0.5) * 15;
+                    y += 100 / segments * (0.5 + Math.random() * 0.8);
+                    if (y > 100) y = 100;
+                    path += ' L' + x + ',' + y;
+                }
+                const bolt = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                bolt.setAttribute('d', path);
+                bolt.setAttribute('fill', 'none');
+                bolt.setAttribute('stroke', '#fff');
+                bolt.setAttribute('stroke-width', '0.8');
+                bolt.setAttribute('filter', 'url(#goatGlow)');
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+                filter.setAttribute('id', 'goatGlow');
+                const blur = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
+                blur.setAttribute('stdDeviation', '1.5');
+                blur.setAttribute('result', 'glow');
+                const merge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
+                const m1 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
+                m1.setAttribute('in', 'glow');
+                const m2 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
+                m2.setAttribute('in', 'SourceGraphic');
+                merge.appendChild(m1); merge.appendChild(m2);
+                filter.appendChild(blur); filter.appendChild(merge);
+                defs.appendChild(filter);
+                svg.appendChild(defs);
+                svg.appendChild(bolt);
+                // Glow-Duplikat
+                const glow = bolt.cloneNode();
+                glow.setAttribute('stroke', '#f1c40f');
+                glow.setAttribute('stroke-width', '2');
+                glow.setAttribute('opacity', '0.5');
+                svg.insertBefore(glow, bolt);
+                parent.appendChild(svg);
+                // Flash
+                const flash = document.createElement('div');
+                flash.style.cssText = 'position:absolute;inset:0;background:#fff;z-index:7;pointer-events:none;opacity:0.4;' +
+                    'transition:opacity 0.15s ease;';
+                parent.appendChild(flash);
+                setTimeout(() => { flash.style.opacity = '0'; }, 50);
+                setTimeout(() => flash.remove(), 200);
+                setTimeout(() => { svg.style.opacity = '0'; }, 200);
+                setTimeout(() => svg.remove(), 500);
+            }
+
+            /* ---------- HAUPT-SEQUENZ ---------- */
+
+            function launchGoat() {
+                // Inject keyframe animations
+                if (!document.getElementById('goatStyles')) {
+                    const style = document.createElement('style');
+                    style.id = 'goatStyles';
+                    style.textContent =
+                        '@keyframes goatStarTwinkle { 0%,100%{opacity:0} 50%{opacity:0.8} }' +
+                        '@keyframes goatCrownFloat { 0%,100%{transform:translateX(-50%) translateY(0) rotate(0deg)} 50%{transform:translateX(-50%) translateY(-8px) rotate(1deg)} }' +
+                        '@keyframes goatLetterGlow { 0%,100%{text-shadow:0 0 40px rgba(241,196,15,0.8),0 0 80px rgba(241,196,15,0.3),3px 3px 0 #1a1a1a} 50%{text-shadow:0 0 60px rgba(241,196,15,1),0 0 120px rgba(241,196,15,0.6),0 0 200px rgba(241,196,15,0.2),3px 3px 0 #1a1a1a} }' +
+                        '@keyframes goatAuraPulse { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3} 50%{transform:translate(-50%,-50%) scale(1.3);opacity:0.6} }' +
+                        '@keyframes goatFigureFloat { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-10px)} }' +
+                        '@keyframes goatRayRotate { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }' +
+                        '@keyframes goatSubReveal { from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0% 0 0)} }' +
+                        '@keyframes goatTitleReveal { 0%{letter-spacing:1em;opacity:0;filter:blur(10px)} 100%{letter-spacing:0.3em;opacity:1;filter:blur(0)} }';
+                    document.head.appendChild(style);
+                }
+
+                const W = window.innerWidth;
+                const mobile = W < 600;
+
+                // === OVERLAY ===
+                const ov = document.createElement('div');
+                ov.style.cssText = 'position:fixed;inset:0;z-index:300000;background:rgba(0,0,0,0);pointer-events:all;' +
+                    'display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;' +
+                    'transition:background 1.5s ease;';
+                document.body.appendChild(ov);
+
+                // ========================================
+                // PHASE 0 (0s): Bildschirm-Shake + Fade to black
+                // ========================================
+                shake(document.body, 8, 600);
+                requestAnimationFrame(() => { ov.style.background = 'rgba(0,0,0,0.97)'; });
+
+                // ========================================
+                // PHASE 1 (0.8s): Sterne erscheinen im Hintergrund
+                // ========================================
+                setTimeout(() => spawnStars(ov), 800);
+
+                // ========================================
+                // PHASE 2 (1.5s): Blitze schlagen ein
+                // ========================================
+                setTimeout(() => spawnLightning(ov, 30, 0), 1500);
+                setTimeout(() => spawnLightning(ov, 65, 0), 1900);
+                setTimeout(() => spawnLightning(ov, 48, 0), 2200);
+                setTimeout(() => shake(ov, 5, 300), 1500);
+                setTimeout(() => shake(ov, 4, 200), 1900);
+                setTimeout(() => shake(ov, 6, 300), 2200);
+
+                // ========================================
+                // PHASE 3 (2.8s): Goldener Lichtstrahl von oben + Krone
+                // ========================================
+                setTimeout(() => {
+                    // Lichtstrahl-Kegel
+                    const beam = document.createElement('div');
+                    beam.style.cssText = 'position:absolute;top:0;left:50%;width:4px;height:100%;z-index:3;pointer-events:none;' +
+                        'background:linear-gradient(to bottom,#ffd700,rgba(241,196,15,0.3),transparent);' +
+                        'transform:translateX(-50%);opacity:0;transition:opacity 0.5s ease,width 1.5s ease;';
+                    ov.appendChild(beam);
+                    requestAnimationFrame(() => {
+                        beam.style.opacity = '1';
+                        beam.style.width = mobile ? '120px' : '200px';
+                        beam.style.background = 'linear-gradient(to bottom,rgba(255,215,0,0.6),rgba(241,196,15,0.1),transparent)';
+                    });
+                    // Beam fade out later
+                    setTimeout(() => { beam.style.opacity = '0'; }, 4000);
+                    setTimeout(() => beam.remove(), 5000);
+                }, 2800);
+
+                // Rotierende Lichtstrahlen hinter der Krone
+                setTimeout(() => {
+                    const rays = document.createElement('div');
+                    rays.style.cssText = 'position:absolute;top:' + (mobile ? '22%' : '18%') + ';left:50%;' +
+                        'width:' + (mobile ? '250px' : '450px') + ';height:' + (mobile ? '250px' : '450px') + ';' +
+                        'z-index:2;pointer-events:none;opacity:0;transition:opacity 2s ease;' +
+                        'animation:goatRayRotate 20s linear infinite;';
+                    let raysSvg = '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">';
+                    for (let i = 0; i < 12; i++) {
+                        const angle = (360 / 12) * i;
+                        raysSvg += '<line x1="100" y1="100" x2="' + (100 + 95 * Math.cos(angle * Math.PI / 180)) +
+                            '" y2="' + (100 + 95 * Math.sin(angle * Math.PI / 180)) +
+                            '" stroke="rgba(241,196,15,0.15)" stroke-width="8" stroke-linecap="round"/>';
+                    }
+                    raysSvg += '</svg>';
+                    rays.innerHTML = raysSvg;
+                    ov.appendChild(rays);
+                    requestAnimationFrame(() => { rays.style.opacity = '1'; });
+                    setTimeout(() => { rays.style.opacity = '0'; }, 10000);
+                    setTimeout(() => rays.remove(), 12000);
+                }, 3200);
+
+                // === MASSIVE CROWN ===
+                setTimeout(() => {
+                    const crown = document.createElement('div');
+                    crown.innerHTML = '<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">' +
+                        '<defs><linearGradient id="goatCrownGrad" x1="0%" y1="0%" x2="0%" y2="100%">' +
+                        '<stop offset="0%" style="stop-color:#ffd700"/>' +
+                        '<stop offset="50%" style="stop-color:#f1c40f"/>' +
+                        '<stop offset="100%" style="stop-color:#d4a017"/>' +
+                        '</linearGradient></defs>' +
+                        '<path d="M10,65 L25,15 L40,45 L60,5 L80,45 L95,15 L110,65 Z" fill="url(#goatCrownGrad)" stroke="#b8860b" stroke-width="1.5"/>' +
+                        '<rect x="10" y="60" width="100" height="12" rx="3" fill="url(#goatCrownGrad)" stroke="#b8860b" stroke-width="1.5"/>' +
+                        '<circle cx="35" cy="55" r="5" fill="#e74c3c"><animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="60" cy="50" r="6" fill="#3498db"><animate attributeName="opacity" values="0.7;1;0.7" dur="1.8s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="85" cy="55" r="5" fill="#2ecc71"><animate attributeName="opacity" values="0.7;1;0.7" dur="1.3s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="60" cy="8" r="3" fill="#ffd700" opacity="0.8"><animate attributeName="r" values="2;5;2" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/></circle>' +
+                        '</svg>';
+                    crown.style.cssText = 'position:absolute;top:-250px;left:50%;width:' + (mobile ? '200px' : '320px') + ';' +
+                        'transform:translateX(-50%);z-index:8;' +
+                        'filter:drop-shadow(0 0 40px rgba(241,196,15,0.8)) drop-shadow(0 0 80px rgba(241,196,15,0.4));' +
+                        'transition:top 2s cubic-bezier(0.34,1.56,0.64,1);';
+                    ov.appendChild(crown);
+
+                    requestAnimationFrame(() => {
+                        crown.style.top = mobile ? '16%' : '12%';
+                    });
+
+                    // After landing: float animation + shockwave
+                    setTimeout(() => {
+                        crown.style.animation = 'goatCrownFloat 3s ease-in-out infinite';
+                        spawnShockwave(ov, 50, mobile ? 28 : 24, 'rgba(255,215,0,0.5)');
+                        spawnBurst(ov, 50, mobile ? 26 : 22, 30, 150);
+                        shake(ov, 3, 200);
+                    }, 2100);
+
+                    // Crown glow pulse
+                    let pulse = 0;
+                    const pInt = setInterval(() => {
+                        pulse++;
+                        const g1 = 40 + 30 * Math.sin(pulse * 0.12);
+                        const g2 = 80 + 40 * Math.sin(pulse * 0.08);
+                        crown.style.filter = 'drop-shadow(0 0 ' + g1 + 'px rgba(241,196,15,0.8)) drop-shadow(0 0 ' + g2 + 'px rgba(241,196,15,0.3))';
+                    }, 50);
+                    setTimeout(() => clearInterval(pInt), 13000);
+                }, 3000);
+
+                // ========================================
+                // PHASE 4 (5.5s): G.O.A.T. Buchstaben
+                // ========================================
+                const mainLetters = ['G', '.', 'O', '.', 'A', '.', 'T', '.'];
+                mainLetters.forEach((ch, i) => {
+                    setTimeout(() => {
+                        const el = document.createElement('span');
+                        el.textContent = ch;
+                        const isDot = ch === '.';
+                        const fontSize = isDot ? 'clamp(2rem,8vw,4rem)' : 'clamp(3.5rem,14vw,8rem)';
+                        el.style.cssText = 'position:absolute;top:50%;left:50%;font-family:"Permanent Marker",cursive;' +
+                            'font-size:' + fontSize + ';color:#ffd700;z-index:9;' +
+                            'text-shadow:0 0 40px rgba(241,196,15,0.8),0 0 80px rgba(241,196,15,0.3),3px 3px 0 #1a1a1a;' +
+                            'transform:translate(-50%,-50%) scale(4) rotate(' + ((Math.random() - 0.5) * 30) + 'deg);opacity:0;' +
+                            'transition:all 0.6s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;';
+                        ov.appendChild(el);
+
+                        // Spread horizontally
+                        const spacing = mobile ? 24 : 48;
+                        const dotSpacing = mobile ? 12 : 24;
+                        let offsetPx = 0;
+                        // Calculate position: letters take full space, dots half
+                        const positions = [];
+                        let totalWidth = 0;
+                        mainLetters.forEach((c, j) => {
+                            positions.push(totalWidth);
+                            totalWidth += (c === '.' ? dotSpacing : spacing);
+                        });
+                        const center = (totalWidth - (mainLetters[mainLetters.length - 1] === '.' ? dotSpacing : spacing)) / 2;
+                        offsetPx = positions[i] - center;
+
+                        requestAnimationFrame(() => {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translate(calc(-50% + ' + offsetPx + 'px),-50%) scale(1) rotate(0deg)';
+                            if (!isDot) {
+                                el.style.animation = 'goatLetterGlow 2s ease-in-out infinite ' + (i * 0.2) + 's';
+                            }
+                        });
+
+                        // Screen shake + burst for each main letter
+                        if (!isDot) {
+                            const burstX = 50 + (offsetPx / (mobile ? 3 : 5));
+                            spawnBurst(ov, burstX, 50, 25, 100);
+                            spawnShockwave(ov, burstX, 50, 'rgba(255,215,0,0.3)');
+                            shake(ov, 4, 150);
+                        }
+                    }, 5500 + i * 300);
+                });
+
+                // ========================================
+                // PHASE 5 (8.5s): Subtitle + Goldener Regen + Feuerwerk
+                // ========================================
+                setTimeout(() => {
+                    const sub = document.createElement('div');
+                    sub.textContent = 'Greatest Of All Time';
+                    sub.style.cssText = 'position:absolute;top:calc(50% + ' + (mobile ? '50px' : '80px') + ');left:50%;' +
+                        'transform:translateX(-50%);font-family:"Caveat",cursive;font-size:clamp(1.4rem,5vw,2.5rem);' +
+                        'color:#fff;letter-spacing:0.15em;z-index:9;white-space:nowrap;' +
+                        'text-shadow:0 0 30px rgba(241,196,15,0.5);' +
+                        'animation:goatSubReveal 1.5s ease-out forwards,goatTitleReveal 1.5s ease-out forwards;';
+                    ov.appendChild(sub);
+                }, 8200);
+
+                // Goldener Regen startet
+                setTimeout(() => spawnGoldenRain(ov), 7500);
+
+                // Massive Fireworks
+                setTimeout(() => {
+                    for (let wave = 0; wave < 3; wave++) {
+                        setTimeout(() => {
+                            for (let j = 0; j < 4; j++) {
+                                setTimeout(() => {
+                                    spawnBurst(ov, 10 + Math.random() * 80, 10 + Math.random() * 60, 30, 160);
+                                }, j * 250);
+                            }
+                        }, wave * 1200);
+                    }
+                }, 8500);
+
+                // ========================================
+                // PHASE 6 (9.5s): Jonas-Figur steigt auf mit Aura
+                // ========================================
+                setTimeout(() => {
+                    // Aura / Heiligenschein
+                    const aura = document.createElement('div');
+                    aura.style.cssText = 'position:absolute;bottom:' + (mobile ? '10%' : '8%') + ';left:50%;' +
+                        'width:' + (mobile ? '150px' : '220px') + ';height:' + (mobile ? '150px' : '220px') + ';' +
+                        'border-radius:50%;z-index:3;pointer-events:none;' +
+                        'background:radial-gradient(circle,rgba(241,196,15,0.25) 0%,rgba(241,196,15,0.05) 50%,transparent 70%);' +
+                        'animation:goatAuraPulse 2s ease-in-out infinite;';
+                    ov.appendChild(aura);
+
+                    // Jonas-Figur (detaillierter, mit Dutt + TT-Schläger + Siegerpose)
+                    const fig = document.createElement('div');
+                    fig.innerHTML = '<svg viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg">' +
+                        // Heiligenschein über dem Kopf
+                        '<ellipse cx="40" cy="6" rx="16" ry="5" fill="none" stroke="#ffd700" stroke-width="1.5" opacity="0.7">' +
+                        '<animate attributeName="opacity" values="0.4;0.9;0.4" dur="2s" repeatCount="indefinite"/></ellipse>' +
+                        // Kopf
+                        '<circle cx="40" cy="20" r="12" fill="none" stroke="#ffd700" stroke-width="2.5"/>' +
+                        // Dutt / Man-Bun
+                        '<ellipse cx="40" cy="7" rx="6" ry="4.5" fill="none" stroke="#ffd700" stroke-width="2"/>' +
+                        // Lächeln
+                        '<path d="M35,24 Q40,28 45,24" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>' +
+                        // Augen (Punkte)
+                        '<circle cx="35" cy="18" r="1.5" fill="#ffd700"/>' +
+                        '<circle cx="45" cy="18" r="1.5" fill="#ffd700"/>' +
+                        // Körper
+                        '<line x1="40" y1="32" x2="40" y2="68" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
+                        // Linker Arm (nach oben gestreckt - Siegerpose!)
+                        '<path d="M40,42 L22,22" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
+                        // Rechter Arm (hält Schläger hoch)
+                        '<path d="M40,42 L60,24" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
+                        // TT-Schläger
+                        '<ellipse cx="66" cy="18" rx="8" ry="10" fill="none" stroke="#ffd700" stroke-width="2" transform="rotate(-15,66,18)"/>' +
+                        '<line x1="60" y1="24" x2="64" y2="20" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
+                        // Beine (leicht gespreizt, Siegerpose)
+                        '<line x1="40" y1="68" x2="28" y2="95" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
+                        '<line x1="40" y1="68" x2="52" y2="95" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
+                        // Glanz-Partikel um die Figur
+                        '<circle cx="18" cy="35" r="2" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="1.5s" begin="0.2s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="65" cy="40" r="1.5" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.6;0" dur="1.8s" begin="0.5s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="25" cy="60" r="1.8" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.7;0" dur="1.3s" begin="0.8s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="58" cy="65" r="2" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.6;0" dur="1.6s" begin="0.3s" repeatCount="indefinite"/></circle>' +
+                        '</svg>';
+                    fig.style.cssText = 'position:absolute;bottom:-150px;left:50%;width:' + (mobile ? '90px' : '130px') + ';' +
+                        'transform:translateX(-50%);z-index:4;opacity:0;' +
+                        'transition:bottom 3.5s cubic-bezier(0.22,1,0.36,1),opacity 1.2s ease;' +
+                        'filter:drop-shadow(0 0 25px rgba(241,196,15,0.6)) drop-shadow(0 0 50px rgba(241,196,15,0.3));';
+                    ov.appendChild(fig);
+
+                    requestAnimationFrame(() => {
+                        fig.style.opacity = '1';
+                        fig.style.bottom = mobile ? '15%' : '12%';
+                    });
+
+                    // After arrival: floating
+                    setTimeout(() => {
+                        fig.style.transition = 'none';
+                        fig.style.animation = 'goatFigureFloat 3s ease-in-out infinite';
+                    }, 3600);
+                }, 9500);
+
+                // ========================================
+                // PHASE 7 (11s): Finale Texte
+                // ========================================
+                setTimeout(() => {
+                    const txt = document.createElement('div');
+                    txt.textContent = 'DER UNBESIEGBARE';
+                    txt.style.cssText = 'position:absolute;bottom:' + (mobile ? '5%' : '4%') + ';left:50%;' +
+                        'transform:translateX(-50%);font-family:"Permanent Marker",cursive;' +
+                        'font-size:clamp(1rem,3.5vw,1.8rem);color:#ffd700;letter-spacing:0.3em;' +
+                        'opacity:0;z-index:9;white-space:nowrap;' +
+                        'text-shadow:0 0 20px rgba(241,196,15,0.6),0 0 40px rgba(241,196,15,0.3);' +
+                        'animation:goatTitleReveal 2s ease-out forwards;';
+                    ov.appendChild(txt);
+                }, 11500);
+
+                // Zweite Feuerwerk-Welle zum Finale
+                setTimeout(() => {
+                    for (let i = 0; i < 6; i++) {
+                        setTimeout(() => {
+                            spawnBurst(ov, 5 + Math.random() * 90, 5 + Math.random() * 70, 35, 180);
+                        }, i * 300);
+                    }
+                }, 12000);
+
+                // ========================================
+                // PHASE 8 (14s): Fade Out
+                // ========================================
+                setTimeout(() => {
+                    ov.style.transition = 'opacity 3s ease';
+                    ov.style.opacity = '0';
+                    setTimeout(() => {
+                        ov.remove();
+                        const goatStyle = document.getElementById('goatStyles');
+                        if (goatStyle) goatStyle.remove();
+                        goatActive = false;
+                    }, 3200);
+                }, 14000);
             }
         })();
 
