@@ -2435,6 +2435,45 @@
         </div>
     </div>
 
+    <!-- Pop-up: Mr. Magic (Zaubertricks) -->
+    <div class="popup-overlay" id="popupMrMagic">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup('popupMrMagic')">x</button>
+            <div class="popup-illustration">
+                <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Zylinderhut -->
+                    <rect x="45" y="12" width="50" height="35" rx="3" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+                    <ellipse cx="70" cy="47" rx="32" ry="7" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+                    <ellipse cx="70" cy="12" rx="25" ry="5" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+                    <!-- Sterne aus dem Hut -->
+                    <path d="M55,8 L56,4 L57,8 L61,8 L58,10 L59,14 L56,11 L53,14 L54,10 L51,8 Z" fill="#f1c40f" stroke="none"/>
+                    <path d="M78,2 L79,-1 L80,2 L83,2 L81,4 L82,7 L79,5 L76,7 L77,4 L75,2 Z" fill="#f1c40f" stroke="none"/>
+                    <path d="M68,5 L69,2 L70,5 L72,5 L71,7 L71,9 L69,8 L67,9 L67,7 L66,5 Z" fill="#f1c40f" stroke="none" opacity="0.6"/>
+                    <!-- Zauberstab -->
+                    <line x1="100" y1="55" x2="75" y2="25" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                    <circle cx="100" cy="55" r="2.5" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <!-- Funken vom Stab -->
+                    <circle cx="90" cy="35" r="1.5" fill="#f1c40f" opacity="0.7"/>
+                    <circle cx="95" cy="42" r="1" fill="#f1c40f" opacity="0.5"/>
+                    <circle cx="85" cy="30" r="1" fill="#f1c40f" opacity="0.6"/>
+                    <!-- Hase schaut aus dem Hut -->
+                    <ellipse cx="62" cy="18" rx="4" ry="10" fill="white" stroke="#1a1a1a" stroke-width="1.5" transform="rotate(-10, 62, 18)"/>
+                    <ellipse cx="72" cy="16" rx="4" ry="10" fill="white" stroke="#1a1a1a" stroke-width="1.5" transform="rotate(10, 72, 16)"/>
+                    <circle cx="64" cy="28" r="1" fill="#1a1a1a"/>
+                    <circle cx="70" cy="28" r="1" fill="#1a1a1a"/>
+                    <!-- Label -->
+                    <text x="18" y="85" font-family="Permanent Marker, cursive" font-size="11" fill="#888">ABRACADABRA</text>
+                    <!-- Fehlgeschlagene Karte fällt runter -->
+                    <rect x="20" y="95" width="18" height="26" rx="2" fill="white" stroke="#1a1a1a" stroke-width="1.5" transform="rotate(15, 29, 108)"/>
+                    <text x="25" y="112" font-size="14" fill="#c0392b" transform="rotate(15, 29, 108)">&#9829;</text>
+                    <rect x="105" y="100" width="18" height="26" rx="2" fill="white" stroke="#1a1a1a" stroke-width="1.5" transform="rotate(-20, 114, 113)"/>
+                    <text x="110" y="117" font-size="14" fill="#1a1a1a" transform="rotate(-20, 114, 113)">&#9824;</text>
+                </svg>
+            </div>
+            <p class="popup-text">Hocus Pocus... wo ist die Karte?<br><em>Im Ärmel. Sie war immer im Ärmel.</em></p>
+        </div>
+    </div>
+
     <!-- Pop-up: Flexibilität (Zeh in den Mund) -->
     <div class="popup-overlay" id="popupFlexibilitaet">
         <div class="popup-content">
@@ -2840,6 +2879,8 @@
                     <text x="320" y="240" class="sketch-label-small" font-size="12">pures<tspan x="320" dy="14">Glück</tspan></text>
                 </svg>
             </div>
+
+            <p class="reveal">Was viele nicht wissen: Jonas trägt im Verborgenen auch den Titel <span class="clickable-fact" onclick="openPopup('popupMrMagic')"><strong>Mr. Magic</strong></span>. In jungen Jahren versuchte er sich nämlich als Zauberkünstler &ndash; mit Kartentricks, mysteriösen Handbewegungen und dem unerschütterlichen Glauben, dass Magie real ist. Die Tricks mögen nicht immer geglückt sein, doch das Charisma dabei war stets überwältigend. Manche sagen, seine Tischtenniskünste seien nur eine Weiterentwicklung derselben Magie. <span class="latin">Magia in manibus eius.</span></p>
 
             <p class="reveal">Besondere Erwähnung verdienen auch <span class="clickable-fact" onclick="openPopup('popupFussnagel')">seine rosa lackierten Fußnägel</span> &ndash; ein Zeichen seiner Unerschrockenheit gegenüber gesellschaftlichen Konventionen. Während andere sich hinter grauer Konformität verstecken, schreitet Jonas mit der Kühnheit eines Löwen und der Ästhetik eines Renaissance-Fürsten durch die Welt. Rosa ist nicht nur eine Farbe &ndash; es ist eine Haltung. <span class="latin">Audaces fortuna iuvat.</span></p>
 
