@@ -3195,11 +3195,19 @@
             <circle cx="376" cy="21" r="2" fill="#f1c40f" stroke="#1a1a1a" stroke-width="1"/>
 
             <!-- Rechter Arm: Schläger lässig über Schulter gelegt -->
-            <path d="M364,125 Q385,118 400,108" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-            <!-- Hand -->
-            <path d="M398,105 Q404,102 406,107 Q405,112 400,111" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-            <!-- Schläger über Schulter -->
-            <line x1="402" y1="106" x2="412" y2="88" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+            <path d="M364,125 Q385,118 398,108" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+            <!-- Hand (Faust um Schlägergriff, Finger umschließen den Griff) -->
+            <!-- Handfläche -->
+            <path d="M396,104 Q400,100 404,103 L405,110 Q402,114 397,112 Z" fill="white" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- Finger um den Griff gewickelt (4 Finger sichtbar) -->
+            <path d="M397,105 Q394,107 397,109" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M398,103 Q395,105 398,107" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M400,102 Q397,103 399,105" fill="none" stroke="#1a1a1a" stroke-width="1.1" stroke-linecap="round"/>
+            <!-- Daumen oben auf dem Griff -->
+            <path d="M404,104 Q407,102 408,105" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
+            <!-- Schläger-Griff -->
+            <line x1="401" y1="106" x2="412" y2="88" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Schlägerkopf -->
             <ellipse cx="420" cy="72" rx="15" ry="20" fill="white" stroke="#1a1a1a" stroke-width="2.2" transform="rotate(-10, 420, 72)"/>
             <!-- Schläger-Belag Textur -->
             <path d="M412,62 L428,62" fill="none" stroke="#1a1a1a" stroke-width="0.5" opacity="0.2"/>
@@ -3208,14 +3216,23 @@
             <path d="M412,80 L428,80" fill="none" stroke="#1a1a1a" stroke-width="0.5" opacity="0.2"/>
 
             <!-- Linker Arm: Peace-Zeichen nach oben -->
-            <path d="M364,125 Q342,115 328,100" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
-            <!-- Hand -->
-            <circle cx="326" cy="97" r="4" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-            <!-- Peace-Finger (V-Zeichen) -->
-            <line x1="323" y1="94" x2="318" y2="80" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-            <line x1="329" y1="94" x2="330" y2="78" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-            <!-- Eingeklappte Finger -->
-            <path d="M324,98 Q320,100 319,97" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M364,125 Q342,115 326,100" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+            <!-- Handfläche (Rückseite sichtbar, leicht nach links gedreht) -->
+            <path d="M320,98 Q322,91 328,90 Q333,91 334,98 Q333,103 328,104 Q322,103 320,98 Z" fill="white" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- Zeigefinger (nach oben links, gespreizt) -->
+            <path d="M322,92 L318,78 Q317,74 319,74" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <!-- Fingerspitze Zeigefinger -->
+            <circle cx="318.5" cy="74" r="1.2" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+            <!-- Mittelfinger (nach oben rechts, gespreizt – V-Form!) -->
+            <path d="M330,91 L334,76 Q335,72 333,72" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <!-- Fingerspitze Mittelfinger -->
+            <circle cx="333.5" cy="72" r="1.2" fill="white" stroke="#1a1a1a" stroke-width="1"/>
+            <!-- Ringfinger (eingeklappt, vom Daumen gehalten) -->
+            <path d="M331,96 Q335,95 336,98 Q335,100 332,100" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+            <!-- Kleiner Finger (eingeklappt) -->
+            <path d="M330,100 Q334,100 335,103 Q334,105 331,104" fill="none" stroke="#1a1a1a" stroke-width="1.1" stroke-linecap="round"/>
+            <!-- Daumen (hält Ring- und kleinen Finger fest, vorne sichtbar) -->
+            <path d="M322,97 Q318,98 317,101 Q318,103 321,102" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/>
 
             <!-- Goldene Sterne / Strahlen um Jonas -->
             <path d="M300,50 L303,42 L306,50 L314,50 L308,55 L310,63 L303,58 L296,63 L298,55 L292,50 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
@@ -3255,15 +3272,36 @@
             <path d="M192,252 Q194,247 196,252 Q194,257 192,252" fill="#1a1a1a" opacity="0.25"/>
             <path d="M190,266 Q191,263 192,266 Q191,269 190,266" fill="#1a1a1a" opacity="0.15"/>
 
-            <!-- Vordere Arme (stützen sich auf dem Boden ab) -->
-            <!-- Rechter Arm (nach vorne, greift Richtung Ball) -->
-            <path d="M160,270 Q175,282 190,288" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Hand greifend -->
-            <path d="M190,286 Q195,284 197,288" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
-            <path d="M190,289 Q196,290 197,294" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
-            <!-- Linker Arm (stützt, Hand flach am Boden) -->
-            <path d="M155,270 Q148,280 145,295" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M143,293 Q140,298 147,298 Q150,298 148,294" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
+            <!-- Vordere Arme -->
+            <!-- Rechter Arm (nach vorne, greift verzweifelt Richtung Ball) -->
+            <path d="M160,270 Q175,282 190,287" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Handgelenk -->
+            <path d="M190,287 Q193,285 196,286" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            <!-- Handfläche (flach, gespreizt, verzweifelt greifend) -->
+            <path d="M196,283 Q200,284 202,288 Q200,292 196,290 Z" fill="white" stroke="#1a1a1a" stroke-width="1.2" stroke-linejoin="round"/>
+            <!-- 5 gespreizte Finger (verzweifelt ausgestreckt zum Ball!) -->
+            <!-- Daumen (oben, abgespreizt) -->
+            <path d="M197,284 Q200,280 203,278" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
+            <!-- Zeigefinger (lang, Richtung Ball gestreckt) -->
+            <path d="M200,285 Q205,283 210,282" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
+            <!-- Mittelfinger (am weitesten gestreckt!) -->
+            <path d="M201,287 Q207,286 212,285" fill="none" stroke="#1a1a1a" stroke-width="1.3" stroke-linecap="round"/>
+            <!-- Ringfinger -->
+            <path d="M201,289 Q206,289 210,289" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+            <!-- Kleiner Finger -->
+            <path d="M200,291 Q204,292 207,292" fill="none" stroke="#1a1a1a" stroke-width="1.1" stroke-linecap="round"/>
+
+            <!-- Linker Arm (stützt sich auf dem Boden ab) -->
+            <path d="M155,270 Q148,280 145,293" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Flache Hand am Boden (Finger gespreizt, Gewicht darauf) -->
+            <path d="M140,292 Q143,288 148,290 Q152,290 154,292 Q152,296 148,297 Q143,297 140,294 Z" fill="white" stroke="#1a1a1a" stroke-width="1.2" stroke-linejoin="round"/>
+            <!-- Finger (flach am Boden, leicht gespreizt) -->
+            <path d="M141,291 Q138,288 136,286" fill="none" stroke="#1a1a1a" stroke-width="1.1" stroke-linecap="round"/>
+            <path d="M143,290 Q141,286 140,283" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M146,289 Q146,285 146,282" fill="none" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M149,290 Q150,286 151,283" fill="none" stroke="#1a1a1a" stroke-width="1.1" stroke-linecap="round"/>
+            <!-- Daumen (zur Seite) -->
+            <path d="M152,292 Q156,290 158,288" fill="none" stroke="#1a1a1a" stroke-width="1.1" stroke-linecap="round"/>
 
             <!-- Hintere Beine (Knie am Boden, Vierfüßler-Pose) -->
             <!-- Rechtes Bein (Knie auf dem Boden) -->
