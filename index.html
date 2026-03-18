@@ -5963,6 +5963,217 @@
                 }
             });
 
+            /* ---------- AUDIO ENGINE (Web Audio API) ---------- */
+
+            let audioCtx = null;
+            function getAudio() {
+                if (!audioCtx) {
+                    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+                }
+                return audioCtx;
+            }
+
+            // Tiefer Rumble/Sub-Bass (Intro-Glitch)
+            function sfxRumble() {
+                const ctx = getAudio(); if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(40, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(20, ctx.currentTime + 0.8);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.8);
+            }
+
+            // Donner/Blitz-Krachen
+            function sfxThunder() {
+                const ctx = getAudio(); if (!ctx) return;
+                const bufSize = ctx.sampleRate * 0.5;
+                const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+                const data = buf.getChannelData(0);
+                for (let i = 0; i < bufSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.08));
+                }
+                const src = ctx.createBufferSource();
+                src.buffer = buf;
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(800, ctx.currentTime);
+                filter.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.4);
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0.5, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+                src.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                src.start(ctx.currentTime);
+            }
+
+            // Whoosh (Krone fällt)
+            function sfxWhoosh() {
+                const ctx = getAudio(); if (!ctx) return;
+                const bufSize = ctx.sampleRate * 0.6;
+                const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+                const data = buf.getChannelData(0);
+                for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1);
+                const src = ctx.createBufferSource();
+                src.buffer = buf;
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(2000, ctx.currentTime);
+                filter.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.5);
+                filter.Q.value = 2;
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+                src.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                src.start(ctx.currentTime);
+            }
+
+            // Bass-Drop / Impact (G.O.A.T. Buchstaben)
+            function sfxImpact(pitch) {
+                const ctx = getAudio(); if (!ctx) return;
+                pitch = pitch || 80;
+                // Sub-bass hit
+                const osc = ctx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(pitch, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.3);
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0.5, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.35);
+                // Noise crack
+                const bufSize = ctx.sampleRate * 0.08;
+                const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+                const data = buf.getChannelData(0);
+                for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.01));
+                const src = ctx.createBufferSource();
+                src.buffer = buf;
+                const nGain = ctx.createGain();
+                nGain.gain.setValueAtTime(0.35, ctx.currentTime);
+                nGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                src.connect(nGain);
+                nGain.connect(ctx.destination);
+                src.start(ctx.currentTime);
+            }
+
+            // Shimmer / Glitzern (goldener Regen)
+            function sfxShimmer() {
+                const ctx = getAudio(); if (!ctx) return;
+                const notes = [523, 659, 784, 1047, 1319]; // C5, E5, G5, C6, E6
+                notes.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    const gain = ctx.createGain();
+                    gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.12);
+                    gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + i * 0.12 + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 1.5);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + i * 0.12);
+                    osc.stop(ctx.currentTime + i * 0.12 + 1.5);
+                });
+            }
+
+            // Aufstiegs-Sound (Jonas schwebt auf)
+            function sfxAscend() {
+                const ctx = getAudio(); if (!ctx) return;
+                const osc = ctx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(150, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 2);
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 1);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.5);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 2.5);
+                // Harmonics
+                const osc2 = ctx.createOscillator();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(300, ctx.currentTime);
+                osc2.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 2);
+                const gain2 = ctx.createGain();
+                gain2.gain.setValueAtTime(0.06, ctx.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(ctx.currentTime);
+                osc2.stop(ctx.currentTime + 2);
+            }
+
+            // Triumphaler Akkord (Finale)
+            function sfxTriumph() {
+                const ctx = getAudio(); if (!ctx) return;
+                // Majestätischer C-Dur Akkord mit Oktaven
+                const freqs = [131, 165, 196, 262, 330, 392, 523, 659, 784];
+                freqs.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    osc.type = i < 3 ? 'sawtooth' : 'sine';
+                    osc.frequency.value = freq;
+                    const gain = ctx.createGain();
+                    const vol = i < 3 ? 0.06 : 0.1;
+                    gain.gain.setValueAtTime(0, ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(vol, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(vol, ctx.currentTime + 2);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 4);
+                });
+            }
+
+            // Konfetti-Explosion
+            function sfxExplosion() {
+                const ctx = getAudio(); if (!ctx) return;
+                const bufSize = ctx.sampleRate * 0.4;
+                const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+                const data = buf.getChannelData(0);
+                for (let i = 0; i < bufSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.05));
+                }
+                const src = ctx.createBufferSource();
+                src.buffer = buf;
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(3000, ctx.currentTime);
+                filter.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.3);
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0.5, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+                src.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                src.start(ctx.currentTime);
+                // Sub-Boom
+                const boom = ctx.createOscillator();
+                boom.type = 'sine';
+                boom.frequency.setValueAtTime(60, ctx.currentTime);
+                boom.frequency.exponentialRampToValueAtTime(20, ctx.currentTime + 0.4);
+                const bGain = ctx.createGain();
+                bGain.gain.setValueAtTime(0.4, ctx.currentTime);
+                bGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+                boom.connect(bGain);
+                bGain.connect(ctx.destination);
+                boom.start(ctx.currentTime);
+                boom.stop(ctx.currentTime + 0.5);
+            }
+
             /* ---------- HILFSFUNKTIONEN ---------- */
 
             function shake(el, intensity, dur) {
@@ -6175,6 +6386,7 @@
                 }, 60);
 
                 shake(document.body, 10, 800);
+                sfxRumble();
                 setTimeout(() => {
                     requestAnimationFrame(() => { ov.style.background = 'rgba(0,0,0,0.97)'; });
                 }, 300);
@@ -6187,9 +6399,9 @@
                 // ========================================
                 // PHASE 2 (1.5s): Blitze schlagen ein
                 // ========================================
-                setTimeout(() => spawnLightning(ov, 30, 0), 1500);
-                setTimeout(() => spawnLightning(ov, 65, 0), 1900);
-                setTimeout(() => spawnLightning(ov, 48, 0), 2200);
+                setTimeout(() => { spawnLightning(ov, 30, 0); sfxThunder(); }, 1500);
+                setTimeout(() => { spawnLightning(ov, 65, 0); sfxThunder(); }, 1900);
+                setTimeout(() => { spawnLightning(ov, 48, 0); sfxThunder(); }, 2200);
                 setTimeout(() => shake(ov, 5, 300), 1500);
                 setTimeout(() => shake(ov, 4, 200), 1900);
                 setTimeout(() => shake(ov, 6, 300), 2200);
@@ -6258,16 +6470,18 @@
                         'transition:top 2s cubic-bezier(0.34,1.56,0.64,1);';
                     ov.appendChild(crown);
 
+                    sfxWhoosh();
                     requestAnimationFrame(() => {
                         crown.style.top = mobile ? '16%' : '12%';
                     });
 
-                    // After landing: float animation + shockwave
+                    // After landing: float animation + shockwave + impact sound
                     setTimeout(() => {
                         crown.style.animation = 'goatCrownFloat 3s ease-in-out infinite';
                         spawnShockwave(ov, 50, mobile ? 28 : 24, 'rgba(255,215,0,0.5)');
                         spawnBurst(ov, 50, mobile ? 26 : 22, 30, 150);
                         shake(ov, 3, 200);
+                        sfxImpact(120);
                     }, 2100);
 
                     // Crown glow pulse
@@ -6320,12 +6534,13 @@
                             }
                         });
 
-                        // Bass-drop + screen shake + burst for each main letter
+                        // Bass-drop + screen shake + burst + sound for each main letter
                         if (!isDot) {
                             const burstX = 50 + (offsetPx / (mobile ? 3 : 5));
                             spawnBurst(ov, burstX, 50, 30, 130);
                             spawnShockwave(ov, burstX, 50, 'rgba(255,215,0,0.4)');
                             shake(ov, 6, 200);
+                            sfxImpact(60 + i * 10);
                             // Bass-drop: kurzer Zoom-Puls
                             ov.style.animation = 'goatBassDrop 0.3s ease-out';
                             setTimeout(() => { ov.style.animation = ''; }, 350);
@@ -6354,8 +6569,8 @@
                     ov.appendChild(sub);
                 }, 8200);
 
-                // Goldener Regen startet
-                setTimeout(() => spawnGoldenRain(ov), 7500);
+                // Goldener Regen startet + Shimmer-Sound
+                setTimeout(() => { spawnGoldenRain(ov); sfxShimmer(); }, 7500);
 
                 // Massive Fireworks
                 setTimeout(() => {
@@ -6444,6 +6659,7 @@
                         'filter:drop-shadow(0 0 30px rgba(241,196,15,0.6)) drop-shadow(0 0 60px rgba(241,196,15,0.3));';
                     ov.appendChild(fig);
 
+                    sfxAscend();
                     requestAnimationFrame(() => {
                         fig.style.opacity = '1';
                         fig.style.bottom = mobile ? '12%' : '8%';
@@ -6530,6 +6746,7 @@
                 // ========================================
                 setTimeout(() => {
                     const txt = document.createElement('div');
+                    sfxTriumph();
                     txt.innerHTML = 'Der unbesiegbare<br><span style="font-size:1.6em;letter-spacing:0.15em">JONAS PEPERONI</span>';
                     txt.style.cssText = 'position:absolute;bottom:' + (mobile ? '2%' : '2%') + ';left:50%;' +
                         'transform:translateX(-50%);font-family:"Permanent Marker",cursive;' +
@@ -6554,8 +6771,9 @@
                     }
                 }, 12500);
 
-                // Dritte Welle: massive Konfetti-Explosion
+                // Dritte Welle: massive Konfetti-Explosion + Sound
                 setTimeout(() => {
+                    sfxExplosion();
                     // Riesiger Screen-Flash
                     const megaFlash = document.createElement('div');
                     megaFlash.style.cssText = 'position:absolute;inset:0;background:rgba(255,215,0,0.3);z-index:20;pointer-events:none;' +
@@ -6617,6 +6835,7 @@
                         ov.remove();
                         const goatStyle = document.getElementById('goatStyles');
                         if (goatStyle) goatStyle.remove();
+                        if (audioCtx) { audioCtx.close(); audioCtx = null; }
                         goatActive = false;
                     }, 3800);
                 }, 17500);
