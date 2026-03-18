@@ -3238,6 +3238,10 @@
                 <div class="egg-item-title">&#x1F3B4; Rubbelkarten</div>
                 <div class="egg-item-desc">Rubbel die drei Karten in der &bdquo;Arcana Jonasius&ldquo;-Sektion frei, um Geheimnisse zu enthüllen.</div>
             </div>
+            <div class="egg-item">
+                <div class="egg-item-title">&#x1F410; G.O.A.T.</div>
+                <div class="egg-item-desc">Tippe <span class="egg-key">g</span><span class="egg-key">o</span><span class="egg-key">a</span><span class="egg-key">t</span> – die ultimative Huldigung beginnt.</div>
+            </div>
         </div>
     </div>
 
@@ -5938,6 +5942,233 @@
             });
         })();
         /* ============================================
+           "GOAT" TIPPEN → ULTIMATIVE HULDIGUNG
+           ============================================ */
+        (() => {
+            let buf = '';
+            const target = 'goat';
+            let goatActive = false;
+
+            document.addEventListener('keydown', (e) => {
+                if (goatActive) return;
+                if (e.key.length === 1) {
+                    buf += e.key.toLowerCase();
+                    if (buf.length > 20) buf = buf.slice(-20);
+                    if (buf.endsWith(target)) {
+                        buf = '';
+                        goatActive = true;
+                        if (typeof unlockAchievement === 'function') unlockAchievement('goat');
+                        launchGoat();
+                    }
+                }
+            });
+
+            function launchGoat() {
+                // === OVERLAY ===
+                const ov = document.createElement('div');
+                ov.style.cssText = 'position:fixed;inset:0;z-index:300000;background:rgba(0,0,0,0);pointer-events:all;' +
+                    'display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;' +
+                    'transition:background 1.2s ease;';
+                document.body.appendChild(ov);
+
+                // Fade to black
+                requestAnimationFrame(() => { ov.style.background = 'rgba(0,0,0,0.95)'; });
+
+                // === SPOTLIGHT (delayed) ===
+                setTimeout(() => {
+                    const spot = document.createElement('div');
+                    spot.style.cssText = 'position:absolute;width:300px;height:300px;border-radius:50%;' +
+                        'background:radial-gradient(circle,rgba(241,196,15,0.15) 0%,transparent 70%);' +
+                        'top:50%;left:50%;transform:translate(-50%,-60%);opacity:0;transition:opacity 1s ease;';
+                    ov.appendChild(spot);
+                    requestAnimationFrame(() => { spot.style.opacity = '1'; });
+                }, 800);
+
+                // === MASSIVE CROWN SVG ===
+                setTimeout(() => {
+                    const crown = document.createElement('div');
+                    crown.innerHTML = '<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 30px rgba(241,196,15,0.6))">' +
+                        '<path d="M10,65 L25,15 L40,45 L60,5 L80,45 L95,15 L110,65 Z" fill="#f1c40f" stroke="#d4a017" stroke-width="2"/>' +
+                        '<rect x="10" y="60" width="100" height="12" rx="3" fill="#f1c40f" stroke="#d4a017" stroke-width="2"/>' +
+                        '<circle cx="35" cy="55" r="4" fill="#e74c3c"/>' +
+                        '<circle cx="60" cy="50" r="5" fill="#3498db"/>' +
+                        '<circle cx="85" cy="55" r="4" fill="#2ecc71"/>' +
+                        '</svg>';
+                    crown.style.cssText = 'position:absolute;top:-200px;left:50%;width:clamp(180px,40vw,280px);' +
+                        'transform:translateX(-50%);transition:top 1.5s cubic-bezier(0.34,1.56,0.64,1),filter 0.3s;' +
+                        'z-index:2;';
+                    ov.appendChild(crown);
+                    requestAnimationFrame(() => {
+                        crown.style.top = 'calc(50% - clamp(120px,20vw,180px))';
+                    });
+
+                    // Crown glow pulse
+                    let pulse = 0;
+                    const pInt = setInterval(() => {
+                        pulse++;
+                        const g = 30 + 20 * Math.sin(pulse * 0.15);
+                        crown.querySelector('svg').style.filter = 'drop-shadow(0 0 ' + g + 'px rgba(241,196,15,0.7))';
+                    }, 50);
+                    setTimeout(() => clearInterval(pInt), 10000);
+                }, 1200);
+
+                // === G.O.A.T. LETTERS ===
+                const letters = ['G', '.', 'O', '.', 'A', '.', 'T', '.'];
+                const letterEls = [];
+                letters.forEach((ch, i) => {
+                    setTimeout(() => {
+                        const el = document.createElement('span');
+                        el.textContent = ch;
+                        el.style.cssText = 'position:absolute;top:50%;left:50%;font-family:"Permanent Marker",cursive;' +
+                            'font-size:clamp(3rem,12vw,7rem);color:#f1c40f;z-index:3;' +
+                            'text-shadow:0 0 40px rgba(241,196,15,0.8),0 0 80px rgba(241,196,15,0.4),3px 3px 0 #1a1a1a;' +
+                            'transform:translate(-50%,-50%) scale(3);opacity:0;' +
+                            'transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;';
+                        ov.appendChild(el);
+                        letterEls.push(el);
+
+                        // Position: spread letters horizontally
+                        const totalW = letters.length * 0.8;
+                        const offsetX = (i - (letters.length - 1) / 2) * (ch === '.' ? 0.5 : 1);
+                        requestAnimationFrame(() => {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translate(calc(-50% + ' + (offsetX * (window.innerWidth < 600 ? 28 : 50)) + 'px),-50%) scale(1)';
+                        });
+
+                        // Partikel-Explosion pro Buchstabe
+                        if (ch !== '.') spawnBurst(ov, 50 + (i / letters.length) * (window.innerWidth < 600 ? 56 : 100) * (i - 3.5) / 3.5 + 50, 50);
+                    }, 2200 + i * 250);
+                });
+
+                // === SUBTITLE ===
+                setTimeout(() => {
+                    const sub = document.createElement('div');
+                    sub.textContent = 'Greatest Of All Time';
+                    sub.style.cssText = 'position:absolute;top:calc(50% + clamp(40px,8vw,70px));left:50%;' +
+                        'transform:translateX(-50%);font-family:"Caveat",cursive;font-size:clamp(1.2rem,4vw,2rem);' +
+                        'color:#fff;letter-spacing:0.15em;opacity:0;transition:opacity 1s ease;z-index:3;' +
+                        'text-shadow:0 0 20px rgba(241,196,15,0.5);white-space:nowrap;';
+                    ov.appendChild(sub);
+                    requestAnimationFrame(() => { sub.style.opacity = '1'; });
+                }, 4500);
+
+                // === GOLDEN RAIN / FIREWORKS ===
+                setTimeout(() => spawnFireworks(ov), 3000);
+                setTimeout(() => spawnGoldenRain(ov), 4000);
+
+                // === JONAS SILHOUETTE (aufsteigend) ===
+                setTimeout(() => {
+                    const fig = document.createElement('div');
+                    fig.innerHTML = '<svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">' +
+                        '<circle cx="30" cy="12" r="10" fill="none" stroke="#f1c40f" stroke-width="2"/>' +
+                        '<line x1="30" y1="22" x2="30" y2="58" stroke="#f1c40f" stroke-width="2"/>' +
+                        '<line x1="30" y1="35" x2="12" y2="28" stroke="#f1c40f" stroke-width="2"/>' +
+                        '<line x1="30" y1="35" x2="48" y2="28" stroke="#f1c40f" stroke-width="2"/>' +
+                        '<line x1="30" y1="58" x2="18" y2="80" stroke="#f1c40f" stroke-width="2"/>' +
+                        '<line x1="30" y1="58" x2="42" y2="80" stroke="#f1c40f" stroke-width="2"/>' +
+                        '<circle cx="30" cy="5" r="0" fill="#f1c40f" opacity="0.6">' +
+                        '<animate attributeName="r" values="0;20;0" dur="2s" repeatCount="indefinite"/>' +
+                        '<animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>' +
+                        '</circle>' +
+                        '</svg>';
+                    fig.style.cssText = 'position:absolute;bottom:-120px;left:50%;width:80px;' +
+                        'transform:translateX(-50%);z-index:1;opacity:0;' +
+                        'transition:bottom 3s cubic-bezier(0.22,1,0.36,1),opacity 1s ease;' +
+                        'filter:drop-shadow(0 0 20px rgba(241,196,15,0.5));';
+                    ov.appendChild(fig);
+                    requestAnimationFrame(() => {
+                        fig.style.opacity = '1';
+                        fig.style.bottom = 'calc(50% - 130px)';
+                    });
+                }, 5200);
+
+                // === TEXT: "DER UNBESIEGBARE" ===
+                setTimeout(() => {
+                    const txt = document.createElement('div');
+                    txt.textContent = '— DER UNBESIEGBARE —';
+                    txt.style.cssText = 'position:absolute;bottom:clamp(60px,12vh,120px);left:50%;' +
+                        'transform:translateX(-50%);font-family:"Permanent Marker",cursive;' +
+                        'font-size:clamp(0.9rem,3vw,1.5rem);color:#f1c40f;letter-spacing:0.3em;' +
+                        'opacity:0;transition:opacity 1.5s ease;z-index:3;' +
+                        'text-shadow:0 0 15px rgba(241,196,15,0.6);white-space:nowrap;';
+                    ov.appendChild(txt);
+                    requestAnimationFrame(() => { txt.style.opacity = '1'; });
+                }, 6500);
+
+                // === FADE OUT & CLEANUP ===
+                setTimeout(() => {
+                    ov.style.transition = 'opacity 2s ease';
+                    ov.style.opacity = '0';
+                    setTimeout(() => {
+                        ov.remove();
+                        goatActive = false;
+                    }, 2200);
+                }, 9500);
+            }
+
+            // --- Partikel-Burst an Position ---
+            function spawnBurst(parent, xPct, yPct) {
+                for (let i = 0; i < 12; i++) {
+                    const p = document.createElement('div');
+                    const angle = (Math.PI * 2 / 12) * i + Math.random() * 0.3;
+                    const dist = 40 + Math.random() * 80;
+                    const size = 3 + Math.random() * 5;
+                    const colors = ['#f1c40f', '#e74c3c', '#fff', '#3498db', '#2ecc71'];
+                    p.style.cssText = 'position:absolute;width:' + size + 'px;height:' + size + 'px;' +
+                        'border-radius:50%;background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+                        'left:' + xPct + '%;top:' + yPct + '%;z-index:4;pointer-events:none;' +
+                        'opacity:1;transition:all 0.8s cubic-bezier(0.22,1,0.36,1);';
+                    parent.appendChild(p);
+                    requestAnimationFrame(() => {
+                        p.style.left = 'calc(' + xPct + '% + ' + (Math.cos(angle) * dist) + 'px)';
+                        p.style.top = 'calc(' + yPct + '% + ' + (Math.sin(angle) * dist) + 'px)';
+                        p.style.opacity = '0';
+                        p.style.transform = 'scale(0)';
+                    });
+                    setTimeout(() => p.remove(), 900);
+                }
+            }
+
+            // --- Fireworks ---
+            function spawnFireworks(parent) {
+                const count = 5;
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => {
+                        const x = 15 + Math.random() * 70;
+                        const y = 15 + Math.random() * 50;
+                        spawnBurst(parent, x, y);
+                    }, i * 400);
+                }
+            }
+
+            // --- Golden Rain ---
+            function spawnGoldenRain(parent) {
+                for (let i = 0; i < 60; i++) {
+                    setTimeout(() => {
+                        const drop = document.createElement('div');
+                        const x = Math.random() * 100;
+                        const size = 2 + Math.random() * 4;
+                        const dur = 2 + Math.random() * 3;
+                        drop.style.cssText = 'position:absolute;left:' + x + '%;top:-10px;width:' + size + 'px;height:' + (size * 3) + 'px;' +
+                            'background:linear-gradient(to bottom,#f1c40f,rgba(241,196,15,0));border-radius:50%;' +
+                            'z-index:1;pointer-events:none;opacity:0.8;';
+                        parent.appendChild(drop);
+
+                        const start = performance.now();
+                        function fall(now) {
+                            const t = Math.min((now - start) / (dur * 1000), 1);
+                            drop.style.top = (t * 110) + '%';
+                            drop.style.opacity = t > 0.7 ? (1 - t) / 0.3 * 0.8 : 0.8;
+                            if (t < 1) requestAnimationFrame(fall);
+                            else drop.remove();
+                        }
+                        requestAnimationFrame(fall);
+                    }, Math.random() * 4000);
+                }
+            }
+        })();
+
+        /* ============================================
            EGG CODEX – Geheimes Cheat-Sheet
            ============================================ */
         (() => {
@@ -6106,6 +6337,7 @@
             { id: 'rematch',   icon: '\u274C',     name: 'Rematch' },
             { id: 'scratch',   icon: '\u{1F3B4}', name: 'Rubbeln' },
             { id: 'pixel',     icon: '\u{1F50D}', name: 'Pixel' },
+            { id: 'goat',      icon: '\u{1F410}', name: 'G.O.A.T.' },
         ];
 
         const unlocked = new Set(JSON.parse(localStorage.getItem('jonasAchievements') || '[]'));
