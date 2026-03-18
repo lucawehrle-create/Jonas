@@ -2603,7 +2603,7 @@
                 </g>
 
                 <!-- Geheimer Pixel -->
-                <rect x="296" y="298" width="4" height="4" fill="transparent" style="cursor:pointer" onclick="document.getElementById('trainingPopup').classList.add('show')"/>
+                <rect x="296" y="298" width="4" height="4" fill="transparent" style="cursor:pointer" onclick="document.getElementById('trainingPopup').classList.add('show'); if(typeof unlockAchievement==='function') unlockAchievement('pixel')"/>
             </svg>
         </div>
 
@@ -5583,7 +5583,7 @@
         </div>
         <div class="achievement-progress-wrap">
             <div class="achievement-progress"><div class="achievement-progress-fill" id="achieveFill"></div></div>
-            <span class="achievement-count" id="achieveCount">0 / 15</span>
+            <span class="achievement-count" id="achieveCount">0 / 16</span>
         </div>
         <div class="achievement-grid" id="achieveGrid"></div>
         <div class="achievement-complete-msg" id="achieveComplete">&#x2728; Alle Geheimnisse entdeckt! &#x2728;</div>
@@ -5709,6 +5709,7 @@
             { id: 'ragdoll',   icon: '\u{1F3AD}', name: 'Ragdoll' },
             { id: 'rematch',   icon: '\u274C',     name: 'Rematch' },
             { id: 'scratch',   icon: '\u{1F3B4}', name: 'Rubbeln' },
+            { id: 'pixel',     icon: '\u{1F50D}', name: 'Pixel' },
         ];
 
         const unlocked = new Set(JSON.parse(localStorage.getItem('jonasAchievements') || '[]'));
