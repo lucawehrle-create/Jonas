@@ -3524,6 +3524,9 @@
                 animating = true;
                 if (typeof unlockAchievement === 'function') unlockAchievement('crown');
 
+                // CSS-Float-Animation pausieren, damit JS die Kontrolle hat
+                crownG.style.animation = 'none';
+
                 // Krone schwebt nach oben, kippt lustig, und setzt sich zurück
                 let t = 0;
                 const duration = 80; // frames
@@ -3533,33 +3536,31 @@
                     const progress = t / duration;
 
                     if (progress <= 0.3) {
-                        // Phase 1: Schwebe nach oben + leichtes Kippen
                         const p = progress / 0.3;
                         const y = -45 * Math.sin(p * Math.PI / 2);
                         const rot = 18 * Math.sin(p * Math.PI / 2);
-                        crownG.setAttribute('transform', 'translate(0,' + y + ') rotate(' + rot + ', ' + cx + ', ' + cy + ')');
+                        crownG.style.transform = 'translate(0,' + y + 'px) rotate(' + rot + 'deg)';
                     } else if (progress <= 0.55) {
-                        // Phase 2: Oben schweben + hin und her wackeln
                         const p = (progress - 0.3) / 0.25;
                         const rot = 18 * Math.cos(p * Math.PI * 3);
-                        crownG.setAttribute('transform', 'translate(0,-45) rotate(' + rot + ', ' + cx + ', ' + cy + ')');
+                        crownG.style.transform = 'translate(0,-45px) rotate(' + rot + 'deg)';
                     } else if (progress <= 0.85) {
-                        // Phase 3: Sanft zurückkommen
                         const p = (progress - 0.55) / 0.3;
-                        const ease = p * p * (3 - 2 * p); // smoothstep
+                        const ease = p * p * (3 - 2 * p);
                         const y = -45 * (1 - ease);
                         const rot = 12 * (1 - ease) * Math.cos(p * Math.PI * 1.5);
-                        crownG.setAttribute('transform', 'translate(0,' + y + ') rotate(' + rot + ', ' + cx + ', ' + cy + ')');
+                        crownG.style.transform = 'translate(0,' + y + 'px) rotate(' + rot + 'deg)';
                     } else {
-                        // Phase 4: Kleiner Bounce beim Landen
                         const p = (progress - 0.85) / 0.15;
                         const y = -6 * Math.sin(p * Math.PI);
-                        crownG.setAttribute('transform', 'translate(0,' + y + ')');
+                        crownG.style.transform = 'translate(0,' + y + 'px)';
                     }
 
                     if (t >= duration) {
                         clearInterval(animate);
-                        crownG.setAttribute('transform', '');
+                        crownG.style.transform = '';
+                        // CSS-Float-Animation wieder starten
+                        crownG.style.animation = '';
                         animating = false;
                     }
                 }, 20);
