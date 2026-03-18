@@ -3410,6 +3410,7 @@
 
             egg.addEventListener('click', () => {
                 overlay.classList.add('active');
+                if (typeof unlockAchievement === 'function') unlockAchievement('rematch');
                 if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
                 setTimeout(() => overlay.classList.remove('active'), 2000);
             });
@@ -5428,7 +5429,7 @@
     <div class="achievement-bar" id="achieveBar">
         <div class="achievement-bar-header">
             <div class="achievement-bar-header-left">
-                <span class="achievement-bar-title">Easter Eggs</span>
+                <span class="achievement-bar-title">Gefundene Easter Eggs</span>
                 <span class="achievement-count" id="achieveCount">0 / 17</span>
             </div>
             <button class="achievement-bar-close" id="achieveClose">&times;</button>
