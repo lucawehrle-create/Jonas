@@ -1097,11 +1097,20 @@
             position: fixed;
             right: 15px;
             bottom: 60px;
-            width: 50px;
-            height: 80px;
+            width: 60px;
+            height: 100px;
             z-index: 9000;
             pointer-events: none;
-            transition: transform var(--transition);
+            transition: opacity 0.3s ease;
+        }
+        .side-runner .runner-dust {
+            position: absolute;
+            bottom: 2px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(26, 26, 26, 0.15);
+            pointer-events: none;
         }
 
         /* ============================================
@@ -2942,24 +2951,78 @@
 
     <!-- Side-Runner Luca: Strichmännchen das mitscrollt -->
     <div class="side-runner" id="sideRunner">
-        <svg viewBox="0 0 50 80" xmlns="http://www.w3.org/2000/svg">
-            <!-- Kopf -->
-            <circle cx="25" cy="14" r="10" class="sketch-line" stroke-width="2"/>
-            <circle cx="22" cy="12" r="1.5" class="sketch-fill"/>
-            <circle cx="28" cy="12" r="1.5" class="sketch-fill"/>
-            <!-- Mund (wird per JS geaendert) -->
-            <path id="runnerMouth" d="M22,18 Q25,16 28,18" class="sketch-line" fill="none" stroke-width="1.5"/>
-            <!-- Schweiss -->
-            <path id="runnerSweat1" d="M37,8 Q38,5 39,8 Q38,11 37,8" class="sketch-fill" opacity="0"/>
-            <path id="runnerSweat2" d="M39,14 Q40,11 41,14 Q40,17 39,14" class="sketch-fill" opacity="0"/>
-            <!-- Körper -->
-            <line x1="25" y1="24" x2="25" y2="48" class="sketch-line" stroke-width="2"/>
-            <!-- Arme (animiert per JS) -->
-            <line id="runnerArmL" x1="25" y1="32" x2="15" y2="42" class="sketch-line" stroke-width="2"/>
-            <line id="runnerArmR" x1="25" y1="32" x2="35" y2="42" class="sketch-line" stroke-width="2"/>
-            <!-- Beine (animiert per JS) -->
-            <line id="runnerLegL" x1="25" y1="48" x2="15" y2="68" class="sketch-line" stroke-width="2"/>
-            <line id="runnerLegR" x1="25" y1="48" x2="35" y2="68" class="sketch-line" stroke-width="2"/>
+        <svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Partikel-Container (Staub, Schweiss-Tropfen, Sterne) -->
+            <g id="runnerParticles"></g>
+
+            <!-- Ganzer Körper-Group (für Body-Bob) -->
+            <g id="runnerBody">
+                <!-- Kopf -->
+                <g id="runnerHead">
+                    <circle cx="30" cy="16" r="11" class="sketch-line" stroke-width="2" fill="white"/>
+                    <!-- Luca-Frisur: strubbelige Haare -->
+                    <path d="M20,12 Q22,4 26,8 Q28,2 32,7 Q35,3 38,9 Q40,6 41,13" class="sketch-line" stroke-width="1.8" fill="none"/>
+                    <!-- Stirnband -->
+                    <path id="runnerHeadband" d="M19,14 Q30,11 41,14" stroke="#e74c3c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M41,14 L45,11 L44,16" stroke="#e74c3c" stroke-width="1.5" fill="#e74c3c"/>
+                    <!-- Augen -->
+                    <g id="runnerEyes">
+                        <circle cx="26" cy="14" r="2" class="sketch-fill"/>
+                        <circle cx="34" cy="14" r="2" class="sketch-fill"/>
+                    </g>
+                    <!-- Augenbrauen -->
+                    <g id="runnerBrows">
+                        <line x1="24" y1="10" x2="28" y2="11" class="sketch-line" stroke-width="1.5"/>
+                        <line x1="32" y1="11" x2="36" y2="10" class="sketch-line" stroke-width="1.5"/>
+                    </g>
+                    <!-- Mund -->
+                    <path id="runnerMouth" d="M26,20 Q30,18 34,20" class="sketch-line" fill="none" stroke-width="1.5"/>
+                    <!-- Zunge (versteckt, erscheint bei Erschöpfung) -->
+                    <ellipse id="runnerTongue" cx="31" cy="22" rx="2.5" ry="2" fill="#e74c3c" opacity="0"/>
+                    <!-- Röte (Wangen, bei Erschöpfung) -->
+                    <circle id="runnerBlushL" cx="23" cy="18" r="3" fill="#e74c3c" opacity="0"/>
+                    <circle id="runnerBlushR" cx="37" cy="18" r="3" fill="#e74c3c" opacity="0"/>
+                </g>
+
+                <!-- Körper -->
+                <line x1="30" y1="27" x2="30" y2="55" class="sketch-line" stroke-width="2.2"/>
+
+                <!-- Oberarme + Unterarme (mit Gelenk) -->
+                <g id="runnerArmLGroup">
+                    <line id="runnerArmL" x1="30" y1="34" x2="22" y2="44" class="sketch-line" stroke-width="2"/>
+                    <line id="runnerForearmL" x1="22" y1="44" x2="18" y2="52" class="sketch-line" stroke-width="1.8"/>
+                </g>
+                <g id="runnerArmRGroup">
+                    <line id="runnerArmR" x1="30" y1="34" x2="38" y2="44" class="sketch-line" stroke-width="2"/>
+                    <line id="runnerForearmR" x1="38" y1="44" x2="42" y2="52" class="sketch-line" stroke-width="1.8"/>
+                </g>
+
+                <!-- Oberschenkel + Unterschenkel (mit Knie) -->
+                <g id="runnerLegLGroup">
+                    <line id="runnerThighL" x1="30" y1="55" x2="22" y2="70" class="sketch-line" stroke-width="2.2"/>
+                    <line id="runnerShinL" x1="22" y1="70" x2="18" y2="85" class="sketch-line" stroke-width="2"/>
+                </g>
+                <g id="runnerLegRGroup">
+                    <line id="runnerThighR" x1="30" y1="55" x2="38" y2="70" class="sketch-line" stroke-width="2.2"/>
+                    <line id="runnerShinR" x1="38" y1="70" x2="42" y2="85" class="sketch-line" stroke-width="2"/>
+                </g>
+
+                <!-- Schuhe -->
+                <path id="runnerShoeL" d="M16,84 L18,85 L23,85 L24,83" class="sketch-line" stroke-width="1.8" fill="none"/>
+                <path id="runnerShoeR" d="M36,84 L38,85 L43,85 L44,83" class="sketch-line" stroke-width="1.8" fill="none"/>
+            </g>
+
+            <!-- Schweiss-Tropfen (fliegen weg per JS) -->
+            <path id="runnerSweat1" d="M43,10 Q44,6 45,10 Q44,14 43,10" class="sketch-fill" opacity="0"/>
+            <path id="runnerSweat2" d="M45,18 Q46,14 47,18 Q46,22 45,18" class="sketch-fill" opacity="0"/>
+            <path id="runnerSweat3" d="M44,26 Q45,22 46,26 Q45,30 44,26" class="sketch-fill" opacity="0"/>
+
+            <!-- Sterne (bei extremer Erschöpfung) -->
+            <g id="runnerStars" opacity="0">
+                <text x="10" y="8" font-size="8" fill="#f1c40f">&#9733;</text>
+                <text x="42" y="6" font-size="6" fill="#f1c40f">&#9733;</text>
+                <text x="6" y="18" font-size="5" fill="#f1c40f">&#9733;</text>
+            </g>
         </svg>
     </div>
 
@@ -3508,62 +3571,364 @@
 
         /* ============================================
            SIDE-RUNNER LUCA (scrollt mit, wird erschoepfter)
+           Physik-basiert mit Erschöpfungs-Stufen & Partikeln
            ============================================ */
         (function initSideRunner() {
-            const runner = document.getElementById('sideRunner');
+            var runner = document.getElementById('sideRunner');
             if (!runner) return;
-            const mouth = document.getElementById('runnerMouth');
-            const sweat1 = document.getElementById('runnerSweat1');
-            const sweat2 = document.getElementById('runnerSweat2');
-            const armL = document.getElementById('runnerArmL');
-            const armR = document.getElementById('runnerArmR');
-            const legL = document.getElementById('runnerLegL');
-            const legR = document.getElementById('runnerLegR');
-            let frame = 0;
-            let lastScroll = 0;
-            let isScrolling = false;
-            let scrollTimeout;
 
-            // Lauf-Animation
+            // SVG-Elemente
+            var body = document.getElementById('runnerBody');
+            var head = document.getElementById('runnerHead');
+            var mouth = document.getElementById('runnerMouth');
+            var tongue = document.getElementById('runnerTongue');
+            var blushL = document.getElementById('runnerBlushL');
+            var blushR = document.getElementById('runnerBlushR');
+            var eyes = document.getElementById('runnerEyes');
+            var brows = document.getElementById('runnerBrows');
+            var starsG = document.getElementById('runnerStars');
+            var sweat1 = document.getElementById('runnerSweat1');
+            var sweat2 = document.getElementById('runnerSweat2');
+            var sweat3 = document.getElementById('runnerSweat3');
+            var particlesG = document.getElementById('runnerParticles');
+            var svgEl = runner.querySelector('svg');
+
+            // Arme
+            var armL = document.getElementById('runnerArmL');
+            var armR = document.getElementById('runnerArmR');
+            var forearmL = document.getElementById('runnerForearmL');
+            var forearmR = document.getElementById('runnerForearmR');
+
+            // Beine
+            var thighL = document.getElementById('runnerThighL');
+            var thighR = document.getElementById('runnerThighR');
+            var shinL = document.getElementById('runnerShinL');
+            var shinR = document.getElementById('runnerShinR');
+            var shoeL = document.getElementById('runnerShoeL');
+            var shoeR = document.getElementById('runnerShoeR');
+
+            // Zustand
+            var frame = 0;
+            var isScrolling = false;
+            var scrollTimeout;
+            var scrollSpeed = 0;
+            var lastScrollY = 0;
+            var lastScrollTime = 0;
+            var collapsed = false;
+            var collapseTimer = null;
+            var lastExhaustionStage = -1;
+
+            // ---- PHYSIK-BASIERTES LAUFEN ----
             function animateRun() {
                 frame++;
-                const swing = Math.sin(frame * 0.3) * 12;
-                armL.setAttribute('x2', 15 + swing);
-                armL.setAttribute('y2', 38 + Math.abs(swing) * 0.3);
-                armR.setAttribute('x2', 35 - swing);
-                armR.setAttribute('y2', 38 + Math.abs(swing) * 0.3);
-                legL.setAttribute('x2', 15 - swing);
-                legL.setAttribute('y2', 65 + Math.abs(swing) * 0.2);
-                legR.setAttribute('x2', 35 + swing);
-                legR.setAttribute('y2', 65 + Math.abs(swing) * 0.2);
+
+                // Scroll-Speed beeinflusst Animations-Geschwindigkeit
+                var speedFactor = Math.min(scrollSpeed / 800, 1);
+                var freq = 0.2 + speedFactor * 0.35;
+                var t = frame * freq;
+
+                var legAmp = 10 + speedFactor * 6;
+                var armAmp = 8 + speedFactor * 5;
+
+                var sinT = Math.sin(t);
+                var cosT = Math.cos(t);
+
+                // ---- Beine mit Knie-Gelenk ----
+                var thighLAngle = sinT * legAmp;
+                var kneeL_x = 30 + Math.sin(thighLAngle * Math.PI / 180) * 15;
+                var kneeL_y = 55 + Math.cos(thighLAngle * Math.PI / 180) * 15;
+                var shinLAngle = Math.max(0, sinT) * 8 + 3;
+                var footL_x = kneeL_x + Math.sin((thighLAngle + shinLAngle) * Math.PI / 180) * 15;
+                var footL_y = kneeL_y + Math.cos((thighLAngle - shinLAngle) * Math.PI / 180) * 15;
+
+                thighL.setAttribute('x2', kneeL_x);
+                thighL.setAttribute('y2', kneeL_y);
+                shinL.setAttribute('x1', kneeL_x);
+                shinL.setAttribute('y1', kneeL_y);
+                shinL.setAttribute('x2', footL_x);
+                shinL.setAttribute('y2', footL_y);
+
+                var thighRAngle = -sinT * legAmp;
+                var kneeR_x = 30 + Math.sin(thighRAngle * Math.PI / 180) * 15;
+                var kneeR_y = 55 + Math.cos(thighRAngle * Math.PI / 180) * 15;
+                var shinRAngle = Math.max(0, -sinT) * 8 + 3;
+                var footR_x = kneeR_x + Math.sin((thighRAngle + shinRAngle) * Math.PI / 180) * 15;
+                var footR_y = kneeR_y + Math.cos((thighRAngle - shinRAngle) * Math.PI / 180) * 15;
+
+                thighR.setAttribute('x2', kneeR_x);
+                thighR.setAttribute('y2', kneeR_y);
+                shinR.setAttribute('x1', kneeR_x);
+                shinR.setAttribute('y1', kneeR_y);
+                shinR.setAttribute('x2', footR_x);
+                shinR.setAttribute('y2', footR_y);
+
+                // Schuhe folgen den Füßen
+                shoeL.setAttribute('d', 'M' + (footL_x - 3) + ',' + (footL_y - 1) + ' L' + footL_x + ',' + footL_y + ' L' + (footL_x + 5) + ',' + footL_y + ' L' + (footL_x + 6) + ',' + (footL_y - 2));
+                shoeR.setAttribute('d', 'M' + (footR_x - 3) + ',' + (footR_y - 1) + ' L' + footR_x + ',' + footR_y + ' L' + (footR_x + 5) + ',' + footR_y + ' L' + (footR_x + 6) + ',' + (footR_y - 2));
+
+                // ---- Arme mit Ellbogen-Gelenk ----
+                var elbowL_x = 30 - 6 + cosT * armAmp * 0.5;
+                var elbowL_y = 42 + sinT * 2;
+                var handL_x = elbowL_x - 3 + cosT * armAmp * 0.4;
+                var handL_y = elbowL_y + 6 - Math.abs(cosT) * 3;
+
+                armL.setAttribute('x2', elbowL_x);
+                armL.setAttribute('y2', elbowL_y);
+                forearmL.setAttribute('x1', elbowL_x);
+                forearmL.setAttribute('y1', elbowL_y);
+                forearmL.setAttribute('x2', handL_x);
+                forearmL.setAttribute('y2', handL_y);
+
+                var elbowR_x = 30 + 6 - cosT * armAmp * 0.5;
+                var elbowR_y = 42 - sinT * 2;
+                var handR_x = elbowR_x + 3 - cosT * armAmp * 0.4;
+                var handR_y = elbowR_y + 6 - Math.abs(cosT) * 3;
+
+                armR.setAttribute('x2', elbowR_x);
+                armR.setAttribute('y2', elbowR_y);
+                forearmR.setAttribute('x1', elbowR_x);
+                forearmR.setAttribute('y1', elbowR_y);
+                forearmR.setAttribute('x2', handR_x);
+                forearmR.setAttribute('y2', handR_y);
+
+                // ---- Body-Bob ----
+                var bobY = Math.abs(Math.sin(t * 2)) * 2;
+                body.setAttribute('transform', 'translate(0,' + (-bobY).toFixed(1) + ')');
+
+                // ---- Kopf-Wackeln ----
+                var headTilt = sinT * (2 + speedFactor * 3);
+                head.setAttribute('transform', 'rotate(' + headTilt.toFixed(1) + ', 30, 16)');
+
+                // ---- Staub-Partikel ----
+                if (frame % (8 - Math.floor(speedFactor * 4)) === 0 && speedFactor > 0.1) {
+                    spawnDust(footL_y > footR_y ? footL_x : footR_x,
+                              Math.max(footL_y, footR_y));
+                }
 
                 if (isScrolling) requestAnimationFrame(animateRun);
             }
 
-            window.addEventListener('scroll', () => {
-                const scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            // ---- PARTIKEL-SYSTEM ----
+            function spawnDust(x, y) {
+                var dust = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dust.setAttribute('cx', x);
+                dust.setAttribute('cy', y);
+                dust.setAttribute('r', 2 + Math.random() * 2);
+                dust.setAttribute('fill', '#1a1a1a');
+                dust.setAttribute('opacity', '0.15');
+                particlesG.appendChild(dust);
 
-                // Erschoepfungsgrad
-                if (scrollPct > 0.3) {
+                var life = 0;
+                var vx = (Math.random() - 0.7) * 2;
+                var vy = -Math.random() * 0.5;
+                var maxLife = 15 + Math.random() * 10;
+
+                function animDust() {
+                    life++;
+                    dust.setAttribute('cx', parseFloat(dust.getAttribute('cx')) + vx);
+                    dust.setAttribute('cy', parseFloat(dust.getAttribute('cy')) + vy);
+                    dust.setAttribute('r', parseFloat(dust.getAttribute('r')) + 0.15);
+                    dust.setAttribute('opacity', (0.15 * (1 - life / maxLife)).toFixed(3));
+                    if (life < maxLife) {
+                        requestAnimationFrame(animDust);
+                    } else {
+                        dust.remove();
+                    }
+                }
+                requestAnimationFrame(animDust);
+            }
+
+            function spawnFlyingSweat() {
+                var drop = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                var startX = 42 + Math.random() * 5;
+                var startY = 8 + Math.random() * 20;
+                drop.setAttribute('d', 'M0,0 Q1,-3 2,0 Q1,3 0,0');
+                drop.setAttribute('transform', 'translate(' + startX + ',' + startY + ')');
+                drop.setAttribute('fill', '#5dade2');
+                drop.setAttribute('opacity', '0.7');
+                particlesG.appendChild(drop);
+
+                var life = 0;
+                var vx = 1.5 + Math.random() * 2;
+                var vy = -1 + Math.random() * 2;
+
+                function animSweat() {
+                    life++;
+                    var px = startX + vx * life;
+                    var py = startY + vy * life + life * life * 0.05;
+                    drop.setAttribute('transform', 'translate(' + px.toFixed(1) + ',' + py.toFixed(1) + ') rotate(' + (life * 8) + ')');
+                    drop.setAttribute('opacity', (0.7 * (1 - life / 25)).toFixed(3));
+                    if (life < 25) {
+                        requestAnimationFrame(animSweat);
+                    } else {
+                        drop.remove();
+                    }
+                }
+                requestAnimationFrame(animSweat);
+            }
+
+            // ---- ERSCHÖPFUNGS-STUFEN ----
+            function applyExhaustion(scrollPct) {
+                var stage;
+                if (scrollPct < 0.1) stage = 0;
+                else if (scrollPct < 0.2) stage = 1;
+                else if (scrollPct < 0.35) stage = 2;
+                else if (scrollPct < 0.5) stage = 3;
+                else if (scrollPct < 0.65) stage = 4;
+                else if (scrollPct < 0.78) stage = 5;
+                else if (scrollPct < 0.9) stage = 6;
+                else stage = 7;
+
+                // Fliegende Schweisstropfen ab Stufe 2
+                if (stage >= 2) {
+                    var sweatFreq = Math.max(7, 40 - stage * 6);
+                    if (frame % sweatFreq === 0) spawnFlyingSweat();
+                }
+
+                // Reset wobble unter Stufe 6
+                if (stage < 6) {
+                    svgEl.setAttribute('transform', '');
+                }
+
+                // Nur SVG-Attribute aktualisieren wenn sich Stufe ändert (Performance)
+                if (stage === lastExhaustionStage) {
+                    // Aber: animierte Elemente bei Stufe 4-6 updaten
+                    if (stage === 4) {
+                        var mouthOpen = 2 + Math.sin(frame * 0.2);
+                        mouth.setAttribute('d', 'M27,19 Q30,' + (20 + mouthOpen).toFixed(1) + ' 33,19');
+                    } else if (stage === 5) {
+                        var mouthOpen2 = 3 + Math.sin(frame * 0.15);
+                        mouth.setAttribute('d', 'M26,19 Q30,' + (20 + mouthOpen2).toFixed(1) + ' 34,19');
+                        tongue.setAttribute('cy', (21 + mouthOpen2 * 0.5).toFixed(1));
+                    } else if (stage === 6) {
+                        var mouthOpen3 = 4 + Math.sin(frame * 0.1) * 1.5;
+                        mouth.setAttribute('d', 'M25,19 Q30,' + (20 + mouthOpen3).toFixed(1) + ' 35,19');
+                        tongue.setAttribute('cy', (21 + mouthOpen3 * 0.5).toFixed(1));
+                        // Stolper-Wanken
+                        var wobble = Math.sin(frame * 0.4) * 5;
+                        svgEl.setAttribute('transform', 'rotate(' + wobble.toFixed(1) + ', 30, 50)');
+                    }
+                    return;
+                }
+                lastExhaustionStage = stage;
+
+                // Stufe 0: Frisch
+                if (stage === 0) {
+                    mouth.setAttribute('d', 'M26,20 Q30,17 34,20');
+                    tongue.setAttribute('opacity', '0');
+                    blushL.setAttribute('opacity', '0');
+                    blushR.setAttribute('opacity', '0');
+                    sweat1.setAttribute('opacity', '0');
+                    sweat2.setAttribute('opacity', '0');
+                    sweat3.setAttribute('opacity', '0');
+                    starsG.setAttribute('opacity', '0');
+                    eyes.innerHTML = '<circle cx="26" cy="14" r="2" class="sketch-fill"/><circle cx="34" cy="14" r="2" class="sketch-fill"/>';
+                    brows.innerHTML = '<line x1="24" y1="10" x2="28" y2="11" class="sketch-line" stroke-width="1.5"/><line x1="32" y1="11" x2="36" y2="10" class="sketch-line" stroke-width="1.5"/>';
+                }
+                // Stufe 1: Noch gut
+                else if (stage === 1) {
+                    mouth.setAttribute('d', 'M26,20 Q30,18 34,20');
+                    tongue.setAttribute('opacity', '0');
+                    blushL.setAttribute('opacity', '0');
+                    blushR.setAttribute('opacity', '0');
+                    sweat1.setAttribute('opacity', '0');
+                    starsG.setAttribute('opacity', '0');
+                }
+                // Stufe 2: Leichtes Schwitzen
+                else if (stage === 2) {
+                    mouth.setAttribute('d', 'M27,20 L33,20');
+                    sweat1.setAttribute('opacity', '0.7');
+                }
+                // Stufe 3: Angestrengt
+                else if (stage === 3) {
+                    mouth.setAttribute('d', 'M27,20 Q30,22 33,20');
                     sweat1.setAttribute('opacity', '1');
+                    sweat2.setAttribute('opacity', '0.7');
+                    brows.innerHTML = '<line x1="24" y1="11" x2="28" y2="10" class="sketch-line" stroke-width="1.5"/><line x1="32" y1="10" x2="36" y2="11" class="sketch-line" stroke-width="1.5"/>';
                 }
-                if (scrollPct > 0.5) {
+                // Stufe 4: Keuchend
+                else if (stage === 4) {
+                    sweat1.setAttribute('opacity', '1');
                     sweat2.setAttribute('opacity', '1');
+                    sweat3.setAttribute('opacity', '0.7');
                 }
-                if (scrollPct > 0.7) {
-                    mouth.setAttribute('d', 'M22,18 Q25,22 28,18'); // offener Mund, keuchend
-                } else if (scrollPct > 0.4) {
-                    mouth.setAttribute('d', 'M22,18 L28,18'); // neutral
-                } else {
-                    mouth.setAttribute('d', 'M22,18 Q25,16 28,18'); // leichtes Lächeln
+                // Stufe 5: Zunge raus
+                else if (stage === 5) {
+                    tongue.setAttribute('opacity', '1');
+                    sweat3.setAttribute('opacity', '1');
+                    blushL.setAttribute('opacity', '0.15');
+                    blushR.setAttribute('opacity', '0.15');
                 }
+                // Stufe 6: Rotes Gesicht, Stolpernd
+                else if (stage === 6) {
+                    tongue.setAttribute('opacity', '1');
+                    blushL.setAttribute('opacity', '0.35');
+                    blushR.setAttribute('opacity', '0.35');
+                    eyes.innerHTML = '<circle cx="26" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="26" cy="14" r="1" class="sketch-fill"/>' +
+                                     '<circle cx="34" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="34" cy="14" r="1" class="sketch-fill"/>';
+                }
+                // Stufe 7: Zusammenbruch!
+                else if (stage === 7 && !collapsed) {
+                    collapsed = true;
+                    mouth.setAttribute('d', 'M26,20 Q30,25 34,20');
+                    tongue.setAttribute('opacity', '1');
+                    tongue.setAttribute('cy', '24');
+                    blushL.setAttribute('opacity', '0.5');
+                    blushR.setAttribute('opacity', '0.5');
+                    // X-Augen
+                    eyes.innerHTML = '<line x1="24" y1="12" x2="28" y2="16" class="sketch-line" stroke-width="1.5"/><line x1="28" y1="12" x2="24" y2="16" class="sketch-line" stroke-width="1.5"/>' +
+                                     '<line x1="32" y1="12" x2="36" y2="16" class="sketch-line" stroke-width="1.5"/><line x1="36" y1="12" x2="32" y2="16" class="sketch-line" stroke-width="1.5"/>';
+                    starsG.setAttribute('opacity', '1');
+                    animateStars();
+                    // Umkipp-Animation
+                    isScrolling = false;
+                    var angle = 0;
+                    function doCollapse() {
+                        angle += 3;
+                        svgEl.setAttribute('transform', 'rotate(' + Math.min(angle, 70) + ', 30, 90)');
+                        body.setAttribute('transform', 'translate(0,0)');
+                        if (angle < 70) requestAnimationFrame(doCollapse);
+                    }
+                    requestAnimationFrame(doCollapse);
+                    clearTimeout(collapseTimer);
+                    collapseTimer = setTimeout(recoverFromCollapse, 2500);
+                }
+            }
 
-                // Runner neigen bei viel Scroll
-                if (scrollPct > 0.8) {
-                    runner.style.transform = 'rotate(15deg)';
-                } else {
-                    runner.style.transform = 'rotate(0deg)';
-                }
+            function animateStars() {
+                if (!collapsed) return;
+                var starsEls = starsG.querySelectorAll('text');
+                var t = Date.now() * 0.003;
+                starsEls.forEach(function(s, i) {
+                    var a = t + i * 2.1;
+                    var r = 16 + i * 3;
+                    s.setAttribute('x', (30 + Math.cos(a) * r).toFixed(1));
+                    s.setAttribute('y', (12 + Math.sin(a) * (r * 0.5)).toFixed(1));
+                });
+                requestAnimationFrame(animateStars);
+            }
+
+            function recoverFromCollapse() {
+                collapsed = false;
+                lastExhaustionStage = -1;
+                svgEl.setAttribute('transform', '');
+                starsG.setAttribute('opacity', '0');
+                eyes.innerHTML = '<circle cx="26" cy="14" r="2" class="sketch-fill"/><circle cx="34" cy="14" r="2" class="sketch-fill"/>';
+                brows.innerHTML = '<line x1="24" y1="10" x2="28" y2="11" class="sketch-line" stroke-width="1.5"/><line x1="32" y1="11" x2="36" y2="10" class="sketch-line" stroke-width="1.5"/>';
+            }
+
+            // ---- SCROLL-HANDLER ----
+            window.addEventListener('scroll', function() {
+                if (collapsed) return;
+                var now = Date.now();
+                var dt = now - lastScrollTime || 16;
+                var dy = Math.abs(window.scrollY - lastScrollY);
+                scrollSpeed = scrollSpeed * 0.7 + (dy / dt * 1000) * 0.3;
+                lastScrollTime = now;
+                lastScrollY = window.scrollY;
+
+                var scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+                applyExhaustion(scrollPct);
 
                 if (!isScrolling) {
                     isScrolling = true;
@@ -3571,12 +3936,12 @@
                     animateRun();
                 }
                 clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
+                scrollTimeout = setTimeout(function() {
                     isScrolling = false;
                     runner.style.opacity = '0.3';
+                    scrollSpeed = 0;
+                    if (!collapsed) svgEl.setAttribute('transform', '');
                 }, 200);
-
-                lastScroll = window.scrollY;
             });
         })();
 
