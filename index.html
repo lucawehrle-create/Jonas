@@ -6135,7 +6135,9 @@
                         '@keyframes goatFigureFloat { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-10px)} }' +
                         '@keyframes goatRayRotate { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }' +
                         '@keyframes goatSubReveal { from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0% 0 0)} }' +
-                        '@keyframes goatTitleReveal { 0%{letter-spacing:1em;opacity:0;filter:blur(10px)} 100%{letter-spacing:0.3em;opacity:1;filter:blur(0)} }';
+                        '@keyframes goatTitleReveal { 0%{letter-spacing:1em;opacity:0;filter:blur(10px)} 100%{letter-spacing:0.3em;opacity:1;filter:blur(0)} }' +
+                        '@keyframes goatGlitch { 0%{clip-path:inset(40% 0 61% 0)} 20%{clip-path:inset(92% 0 1% 0)} 40%{clip-path:inset(43% 0 1% 0)} 60%{clip-path:inset(25% 0 58% 0)} 80%{clip-path:inset(54% 0 7% 0)} 100%{clip-path:inset(58% 0 43% 0)} }' +
+                        '@keyframes goatBassDrop { 0%{transform:scale(1)} 10%{transform:scale(1.05)} 20%{transform:scale(0.98)} 30%{transform:scale(1.02)} 100%{transform:scale(1)} }';
                     document.head.appendChild(style);
                 }
 
@@ -6150,10 +6152,32 @@
                 document.body.appendChild(ov);
 
                 // ========================================
-                // PHASE 0 (0s): Bildschirm-Shake + Fade to black
+                // PHASE 0 (0s): Glitch + Screen-Shake + Fade to black
                 // ========================================
-                shake(document.body, 8, 600);
-                requestAnimationFrame(() => { ov.style.background = 'rgba(0,0,0,0.97)'; });
+                // Glitch-Flicker über die echte Seite
+                const glitchOv = document.createElement('div');
+                glitchOv.style.cssText = 'position:fixed;inset:0;z-index:299999;pointer-events:none;' +
+                    'background:transparent;mix-blend-mode:difference;';
+                document.body.appendChild(glitchOv);
+                let glitchCount = 0;
+                const glitchInt = setInterval(() => {
+                    glitchCount++;
+                    // Random color bars / scanlines
+                    glitchOv.style.background = glitchCount % 2 === 0
+                        ? 'linear-gradient(0deg,transparent ' + (Math.random()*80) + '%,rgba(241,196,15,0.3) ' + (Math.random()*80+10) + '%,transparent ' + (Math.random()*90+10) + '%)'
+                        : 'linear-gradient(0deg,transparent ' + (Math.random()*50) + '%,rgba(255,0,0,0.15) ' + (Math.random()*60+20) + '%,transparent ' + (Math.random()*80+15) + '%)';
+                    document.body.style.transform = 'translate(' + ((Math.random()-0.5)*6) + 'px,' + ((Math.random()-0.5)*4) + 'px)';
+                    if (glitchCount > 12) {
+                        clearInterval(glitchInt);
+                        glitchOv.remove();
+                        document.body.style.transform = '';
+                    }
+                }, 60);
+
+                shake(document.body, 10, 800);
+                setTimeout(() => {
+                    requestAnimationFrame(() => { ov.style.background = 'rgba(0,0,0,0.97)'; });
+                }, 300);
 
                 // ========================================
                 // PHASE 1 (0.8s): Sterne erscheinen im Hintergrund
@@ -6296,12 +6320,22 @@
                             }
                         });
 
-                        // Screen shake + burst for each main letter
+                        // Bass-drop + screen shake + burst for each main letter
                         if (!isDot) {
                             const burstX = 50 + (offsetPx / (mobile ? 3 : 5));
-                            spawnBurst(ov, burstX, 50, 25, 100);
-                            spawnShockwave(ov, burstX, 50, 'rgba(255,215,0,0.3)');
-                            shake(ov, 4, 150);
+                            spawnBurst(ov, burstX, 50, 30, 130);
+                            spawnShockwave(ov, burstX, 50, 'rgba(255,215,0,0.4)');
+                            shake(ov, 6, 200);
+                            // Bass-drop: kurzer Zoom-Puls
+                            ov.style.animation = 'goatBassDrop 0.3s ease-out';
+                            setTimeout(() => { ov.style.animation = ''; }, 350);
+                            // Screen-Flash
+                            const lFlash = document.createElement('div');
+                            lFlash.style.cssText = 'position:absolute;inset:0;background:rgba(255,215,0,0.15);z-index:20;pointer-events:none;' +
+                                'opacity:1;transition:opacity 0.2s ease;';
+                            ov.appendChild(lFlash);
+                            setTimeout(() => { lFlash.style.opacity = '0'; }, 50);
+                            setTimeout(() => lFlash.remove(), 250);
                         }
                     }, 5500 + i * 300);
                 });
@@ -6349,48 +6383,70 @@
                         'animation:goatAuraPulse 2s ease-in-out infinite;';
                     ov.appendChild(aura);
 
-                    // Jonas-Figur (detaillierter, mit Dutt + TT-Schläger + Siegerpose)
+                    // Jonas-Figur (wie Hero: Dutt, Locken, Schnurrbart, Grinsen, TT-Schläger, Siegerpose)
                     const fig = document.createElement('div');
-                    fig.innerHTML = '<svg viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg">' +
-                        // Heiligenschein über dem Kopf
-                        '<ellipse cx="40" cy="6" rx="16" ry="5" fill="none" stroke="#ffd700" stroke-width="1.5" opacity="0.7">' +
-                        '<animate attributeName="opacity" values="0.4;0.9;0.4" dur="2s" repeatCount="indefinite"/></ellipse>' +
-                        // Kopf
-                        '<circle cx="40" cy="20" r="12" fill="none" stroke="#ffd700" stroke-width="2.5"/>' +
-                        // Dutt / Man-Bun
-                        '<ellipse cx="40" cy="7" rx="6" ry="4.5" fill="none" stroke="#ffd700" stroke-width="2"/>' +
-                        // Lächeln
-                        '<path d="M35,24 Q40,28 45,24" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>' +
-                        // Augen (Punkte)
-                        '<circle cx="35" cy="18" r="1.5" fill="#ffd700"/>' +
-                        '<circle cx="45" cy="18" r="1.5" fill="#ffd700"/>' +
+                    fig.innerHTML = '<svg viewBox="0 0 140 200" xmlns="http://www.w3.org/2000/svg">' +
+                        // Heiligenschein (golden, pulsierend)
+                        '<ellipse cx="70" cy="8" rx="28" ry="8" fill="none" stroke="#ffd700" stroke-width="2" opacity="0.7">' +
+                        '<animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>' +
+                        '<animate attributeName="ry" values="8;10;8" dur="2s" repeatCount="indefinite"/></ellipse>' +
+                        // Kopf (organische Form wie Hero)
+                        '<path d="M48,55 Q45,30 58,22 Q68,16 78,22 Q91,30 88,55 Q87,65 80,70 Q70,76 60,70 Q50,65 48,55 Z" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
+                        // Dutt / Man-Bun oben
+                        '<ellipse cx="68" cy="15" rx="10" ry="7" fill="none" stroke="#ffd700" stroke-width="2.2"/>' +
+                        // Haare zum Dutt
+                        '<path d="M58,22 Q62,17 68,16 Q74,17 78,22" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>' +
+                        // Seitliche Locken links
+                        '<path d="M50,45 Q47,35 52,27" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>' +
+                        '<path d="M52,42 Q49,37 52,32" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>' +
+                        // Seitliche Locken rechts
+                        '<path d="M86,45 Q89,35 84,27" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>' +
+                        '<path d="M84,42 Q87,37 84,32" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>' +
+                        // Augen (mit Glanz)
+                        '<circle cx="60" cy="42" r="2.5" fill="#ffd700"/>' +
+                        '<circle cx="76" cy="42" r="2.5" fill="#ffd700"/>' +
+                        '<circle cx="61" cy="41" r="0.8" fill="#1a1a1a"/>' +
+                        '<circle cx="77" cy="41" r="0.8" fill="#1a1a1a"/>' +
+                        // Schnurrbart
+                        '<path d="M63,52 Q68,56 73,52" fill="none" stroke="#ffd700" stroke-width="1.8" stroke-linecap="round"/>' +
+                        '<path d="M62,52 Q58,50 55,51" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>' +
+                        '<path d="M74,52 Q78,50 81,51" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>' +
+                        // Grinsen
+                        '<path d="M60,58 Q68,65 76,58" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>' +
                         // Körper
-                        '<line x1="40" y1="32" x2="40" y2="68" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
-                        // Linker Arm (nach oben gestreckt - Siegerpose!)
-                        '<path d="M40,42 L22,22" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
-                        // Rechter Arm (hält Schläger hoch)
-                        '<path d="M40,42 L60,24" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
-                        // TT-Schläger
-                        '<ellipse cx="66" cy="18" rx="8" ry="10" fill="none" stroke="#ffd700" stroke-width="2" transform="rotate(-15,66,18)"/>' +
-                        '<line x1="60" y1="24" x2="64" y2="20" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
-                        // Beine (leicht gespreizt, Siegerpose)
-                        '<line x1="40" y1="68" x2="28" y2="95" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
-                        '<line x1="40" y1="68" x2="52" y2="95" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>' +
-                        // Glanz-Partikel um die Figur
-                        '<circle cx="18" cy="35" r="2" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="1.5s" begin="0.2s" repeatCount="indefinite"/></circle>' +
-                        '<circle cx="65" cy="40" r="1.5" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.6;0" dur="1.8s" begin="0.5s" repeatCount="indefinite"/></circle>' +
-                        '<circle cx="25" cy="60" r="1.8" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.7;0" dur="1.3s" begin="0.8s" repeatCount="indefinite"/></circle>' +
-                        '<circle cx="58" cy="65" r="2" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.6;0" dur="1.6s" begin="0.3s" repeatCount="indefinite"/></circle>' +
+                        '<line x1="68" y1="75" x2="68" y2="130" stroke="#ffd700" stroke-width="2.8" stroke-linecap="round"/>' +
+                        // Linker Arm hoch (Siegerpose, Faust)
+                        '<path d="M68,90 L42,60" stroke="#ffd700" stroke-width="2.8" stroke-linecap="round"/>' +
+                        '<circle cx="40" cy="57" r="4" fill="none" stroke="#ffd700" stroke-width="2"/>' +
+                        // Rechter Arm hält TT-Schläger hoch
+                        '<path d="M68,90 L98,62" stroke="#ffd700" stroke-width="2.8" stroke-linecap="round"/>' +
+                        // TT-Schläger (detailliert)
+                        '<ellipse cx="108" cy="52" rx="12" ry="15" fill="none" stroke="#ffd700" stroke-width="2.2" transform="rotate(-20,108,52)"/>' +
+                        '<line x1="98" y1="62" x2="104" y2="56" stroke="#ffd700" stroke-width="2.8" stroke-linecap="round"/>' +
+                        '<line x1="100" y1="48" x2="116" y2="56" fill="none" stroke="#ffd700" stroke-width="1" opacity="0.5"/>' +
+                        // Beine (Siegerpose, breit)
+                        '<line x1="68" y1="130" x2="50" y2="170" stroke="#ffd700" stroke-width="2.8" stroke-linecap="round"/>' +
+                        '<line x1="68" y1="130" x2="86" y2="170" stroke="#ffd700" stroke-width="2.8" stroke-linecap="round"/>' +
+                        // Schuhe
+                        '<path d="M46,170 L50,170 L53,168" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>' +
+                        '<path d="M83,168 L86,170 L90,170" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>' +
+                        // Glanz-Partikel links/rechts
+                        '<circle cx="28" cy="70" r="2.5" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="1.5s" begin="0.2s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="110" cy="80" r="2" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.6;0" dur="1.8s" begin="0.5s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="35" cy="120" r="2.2" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.7;0" dur="1.3s" begin="0.8s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="100" cy="125" r="2.5" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.6;0" dur="1.6s" begin="0.3s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="45" cy="150" r="1.8" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.5;0" dur="2s" begin="1s" repeatCount="indefinite"/></circle>' +
+                        '<circle cx="92" cy="145" r="2" fill="#ffd700" opacity="0"><animate attributeName="opacity" values="0;0.7;0" dur="1.4s" begin="0.6s" repeatCount="indefinite"/></circle>' +
                         '</svg>';
-                    fig.style.cssText = 'position:absolute;bottom:-150px;left:50%;width:' + (mobile ? '90px' : '130px') + ';' +
+                    fig.style.cssText = 'position:absolute;bottom:-200px;left:50%;width:' + (mobile ? '120px' : '200px') + ';' +
                         'transform:translateX(-50%);z-index:4;opacity:0;' +
-                        'transition:bottom 3.5s cubic-bezier(0.22,1,0.36,1),opacity 1.2s ease;' +
-                        'filter:drop-shadow(0 0 25px rgba(241,196,15,0.6)) drop-shadow(0 0 50px rgba(241,196,15,0.3));';
+                        'transition:bottom 4s cubic-bezier(0.22,1,0.36,1),opacity 1.5s ease;' +
+                        'filter:drop-shadow(0 0 30px rgba(241,196,15,0.6)) drop-shadow(0 0 60px rgba(241,196,15,0.3));';
                     ov.appendChild(fig);
 
                     requestAnimationFrame(() => {
                         fig.style.opacity = '1';
-                        fig.style.bottom = mobile ? '15%' : '12%';
+                        fig.style.bottom = mobile ? '12%' : '8%';
                     });
 
                     // After arrival: floating
@@ -6403,40 +6459,167 @@
                 // ========================================
                 // PHASE 7 (11s): Finale Texte
                 // ========================================
+                // Epische Zitat-Laufschrift (zwischen Krone und G.O.A.T.)
+                const quotes = [
+                    'Er kam. Er sah. Er schmetterte.',
+                    'Kein Aufschlag wurde je erwidert.',
+                    'Die Legende lebt.',
+                ];
+                quotes.forEach((q, qi) => {
+                    setTimeout(() => {
+                        const qt = document.createElement('div');
+                        qt.textContent = q;
+                        qt.style.cssText = 'position:absolute;top:' + (mobile ? '38%' : '36%') + ';left:50%;' +
+                            'transform:translateX(-50%);font-family:"Caveat",cursive;font-size:clamp(1rem,3vw,1.6rem);' +
+                            'color:rgba(255,255,255,0.7);z-index:9;white-space:nowrap;pointer-events:none;' +
+                            'opacity:0;transition:opacity 0.8s ease;';
+                        ov.appendChild(qt);
+                        requestAnimationFrame(() => { qt.style.opacity = '1'; });
+                        setTimeout(() => { qt.style.opacity = '0'; }, 2000);
+                        setTimeout(() => qt.remove(), 2800);
+                    }, 11000 + qi * 2800);
+                });
+
+                // Sternschnuppen über den Himmel
+                for (let si = 0; si < 6; si++) {
+                    setTimeout(() => {
+                        const ss = document.createElement('div');
+                        const startY = 5 + Math.random() * 30;
+                        ss.style.cssText = 'position:absolute;left:-5%;top:' + startY + '%;width:3px;height:3px;' +
+                            'background:#fff;border-radius:50%;z-index:2;pointer-events:none;' +
+                            'box-shadow:0 0 6px #fff,-10px 0 8px rgba(255,255,255,0.5),-20px 0 6px rgba(255,255,255,0.2);' +
+                            'opacity:0;transition:none;';
+                        ov.appendChild(ss);
+                        const dur = 800 + Math.random() * 600;
+                        const start = performance.now();
+                        const endY = startY + 15 + Math.random() * 20;
+                        function moveStar(now) {
+                            const t = Math.min((now - start) / dur, 1);
+                            ss.style.left = (t * 110 - 5) + '%';
+                            ss.style.top = (startY + (endY - startY) * t) + '%';
+                            ss.style.opacity = t < 0.1 ? t / 0.1 : t > 0.7 ? (1 - t) / 0.3 : 1;
+                            if (t < 1) requestAnimationFrame(moveStar);
+                            else ss.remove();
+                        }
+                        requestAnimationFrame(moveStar);
+                    }, 10000 + si * 1500);
+                }
+
+                // Nebel / Rauch am Boden
+                setTimeout(() => {
+                    for (let ni = 0; ni < 8; ni++) {
+                        const fog = document.createElement('div');
+                        const fogX = (ni / 8) * 100;
+                        const fogW = 150 + Math.random() * 200;
+                        fog.style.cssText = 'position:absolute;bottom:-20px;left:' + fogX + '%;' +
+                            'width:' + fogW + 'px;height:' + (60 + Math.random() * 40) + 'px;' +
+                            'background:radial-gradient(ellipse,rgba(241,196,15,0.08) 0%,transparent 70%);' +
+                            'border-radius:50%;z-index:1;pointer-events:none;opacity:0;' +
+                            'transition:opacity 3s ease,bottom 6s ease;transform:translateX(-50%);';
+                        fog.className = 'goat-fog';
+                        ov.appendChild(fog);
+                        setTimeout(() => {
+                            fog.style.opacity = '1';
+                            fog.style.bottom = (10 + Math.random() * 15) + 'px';
+                        }, ni * 200);
+                    }
+                }, 9000);
+
+                // ========================================
+                // PHASE 7 (11.5s): Finale Texte
+                // ========================================
                 setTimeout(() => {
                     const txt = document.createElement('div');
-                    txt.textContent = 'DER UNBESIEGBARE';
-                    txt.style.cssText = 'position:absolute;bottom:' + (mobile ? '5%' : '4%') + ';left:50%;' +
+                    txt.innerHTML = 'Der unbesiegbare<br><span style="font-size:1.6em;letter-spacing:0.15em">JONAS PEPERONI</span>';
+                    txt.style.cssText = 'position:absolute;bottom:' + (mobile ? '2%' : '2%') + ';left:50%;' +
                         'transform:translateX(-50%);font-family:"Permanent Marker",cursive;' +
-                        'font-size:clamp(1rem,3.5vw,1.8rem);color:#ffd700;letter-spacing:0.3em;' +
-                        'opacity:0;z-index:9;white-space:nowrap;' +
-                        'text-shadow:0 0 20px rgba(241,196,15,0.6),0 0 40px rgba(241,196,15,0.3);' +
-                        'animation:goatTitleReveal 2s ease-out forwards;';
+                        'font-size:clamp(0.9rem,3vw,1.5rem);color:#ffd700;letter-spacing:0.2em;' +
+                        'opacity:0;z-index:9;text-align:center;line-height:1.5;' +
+                        'text-shadow:0 0 20px rgba(241,196,15,0.6),0 0 40px rgba(241,196,15,0.3),0 0 80px rgba(241,196,15,0.15);' +
+                        'animation:goatTitleReveal 2.5s ease-out forwards;';
                     ov.appendChild(txt);
+                    // Shockwave beim Erscheinen des Namens
+                    setTimeout(() => {
+                        spawnShockwave(ov, 50, 92, 'rgba(255,215,0,0.4)');
+                        shake(ov, 3, 200);
+                    }, 800);
                 }, 11500);
 
                 // Zweite Feuerwerk-Welle zum Finale
                 setTimeout(() => {
-                    for (let i = 0; i < 6; i++) {
+                    for (let i = 0; i < 8; i++) {
                         setTimeout(() => {
-                            spawnBurst(ov, 5 + Math.random() * 90, 5 + Math.random() * 70, 35, 180);
-                        }, i * 300);
+                            spawnBurst(ov, 5 + Math.random() * 90, 5 + Math.random() * 70, 35, 200);
+                        }, i * 250);
                     }
-                }, 12000);
+                }, 12500);
+
+                // Dritte Welle: massive Konfetti-Explosion
+                setTimeout(() => {
+                    // Riesiger Screen-Flash
+                    const megaFlash = document.createElement('div');
+                    megaFlash.style.cssText = 'position:absolute;inset:0;background:rgba(255,215,0,0.3);z-index:20;pointer-events:none;' +
+                        'opacity:1;transition:opacity 0.5s ease;';
+                    ov.appendChild(megaFlash);
+                    setTimeout(() => { megaFlash.style.opacity = '0'; }, 100);
+                    setTimeout(() => megaFlash.remove(), 600);
+                    shake(ov, 6, 400);
+
+                    // Massive Konfetti (gold + rot + weiss)
+                    const confColors = ['#ffd700', '#f1c40f', '#fff', '#e74c3c', '#ff6b6b', '#3498db', '#2ecc71', '#ff69b4'];
+                    for (let ci = 0; ci < 120; ci++) {
+                        const c = document.createElement('div');
+                        const color = confColors[Math.floor(Math.random() * confColors.length)];
+                        const size = 4 + Math.random() * 8;
+                        const startX = 40 + (Math.random() - 0.5) * 20;
+                        c.style.cssText = 'position:absolute;left:' + startX + '%;top:50%;' +
+                            'width:' + size + 'px;height:' + (size * (0.5 + Math.random())) + 'px;' +
+                            'background:' + color + ';border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
+                            'z-index:15;pointer-events:none;opacity:1;';
+                        ov.appendChild(c);
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = 100 + Math.random() * 300;
+                        const vx = Math.cos(angle) * speed;
+                        const vy = Math.sin(angle) * speed - 200;
+                        const rotSpeed = (Math.random() - 0.5) * 1080;
+                        const start = performance.now();
+                        function animConf(now) {
+                            const t = (now - start) / 1000;
+                            if (t > 3) { c.remove(); return; }
+                            const x = parseFloat(startX) + vx * t / window.innerWidth * 100;
+                            const y = 50 + (vy * t + 300 * t * t) / window.innerHeight * 100;
+                            c.style.left = x + '%';
+                            c.style.top = y + '%';
+                            c.style.transform = 'rotate(' + (rotSpeed * t) + 'deg)';
+                            c.style.opacity = t > 2 ? 1 - (t - 2) : 1;
+                            requestAnimationFrame(animConf);
+                        }
+                        setTimeout(() => requestAnimationFrame(animConf), Math.random() * 200);
+                    }
+                }, 14000);
+
+                // Letzte Feuerwerk-Salve
+                setTimeout(() => {
+                    for (let i = 0; i < 10; i++) {
+                        setTimeout(() => {
+                            spawnBurst(ov, 5 + Math.random() * 90, 10 + Math.random() * 80, 40, 220);
+                        }, i * 200);
+                    }
+                }, 15000);
 
                 // ========================================
-                // PHASE 8 (14s): Fade Out
+                // PHASE 8 (17s): Eleganter Fade Out
                 // ========================================
                 setTimeout(() => {
-                    ov.style.transition = 'opacity 3s ease';
+                    ov.style.transition = 'opacity 3.5s ease';
                     ov.style.opacity = '0';
                     setTimeout(() => {
                         ov.remove();
                         const goatStyle = document.getElementById('goatStyles');
                         if (goatStyle) goatStyle.remove();
                         goatActive = false;
-                    }, 3200);
-                }, 14000);
+                    }, 3800);
+                }, 17500);
             }
         })();
 
