@@ -3765,7 +3765,39 @@
                 requestAnimationFrame(animSweat);
             }
 
-            // ---- ERSCHÖPFUNGS-STUFEN ----
+            // ---- ERSCHÖPFUNGS-STUFEN (jede Stufe setzt den KOMPLETTEN visuellen Zustand) ----
+            var normalEyes = '<circle cx="26" cy="14" r="2" class="sketch-fill"/><circle cx="34" cy="14" r="2" class="sketch-fill"/>';
+            var tiredEyes = '<circle cx="26" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="26" cy="14" r="1" class="sketch-fill"/>' +
+                            '<circle cx="34" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="34" cy="14" r="1" class="sketch-fill"/>';
+            var dizzyEyes = '<circle cx="26" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="26" cy="14.5" r="0.8" class="sketch-fill"/>' +
+                            '<circle cx="34" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="34" cy="13.5" r="0.8" class="sketch-fill"/>';
+            var normalBrows = '<line x1="24" y1="10" x2="28" y2="11" class="sketch-line" stroke-width="1.5"/><line x1="32" y1="11" x2="36" y2="10" class="sketch-line" stroke-width="1.5"/>';
+            var worriedBrows = '<line x1="24" y1="11" x2="28" y2="10" class="sketch-line" stroke-width="1.5"/><line x1="32" y1="10" x2="36" y2="11" class="sketch-line" stroke-width="1.5"/>';
+            var recovering = false;
+
+            function applyFullState(state) {
+                mouth.setAttribute('d', state.mouth);
+                tongue.setAttribute('opacity', state.tongue || '0');
+                blushL.setAttribute('opacity', state.blush || '0');
+                blushR.setAttribute('opacity', state.blush || '0');
+                sweat1.setAttribute('opacity', state.sweat1 || '0');
+                sweat2.setAttribute('opacity', state.sweat2 || '0');
+                sweat3.setAttribute('opacity', state.sweat3 || '0');
+                starsG.setAttribute('opacity', '0');
+                eyes.innerHTML = state.eyes || normalEyes;
+                brows.innerHTML = state.brows || normalBrows;
+            }
+
+            var stages = [
+                /* 0: Frisch      */ { mouth: 'M26,20 Q30,17 34,20', eyes: null, brows: null },
+                /* 1: Gut          */ { mouth: 'M26,20 Q30,18 34,20', eyes: null, brows: null },
+                /* 2: Schwitzen    */ { mouth: 'M27,20 L33,20', sweat1: '0.7', brows: null },
+                /* 3: Angestrengt  */ { mouth: 'M27,20 Q30,22 33,20', sweat1: '1', sweat2: '0.7', brows: worriedBrows },
+                /* 4: Keuchend     */ { mouth: 'M27,20 Q30,22 33,20', sweat1: '1', sweat2: '1', sweat3: '0.7', brows: worriedBrows },
+                /* 5: Erschöpft    */ { mouth: 'M27,19 Q30,22 33,19', tongue: '0.7', sweat1: '1', sweat2: '1', sweat3: '1', blush: '0.15', brows: worriedBrows },
+                /* 6: Am Limit     */ { mouth: 'M26,19 Q30,23 34,19', tongue: '1', sweat1: '1', sweat2: '1', sweat3: '1', blush: '0.3', eyes: tiredEyes, brows: worriedBrows }
+            ];
+
             function applyExhaustion(scrollPct) {
                 var stage;
                 if (scrollPct < 0.1) stage = 0;
@@ -3773,311 +3805,203 @@
                 else if (scrollPct < 0.35) stage = 2;
                 else if (scrollPct < 0.5) stage = 3;
                 else if (scrollPct < 0.65) stage = 4;
-                else if (scrollPct < 0.78) stage = 5;
-                else if (scrollPct < 0.9) stage = 6;
-                else stage = 7;
+                else if (scrollPct < 0.8) stage = 5;
+                else stage = 6;
 
                 // Fliegende Schweisstropfen ab Stufe 2
                 if (stage >= 2) {
-                    var sweatFreq = Math.max(7, 40 - stage * 6);
+                    var sweatFreq = Math.max(10, 40 - stage * 5);
                     if (frame % sweatFreq === 0) spawnFlyingSweat();
                 }
 
-                // Reset wobble unter Stufe 6
-                if (stage < 6) {
-                    body.setAttribute('transform', '');
+                // Animierte Elemente per-frame
+                if (stage >= 4 && stage <= 6) {
+                    var mouthOpen = (stage - 3) + Math.sin(frame * 0.15) * 0.8;
+                    mouth.setAttribute('d', 'M27,19 Q30,' + (20 + mouthOpen).toFixed(1) + ' 33,19');
+                    if (stages[stage].tongue) {
+                        tongue.setAttribute('cy', (21 + mouthOpen * 0.3).toFixed(1));
+                    }
+                }
+                if (stage === 6) {
+                    // Leichtes Wanken (kombiniert mit Body-Bob)
+                    var wobble = Math.sin(frame * 0.3) * 3;
+                    body.setAttribute('transform', 'translate(0,' + (-currentBobY).toFixed(1) + ') rotate(' + wobble.toFixed(1) + ', 30, 55)');
+                } else {
+                    // Kein Wobble – normaler Bob (wird in animateRun gesetzt)
                 }
 
-                // Nur SVG-Attribute aktualisieren wenn sich Stufe ändert (Performance)
-                if (stage === lastExhaustionStage) {
-                    // Aber: animierte Elemente bei Stufe 4-6 updaten
-                    if (stage === 4) {
-                        var mouthOpen = 2 + Math.sin(frame * 0.2);
-                        mouth.setAttribute('d', 'M27,19 Q30,' + (20 + mouthOpen).toFixed(1) + ' 33,19');
-                    } else if (stage === 5) {
-                        var mouthOpen2 = 3 + Math.sin(frame * 0.15);
-                        mouth.setAttribute('d', 'M26,19 Q30,' + (20 + mouthOpen2).toFixed(1) + ' 34,19');
-                        tongue.setAttribute('cy', (21 + mouthOpen2 * 0.5).toFixed(1));
-                    } else if (stage === 6) {
-                        var mouthOpen3 = 4 + Math.sin(frame * 0.1) * 1.5;
-                        mouth.setAttribute('d', 'M25,19 Q30,' + (20 + mouthOpen3).toFixed(1) + ' 35,19');
-                        tongue.setAttribute('cy', (21 + mouthOpen3 * 0.5).toFixed(1));
-                        // Stolper-Wanken (kombiniert mit Body-Bob)
-                        var wobble = Math.sin(frame * 0.4) * 5;
-                        body.setAttribute('transform', 'translate(0,' + (-currentBobY).toFixed(1) + ') rotate(' + wobble.toFixed(1) + ', 30, 50)');
-                    }
-                    return;
-                }
+                if (stage === lastExhaustionStage) return;
                 lastExhaustionStage = stage;
 
-                // Stufe 0: Frisch
-                if (stage === 0) {
-                    mouth.setAttribute('d', 'M26,20 Q30,17 34,20');
-                    tongue.setAttribute('opacity', '0');
-                    blushL.setAttribute('opacity', '0');
-                    blushR.setAttribute('opacity', '0');
-                    sweat1.setAttribute('opacity', '0');
-                    sweat2.setAttribute('opacity', '0');
-                    sweat3.setAttribute('opacity', '0');
-                    starsG.setAttribute('opacity', '0');
-                    eyes.innerHTML = '<circle cx="26" cy="14" r="2" class="sketch-fill"/><circle cx="34" cy="14" r="2" class="sketch-fill"/>';
-                    brows.innerHTML = '<line x1="24" y1="10" x2="28" y2="11" class="sketch-line" stroke-width="1.5"/><line x1="32" y1="11" x2="36" y2="10" class="sketch-line" stroke-width="1.5"/>';
-                }
-                // Stufe 1: Noch gut
-                else if (stage === 1) {
-                    mouth.setAttribute('d', 'M26,20 Q30,18 34,20');
-                    tongue.setAttribute('opacity', '0');
-                    blushL.setAttribute('opacity', '0');
-                    blushR.setAttribute('opacity', '0');
-                    sweat1.setAttribute('opacity', '0');
-                    starsG.setAttribute('opacity', '0');
-                }
-                // Stufe 2: Leichtes Schwitzen
-                else if (stage === 2) {
-                    mouth.setAttribute('d', 'M27,20 L33,20');
-                    sweat1.setAttribute('opacity', '0.7');
-                }
-                // Stufe 3: Angestrengt
-                else if (stage === 3) {
-                    mouth.setAttribute('d', 'M27,20 Q30,22 33,20');
-                    sweat1.setAttribute('opacity', '1');
-                    sweat2.setAttribute('opacity', '0.7');
-                    brows.innerHTML = '<line x1="24" y1="11" x2="28" y2="10" class="sketch-line" stroke-width="1.5"/><line x1="32" y1="10" x2="36" y2="11" class="sketch-line" stroke-width="1.5"/>';
-                }
-                // Stufe 4: Keuchend
-                else if (stage === 4) {
-                    sweat1.setAttribute('opacity', '1');
-                    sweat2.setAttribute('opacity', '1');
-                    sweat3.setAttribute('opacity', '0.7');
-                }
-                // Stufe 5: Zunge raus
-                else if (stage === 5) {
-                    tongue.setAttribute('opacity', '1');
-                    sweat3.setAttribute('opacity', '1');
-                    blushL.setAttribute('opacity', '0.15');
-                    blushR.setAttribute('opacity', '0.15');
-                }
-                // Stufe 6: Rotes Gesicht, Stolpernd
-                else if (stage === 6) {
-                    tongue.setAttribute('opacity', '1');
-                    blushL.setAttribute('opacity', '0.35');
-                    blushR.setAttribute('opacity', '0.35');
-                    eyes.innerHTML = '<circle cx="26" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="26" cy="14" r="1" class="sketch-fill"/>' +
-                                     '<circle cx="34" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="34" cy="14" r="1" class="sketch-fill"/>';
-                }
-                // Stufe 7: Zusammenbruch!
-                else if (stage === 7 && !collapsed) {
-                    collapsed = true;
-                    isScrolling = false;
-
-                    // Gesicht: X-Augen, offener Mund, Zunge, Röte
-                    mouth.setAttribute('d', 'M26,20 Q30,25 34,20');
-                    tongue.setAttribute('opacity', '1');
-                    tongue.setAttribute('cy', '24');
-                    blushL.setAttribute('opacity', '0.5');
-                    blushR.setAttribute('opacity', '0.5');
-                    eyes.innerHTML = '<line x1="24" y1="12" x2="28" y2="16" class="sketch-line" stroke-width="1.5"/><line x1="28" y1="12" x2="24" y2="16" class="sketch-line" stroke-width="1.5"/>' +
-                                     '<line x1="32" y1="12" x2="36" y2="16" class="sketch-line" stroke-width="1.5"/><line x1="36" y1="12" x2="32" y2="16" class="sketch-line" stroke-width="1.5"/>';
-
-                    // Crumple-Animation: Knie knicken ein, Körper sackt zusammen
-                    var progress = 0;
-                    // Positionen speichern um smoothe Überblendung zu haben
-                    var collapseData = {
-                        // Finalpositionen: zusammengesackte Figur
-                        // Kopf sackt nach unten und kippt
-                        headFinalY: 22,  headFinalRot: 35,
-                        // Beine knicken ein (Knie nach außen, Füße unter Körper)
-                        kneeL_x: 18, kneeL_y: 72, footL_x: 24, footL_y: 85,
-                        kneeR_x: 42, kneeR_y: 72, footR_x: 36, footR_y: 85,
-                        // Arme sacken runter
-                        elbowL_x: 18, elbowL_y: 56, handL_x: 14, handL_y: 65,
-                        elbowR_x: 42, elbowR_y: 56, handR_x: 46, handR_y: 65,
-                        // Körper sackt zusammen (kürzer)
-                        bodyDrop: 18
-                    };
-
-                    function doCollapse() {
-                        progress += 0.04;
-                        if (progress > 1) progress = 1;
-
-                        // Easing: bounce-out
-                        var t;
-                        if (progress < 0.7) {
-                            t = (progress / 0.7);
-                            t = t * t * (3 - 2 * t); // smoothstep
-                        } else {
-                            // Kleiner Bounce
-                            var b = (progress - 0.7) / 0.3;
-                            t = 1 + Math.sin(b * Math.PI) * 0.06;
-                        }
-
-                        var d = collapseData;
-                        var drop = d.bodyDrop * t;
-
-                        // Body-Group: nach unten verschieben
-                        body.setAttribute('transform', 'translate(0,' + drop.toFixed(1) + ')');
-
-                        // Kopf kippt zur Seite
-                        var headRot = d.headFinalRot * t;
-                        head.setAttribute('transform', 'rotate(' + headRot.toFixed(1) + ', 30, 16)');
-
-                        // Beine: Knie knicken nach außen
-                        var lerpKneeL_x = 22 + (d.kneeL_x - 22) * t;
-                        var lerpKneeL_y = 70 + (d.kneeL_y - 70) * t;
-                        thighL.setAttribute('x2', lerpKneeL_x.toFixed(1));
-                        thighL.setAttribute('y2', lerpKneeL_y.toFixed(1));
-                        shinL.setAttribute('x1', lerpKneeL_x.toFixed(1));
-                        shinL.setAttribute('y1', lerpKneeL_y.toFixed(1));
-                        var lerpFootL_x = 18 + (d.footL_x - 18) * t;
-                        var lerpFootL_y = 85 + (d.footL_y - 85) * t;
-                        shinL.setAttribute('x2', lerpFootL_x.toFixed(1));
-                        shinL.setAttribute('y2', lerpFootL_y.toFixed(1));
-                        shoeL.setAttribute('d', 'M' + (lerpFootL_x-3) + ',' + (lerpFootL_y-1) + ' L' + lerpFootL_x + ',' + lerpFootL_y + ' L' + (lerpFootL_x+5) + ',' + lerpFootL_y + ' L' + (lerpFootL_x+6) + ',' + (lerpFootL_y-2));
-
-                        var lerpKneeR_x = 38 + (d.kneeR_x - 38) * t;
-                        var lerpKneeR_y = 70 + (d.kneeR_y - 70) * t;
-                        thighR.setAttribute('x2', lerpKneeR_x.toFixed(1));
-                        thighR.setAttribute('y2', lerpKneeR_y.toFixed(1));
-                        shinR.setAttribute('x1', lerpKneeR_x.toFixed(1));
-                        shinR.setAttribute('y1', lerpKneeR_y.toFixed(1));
-                        var lerpFootR_x = 42 + (d.footR_x - 42) * t;
-                        var lerpFootR_y = 85 + (d.footR_y - 85) * t;
-                        shinR.setAttribute('x2', lerpFootR_x.toFixed(1));
-                        shinR.setAttribute('y2', lerpFootR_y.toFixed(1));
-                        shoeR.setAttribute('d', 'M' + (lerpFootR_x-3) + ',' + (lerpFootR_y-1) + ' L' + lerpFootR_x + ',' + lerpFootR_y + ' L' + (lerpFootR_x+5) + ',' + lerpFootR_y + ' L' + (lerpFootR_x+6) + ',' + (lerpFootR_y-2));
-
-                        // Arme sacken runter
-                        armL.setAttribute('x2', (24 + (d.elbowL_x - 24) * t).toFixed(1));
-                        armL.setAttribute('y2', (42 + (d.elbowL_y - 42) * t).toFixed(1));
-                        forearmL.setAttribute('x1', (24 + (d.elbowL_x - 24) * t).toFixed(1));
-                        forearmL.setAttribute('y1', (42 + (d.elbowL_y - 42) * t).toFixed(1));
-                        forearmL.setAttribute('x2', (20 + (d.handL_x - 20) * t).toFixed(1));
-                        forearmL.setAttribute('y2', (48 + (d.handL_y - 48) * t).toFixed(1));
-
-                        armR.setAttribute('x2', (36 + (d.elbowR_x - 36) * t).toFixed(1));
-                        armR.setAttribute('y2', (42 + (d.elbowR_y - 42) * t).toFixed(1));
-                        forearmR.setAttribute('x1', (36 + (d.elbowR_x - 36) * t).toFixed(1));
-                        forearmR.setAttribute('y1', (42 + (d.elbowR_y - 42) * t).toFixed(1));
-                        forearmR.setAttribute('x2', (40 + (d.handR_x - 40) * t).toFixed(1));
-                        forearmR.setAttribute('y2', (48 + (d.handR_y - 48) * t).toFixed(1));
-
-                        if (progress < 1) {
-                            requestAnimationFrame(doCollapse);
-                        } else {
-                            // Sterne starten erst wenn Figur liegt
-                            starsG.setAttribute('opacity', '1');
-                            animateStars();
-                        }
-                    }
-                    requestAnimationFrame(doCollapse);
-
-                    // Partikel leeren (kein Staub beim Liegen)
-                    particlesG.innerHTML = '';
-
-                    clearTimeout(collapseTimer);
-                    collapseTimer = setTimeout(recoverFromCollapse, 3000);
-                }
+                // Kompletten visuellen Zustand setzen
+                applyFullState(stages[stage]);
             }
 
-            // Sterne kreisen über dem Kopf (Kopf-Position im collapsed state: ~30, 16+drop+headTilt)
+            // Sterne kreisen über dem Kopf
             function animateStars() {
                 if (!collapsed) return;
                 var starsEls = starsG.querySelectorAll('text');
                 var t = Date.now() * 0.003;
-                // Kopf ist bei ca. (30, 16) im Body-local space, Body hat drop=18
-                // Sterne kreisen knapp über dem Kopf
                 var cx = 30, cy = 6;
                 starsEls.forEach(function(s, i) {
-                    var a = t + i * 2.094; // 120° Abstand (2π/3)
-                    var r = 14 + i * 2;
+                    var a = t + i * 2.094;
+                    var r = 13 + i * 2;
                     s.setAttribute('x', (cx + Math.cos(a) * r).toFixed(1));
-                    s.setAttribute('y', (cy + Math.sin(a) * (r * 0.5)).toFixed(1));
+                    s.setAttribute('y', (cy + Math.sin(a) * (r * 0.4)).toFixed(1));
                 });
                 requestAnimationFrame(animateStars);
             }
 
-            // Aufsteh-Animation: smoothe Rückkehr in Ausgangsposition
-            function recoverFromCollapse() {
+            function triggerCollapse() {
+                if (collapsed) return;
+                collapsed = true;
+                isScrolling = false;
+
+                // Sanftes Gesicht: müde Augen (nicht X-Augen), leichter Seufzer
+                applyFullState({
+                    mouth: 'M27,20 Q30,23 33,20',
+                    tongue: '0.6',
+                    blush: '0.3',
+                    sweat1: '1', sweat2: '1', sweat3: '1',
+                    eyes: dizzyEyes,
+                    brows: worriedBrows
+                });
+
+                // Sanfte Setz-Animation: Knie beugen sich, Figur setzt sich hin
                 var progress = 0;
+
+                function doCollapse() {
+                    progress += 0.03;
+                    if (progress > 1) progress = 1;
+                    var t = progress * progress * (3 - 2 * progress); // smoothstep
+
+                    // Body sackt leicht nach unten
+                    var drop = 10 * t;
+                    body.setAttribute('transform', 'translate(0,' + drop.toFixed(1) + ')');
+
+                    // Kopf nickt sanft nach vorne
+                    head.setAttribute('transform', 'rotate(' + (15 * t).toFixed(1) + ', 30, 16)');
+
+                    // Beine: Knie beugen leicht nach außen (Hinsetzen)
+                    var kneeSpread = 4 * t;
+                    thighL.setAttribute('x2', (22 - kneeSpread).toFixed(1));
+                    thighL.setAttribute('y2', (70 + 2 * t).toFixed(1));
+                    shinL.setAttribute('x1', (22 - kneeSpread).toFixed(1));
+                    shinL.setAttribute('y1', (70 + 2 * t).toFixed(1));
+                    shinL.setAttribute('x2', (20 + kneeSpread * 0.5).toFixed(1));
+                    shinL.setAttribute('y2', '85');
+
+                    thighR.setAttribute('x2', (38 + kneeSpread).toFixed(1));
+                    thighR.setAttribute('y2', (70 + 2 * t).toFixed(1));
+                    shinR.setAttribute('x1', (38 + kneeSpread).toFixed(1));
+                    shinR.setAttribute('y1', (70 + 2 * t).toFixed(1));
+                    shinR.setAttribute('x2', (40 - kneeSpread * 0.5).toFixed(1));
+                    shinR.setAttribute('y2', '85');
+
+                    // Schuhe folgen
+                    var fLx = 20 + kneeSpread * 0.5;
+                    var fRx = 40 - kneeSpread * 0.5;
+                    shoeL.setAttribute('d', 'M' + (fLx-3) + ',84 L' + fLx + ',85 L' + (fLx+5) + ',85 L' + (fLx+6) + ',83');
+                    shoeR.setAttribute('d', 'M' + (fRx-3) + ',84 L' + fRx + ',85 L' + (fRx+5) + ',85 L' + (fRx+6) + ',83');
+
+                    // Arme hängen schlaff
+                    var armDrop = 8 * t;
+                    armL.setAttribute('x2', (24 - 2 * t).toFixed(1));
+                    armL.setAttribute('y2', (42 + armDrop).toFixed(1));
+                    forearmL.setAttribute('x1', (24 - 2 * t).toFixed(1));
+                    forearmL.setAttribute('y1', (42 + armDrop).toFixed(1));
+                    forearmL.setAttribute('x2', (20 - 3 * t).toFixed(1));
+                    forearmL.setAttribute('y2', (48 + armDrop * 1.2).toFixed(1));
+
+                    armR.setAttribute('x2', (36 + 2 * t).toFixed(1));
+                    armR.setAttribute('y2', (42 + armDrop).toFixed(1));
+                    forearmR.setAttribute('x1', (36 + 2 * t).toFixed(1));
+                    forearmR.setAttribute('y1', (42 + armDrop).toFixed(1));
+                    forearmR.setAttribute('x2', (40 + 3 * t).toFixed(1));
+                    forearmR.setAttribute('y2', (48 + armDrop * 1.2).toFixed(1));
+
+                    if (progress < 1) {
+                        requestAnimationFrame(doCollapse);
+                    } else {
+                        starsG.setAttribute('opacity', '1');
+                        animateStars();
+                    }
+                }
+                requestAnimationFrame(doCollapse);
+                particlesG.innerHTML = '';
+            }
+
+            function recoverFromCollapse() {
+                if (!collapsed || recovering) return;
+                recovering = true;
                 starsG.setAttribute('opacity', '0');
+                var progress = 0;
+
+                // Snapshot der aktuellen Collapsed-Positionen
+                var snap = {
+                    drop: 10,
+                    headRot: 15,
+                    kneeSpread: 4,
+                    armDrop: 8
+                };
 
                 function doRecover() {
-                    progress += 0.035;
+                    progress += 0.04;
                     if (progress > 1) progress = 1;
+                    var t = 1 - (1 - progress) * (1 - progress); // ease-out
 
-                    // Easing: ease-out
-                    var t = 1 - (1 - progress) * (1 - progress);
-
-                    // Body zurück nach oben
-                    var drop = 18 * (1 - t);
+                    var drop = snap.drop * (1 - t);
                     body.setAttribute('transform', drop > 0.1 ? 'translate(0,' + drop.toFixed(1) + ')' : '');
+                    head.setAttribute('transform', (snap.headRot * (1 - t)) > 0.5 ? 'rotate(' + (snap.headRot * (1 - t)).toFixed(1) + ', 30, 16)' : '');
 
-                    // Kopf zurück
-                    var headRot = 35 * (1 - t);
-                    head.setAttribute('transform', headRot > 0.5 ? 'rotate(' + headRot.toFixed(1) + ', 30, 16)' : '');
-
-                    // Beine zurück in Standposition
-                    var kneeL_x = 18 + (22 - 18) * t;
-                    var kneeL_y = 72 + (70 - 72) * t;
-                    thighL.setAttribute('x2', kneeL_x.toFixed(1));
-                    thighL.setAttribute('y2', kneeL_y.toFixed(1));
-                    shinL.setAttribute('x1', kneeL_x.toFixed(1));
-                    shinL.setAttribute('y1', kneeL_y.toFixed(1));
-                    var footL_x = 24 + (18 - 24) * t;
-                    shinL.setAttribute('x2', footL_x.toFixed(1));
+                    // Beine zurück
+                    var ks = snap.kneeSpread * (1 - t);
+                    thighL.setAttribute('x2', (22 - ks).toFixed(1));
+                    thighL.setAttribute('y2', (70 + 2 * (1 - t)).toFixed(1));
+                    shinL.setAttribute('x1', (22 - ks).toFixed(1));
+                    shinL.setAttribute('y1', (70 + 2 * (1 - t)).toFixed(1));
+                    shinL.setAttribute('x2', (20 + ks * 0.5).toFixed(1));
                     shinL.setAttribute('y2', '85');
-                    shoeL.setAttribute('d', 'M' + (footL_x-3) + ',84 L' + footL_x + ',85 L' + (footL_x+5) + ',85 L' + (footL_x+6) + ',83');
-
-                    var kneeR_x = 42 + (38 - 42) * t;
-                    var kneeR_y = 72 + (70 - 72) * t;
-                    thighR.setAttribute('x2', kneeR_x.toFixed(1));
-                    thighR.setAttribute('y2', kneeR_y.toFixed(1));
-                    shinR.setAttribute('x1', kneeR_x.toFixed(1));
-                    shinR.setAttribute('y1', kneeR_y.toFixed(1));
-                    var footR_x = 36 + (42 - 36) * t;
-                    shinR.setAttribute('x2', footR_x.toFixed(1));
+                    thighR.setAttribute('x2', (38 + ks).toFixed(1));
+                    thighR.setAttribute('y2', (70 + 2 * (1 - t)).toFixed(1));
+                    shinR.setAttribute('x1', (38 + ks).toFixed(1));
+                    shinR.setAttribute('y1', (70 + 2 * (1 - t)).toFixed(1));
+                    shinR.setAttribute('x2', (40 - ks * 0.5).toFixed(1));
                     shinR.setAttribute('y2', '85');
-                    shoeR.setAttribute('d', 'M' + (footR_x-3) + ',84 L' + footR_x + ',85 L' + (footR_x+5) + ',85 L' + (footR_x+6) + ',83');
+
+                    var fLx = 20 + ks * 0.5;
+                    var fRx = 40 - ks * 0.5;
+                    shoeL.setAttribute('d', 'M' + (fLx-3) + ',84 L' + fLx + ',85 L' + (fLx+5) + ',85 L' + (fLx+6) + ',83');
+                    shoeR.setAttribute('d', 'M' + (fRx-3) + ',84 L' + fRx + ',85 L' + (fRx+5) + ',85 L' + (fRx+6) + ',83');
 
                     // Arme zurück
-                    armL.setAttribute('x2', (18 + (24 - 18) * t).toFixed(1));
-                    armL.setAttribute('y2', (56 + (42 - 56) * t).toFixed(1));
-                    forearmL.setAttribute('x1', (18 + (24 - 18) * t).toFixed(1));
-                    forearmL.setAttribute('y1', (56 + (42 - 56) * t).toFixed(1));
-                    forearmL.setAttribute('x2', (14 + (20 - 14) * t).toFixed(1));
-                    forearmL.setAttribute('y2', (65 + (48 - 65) * t).toFixed(1));
+                    var ad = snap.armDrop * (1 - t);
+                    armL.setAttribute('x2', (24 - 2 * (1 - t)).toFixed(1));
+                    armL.setAttribute('y2', (42 + ad).toFixed(1));
+                    forearmL.setAttribute('x1', (24 - 2 * (1 - t)).toFixed(1));
+                    forearmL.setAttribute('y1', (42 + ad).toFixed(1));
+                    forearmL.setAttribute('x2', (20 - 3 * (1 - t)).toFixed(1));
+                    forearmL.setAttribute('y2', (48 + ad * 1.2).toFixed(1));
+                    armR.setAttribute('x2', (36 + 2 * (1 - t)).toFixed(1));
+                    armR.setAttribute('y2', (42 + ad).toFixed(1));
+                    forearmR.setAttribute('x1', (36 + 2 * (1 - t)).toFixed(1));
+                    forearmR.setAttribute('y1', (42 + ad).toFixed(1));
+                    forearmR.setAttribute('x2', (40 + 3 * (1 - t)).toFixed(1));
+                    forearmR.setAttribute('y2', (48 + ad * 1.2).toFixed(1));
 
-                    armR.setAttribute('x2', (42 + (36 - 42) * t).toFixed(1));
-                    armR.setAttribute('y2', (56 + (42 - 56) * t).toFixed(1));
-                    forearmR.setAttribute('x1', (42 + (36 - 42) * t).toFixed(1));
-                    forearmR.setAttribute('y1', (56 + (42 - 56) * t).toFixed(1));
-                    forearmR.setAttribute('x2', (46 + (40 - 46) * t).toFixed(1));
-                    forearmR.setAttribute('y2', (65 + (48 - 65) * t).toFixed(1));
-
-                    // Gesicht: langsam erholen
-                    if (t > 0.5 && t < 0.55) {
-                        // Augen wechseln von X zu Spirale zu normal
-                        eyes.innerHTML = '<circle cx="26" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="26" cy="14" r="1" class="sketch-fill"/>' +
-                                         '<circle cx="34" cy="14" r="2.5" class="sketch-line" stroke-width="1" fill="white"/><circle cx="34" cy="14" r="1" class="sketch-fill"/>';
+                    // Gesicht erholt sich bei 60%
+                    if (progress > 0.6 && progress < 0.65) {
+                        eyes.innerHTML = tiredEyes;
                     }
 
                     if (progress < 1) {
                         requestAnimationFrame(doRecover);
                     } else {
-                        // Vollständig erholt
                         collapsed = false;
+                        recovering = false;
                         lastExhaustionStage = -1;
                         body.setAttribute('transform', '');
                         head.setAttribute('transform', '');
-                        tongue.setAttribute('opacity', '0');
-                        blushL.setAttribute('opacity', '0');
-                        blushR.setAttribute('opacity', '0');
-                        eyes.innerHTML = '<circle cx="26" cy="14" r="2" class="sketch-fill"/><circle cx="34" cy="14" r="2" class="sketch-fill"/>';
-                        brows.innerHTML = '<line x1="24" y1="10" x2="28" y2="11" class="sketch-line" stroke-width="1.5"/><line x1="32" y1="11" x2="36" y2="10" class="sketch-line" stroke-width="1.5"/>';
-                        mouth.setAttribute('d', 'M26,20 Q30,18 34,20');
-                        sweat1.setAttribute('opacity', '0');
-                        sweat2.setAttribute('opacity', '0');
-                        sweat3.setAttribute('opacity', '0');
                     }
                 }
                 requestAnimationFrame(doRecover);
@@ -4085,7 +4009,6 @@
 
             // ---- SCROLL-HANDLER ----
             window.addEventListener('scroll', function() {
-                if (collapsed) return;
                 var now = Date.now();
                 var dt = now - lastScrollTime || 16;
                 var dy = Math.abs(window.scrollY - lastScrollY);
@@ -4094,6 +4017,24 @@
                 lastScrollY = window.scrollY;
 
                 var scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+
+                // Hochscrollen aus Collapse: sofort aufstehen
+                if (collapsed && scrollPct < 0.8) {
+                    clearTimeout(collapseTimer);
+                    recoverFromCollapse();
+                    return;
+                }
+                // Während Recovery oder Collapse: nicht stören
+                if (collapsed || recovering) return;
+
+                // Collapse bei ganz unten
+                if (scrollPct >= 0.92) {
+                    triggerCollapse();
+                    clearTimeout(collapseTimer);
+                    collapseTimer = setTimeout(recoverFromCollapse, 3500);
+                    return;
+                }
+
                 applyExhaustion(scrollPct);
 
                 if (!isScrolling) {
@@ -4106,7 +4047,6 @@
                     isScrolling = false;
                     runner.style.opacity = '0.3';
                     scrollSpeed = 0;
-                    if (!collapsed) body.setAttribute('transform', '');
                 }, 200);
             });
         })();
