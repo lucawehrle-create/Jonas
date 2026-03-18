@@ -536,24 +536,22 @@
             top: 72px;
             left: 10px;
             right: auto;
-            max-width: min(520px, 92vw);
+            width: min(340px, 90vw);
             background: var(--white);
             color: var(--black);
             font-family: var(--font-hand);
             z-index: 9999;
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(0.95);
             opacity: 0;
             pointer-events: none;
             transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-            display: flex;
-            align-items: center;
             padding: 0;
             border: var(--line-width) solid var(--black);
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-hover);
         }
         .achievement-bar.visible {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
             opacity: 1;
             pointer-events: auto;
         }
@@ -587,61 +585,72 @@
             0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
             50% { transform: scale(1.2); box-shadow: 0 0 16px rgba(241,196,15,0.6); }
         }
-        .achievement-bar-inner {
+        .achievement-bar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px 8px;
+            border-bottom: 1px solid var(--grey-border);
+        }
+        .achievement-bar-header-left {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 16px;
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
-        .achievement-bar-inner::-webkit-scrollbar { height: 0; }
-        .achievement-count {
-            font-size: 0.95rem;
-            white-space: nowrap;
-            color: var(--black);
+        .achievement-bar-title {
+            font-family: var(--font-label);
+            font-size: 1rem;
             font-weight: 700;
-            min-width: fit-content;
+        }
+        .achievement-count {
+            font-size: 0.85rem;
+            color: var(--grey);
+            font-weight: 700;
         }
         .achievement-progress {
-            width: 80px;
-            min-width: 80px;
-            height: 8px;
+            width: 100%;
+            height: 6px;
             background: var(--grey-border);
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
+            margin: 0 16px 10px;
         }
         .achievement-progress-fill {
             height: 100%;
             background: var(--gold);
-            border-radius: 4px;
+            border-radius: 3px;
             transition: width 0.6s ease-out;
             width: 0;
         }
         .achievement-icons {
-            display: flex;
-            gap: 6px;
-            flex-wrap: nowrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 42px);
+            gap: 8px;
+            justify-content: center;
+            padding: 6px 16px 16px;
         }
         .achievement-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--grey-border);
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: var(--off-white);
+            border: 1.5px solid var(--grey-border);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.85rem;
-            opacity: 0.35;
-            transition: opacity 0.4s, transform 0.4s, background 0.4s;
-            flex-shrink: 0;
+            font-size: 1.1rem;
+            opacity: 0.3;
+            filter: grayscale(1);
+            transition: opacity 0.4s, transform 0.4s, filter 0.4s, border-color 0.4s;
             position: relative;
+            cursor: default;
         }
         .achievement-icon.unlocked {
             opacity: 1;
-            background: var(--off-white);
-            border: 1.5px solid var(--gold);
+            filter: none;
+            background: var(--white);
+            border-color: var(--gold);
+            box-shadow: 0 1px 3px rgba(241,196,15,0.25);
         }
         .achievement-icon.just-unlocked {
             animation: achieveUnlock 0.6s ease-out;
@@ -654,7 +663,7 @@
         .achievement-icon[title]:hover::after {
             content: attr(title);
             position: absolute;
-            bottom: 110%;
+            bottom: calc(100% + 6px);
             left: 50%;
             transform: translateX(-50%);
             background: var(--black);
@@ -664,18 +673,18 @@
             font-size: 0.75rem;
             white-space: nowrap;
             pointer-events: none;
-            border: 1px solid var(--gold);
+            z-index: 10;
         }
         .achievement-bar-close {
             background: none;
             border: none;
             color: var(--grey);
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             cursor: pointer;
-            padding: 8px;
-            margin-left: auto;
-            flex-shrink: 0;
+            padding: 0;
+            line-height: 1;
         }
+        .achievement-bar-close:hover { color: var(--black); }
         body.jonas-mode .achievement-bar { background: #fff0f5; border-color: #ff69b4; }
         body.jonas-mode .achievement-toggle { background: #fff0f5; border-color: #ff69b4; color: #ff69b4; }
 
@@ -1523,7 +1532,7 @@
             .music-btn { right: 12px; }
             .jonas-mode-btn { left: 12px; }
             .achievement-toggle { left: 58px; font-size: 1rem; }
-            .achievement-bar { top: 58px; left: 6px; max-width: 95vw; }
+            .achievement-bar { top: 58px; left: 6px; width: min(320px, 92vw); }
             .side-runner { display: none; }
             .custom-context-menu { min-width: 180px; font-size: 1rem; }
             .pong-overlay canvas { width: 90vw; }
@@ -5417,12 +5426,15 @@
     <!-- Achievement-Leiste -->
     <button class="achievement-toggle" id="achieveToggle" title="Easter Eggs">&#x1F3C6;</button>
     <div class="achievement-bar" id="achieveBar">
-        <div class="achievement-bar-inner">
-            <span class="achievement-count" id="achieveCount">0 / 17</span>
-            <div class="achievement-progress"><div class="achievement-progress-fill" id="achieveFill"></div></div>
-            <div class="achievement-icons" id="achieveIcons"></div>
+        <div class="achievement-bar-header">
+            <div class="achievement-bar-header-left">
+                <span class="achievement-bar-title">Easter Eggs</span>
+                <span class="achievement-count" id="achieveCount">0 / 17</span>
+            </div>
             <button class="achievement-bar-close" id="achieveClose">&times;</button>
         </div>
+        <div class="achievement-progress"><div class="achievement-progress-fill" id="achieveFill"></div></div>
+        <div class="achievement-icons" id="achieveIcons"></div>
     </div>
 
     <script>
