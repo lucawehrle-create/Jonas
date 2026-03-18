@@ -486,6 +486,7 @@
            COOLNESS-SKALA – Interaktives Chart
            ============================================ */
         .coolness-wrapper {
+            position: relative;
             max-width: 780px;
             margin: 40px auto 0;
             text-align: center;
@@ -3015,11 +3016,11 @@
                             </filter>
                         </defs>
                     </svg>
-                    <div class="coolness-tooltip" id="coolnessTooltip">
-                        <div class="coolness-tooltip-age"></div>
-                        <div class="coolness-tooltip-text"></div>
-                        <div class="coolness-tooltip-stars"></div>
-                    </div>
+                </div>
+                <div class="coolness-tooltip" id="coolnessTooltip">
+                    <div class="coolness-tooltip-age"></div>
+                    <div class="coolness-tooltip-text"></div>
+                    <div class="coolness-tooltip-stars"></div>
                 </div>
                 <div class="coolness-legend">
                     <span><span class="coolness-legend-line" style="background:#1a1a1a;"></span> Jonas (Legende)</span>
@@ -3837,6 +3838,7 @@
             const svg = document.getElementById('coolnessSvg');
             const napkin = document.getElementById('coolnessNapkin');
             const tooltip = document.getElementById('coolnessTooltip');
+            const wrapper = napkin ? napkin.closest('.coolness-wrapper') : null;
             if (!svg || !napkin) return;
 
             // Preserve defs that were in HTML
@@ -4092,7 +4094,7 @@
                 function showTooltip() {
                     var circle = point.querySelectorAll('circle')[1] || point.querySelector('circle');
                     var svgRect = svg.getBoundingClientRect();
-                    var napkinRect = napkin.getBoundingClientRect();
+                    var wrapperRect = wrapper.getBoundingClientRect();
                     var cx = +circle.getAttribute('cx');
                     var cy = +circle.getAttribute('cy');
                     var scaleX = svgRect.width / 640;
@@ -4103,13 +4105,41 @@
                     var full = Math.round(item.c);
                     tooltipStars.textContent = '\u2605'.repeat(full) + '\u2606'.repeat(10 - full);
 
-                    tooltip.style.left = ((cx * scaleX) + (svgRect.left - napkinRect.left)) + 'px';
-                    tooltip.style.top = ((cy * scaleY) + (svgRect.top - napkinRect.top)) + 'px';
+                    // Position relativ zum Wrapper berechnen
+                    var rawLeft = (cx * scaleX) + (svgRect.left - wrapperRect.left);
+                    var rawTop = (cy * scaleY) + (svgRect.top - wrapperRect.top);
+
+                    // Tooltip-Maße messen
+                    tooltip.style.left = rawLeft + 'px';
+                    tooltip.style.top = rawTop + 'px';
                     tooltip.classList.add('visible');
+
+                    // Clampen: Tooltip darf nicht aus dem Wrapper rausragen
+                    var ttRect = tooltip.getBoundingClientRect();
+                    var ttW = ttRect.width;
+                    var ttH = ttRect.height;
+                    var wW = wrapperRect.width;
+
+                    // Horizontales Clampen (Tooltip wird mit translate(-50%) zentriert)
+                    var minLeft = ttW / 2 + 4;
+                    var maxLeft = wW - ttW / 2 - 4;
+                    var clampedLeft = Math.max(minLeft, Math.min(maxLeft, rawLeft));
+
+                    // Vertikales Clampen: wenn Tooltip oben rausgeht, unter dem Punkt anzeigen
+                    var ttTopEdge = rawTop - ttH - 14;
+                    if (ttTopEdge < 0) {
+                        tooltip.style.transform = 'translate(-50%, 14px) rotate(0deg)';
+                    } else {
+                        tooltip.style.transform = '';
+                    }
+
+                    tooltip.style.left = clampedLeft + 'px';
+                    tooltip.style.top = rawTop + 'px';
                 }
 
                 function hideTooltip() {
                     tooltip.classList.remove('visible');
+                    tooltip.style.transform = '';
                 }
 
                 point.addEventListener('mouseenter', showTooltip);
