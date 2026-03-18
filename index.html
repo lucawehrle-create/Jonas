@@ -2477,6 +2477,8 @@
                 <g id="crownGroup">
                     <path d="M270,4 L280,-30 L290,-4 L298,-40 L306,-4 L316,-30 L326,4" class="sketch-line" stroke-width="2.8" fill="none"/>
                     <path d="M270,4 Q298,12 326,4" class="sketch-line" stroke-width="2.5" fill="none"/>
+                    <!-- Krone klickbar (innerhalb crownGroup, damit Float-Animation mitgeht) -->
+                    <rect id="heroCrown" x="260" y="-45" width="76" height="55" fill="transparent" style="cursor:pointer"/>
                 </g>
 
                 <!-- === KOPF (organische Form) === -->
@@ -2639,10 +2641,6 @@
                 <path d="M389,132 Q366,132 336,133" stroke="#888" stroke-width="1.2" fill="none"/>
                 <polygon points="336,133 342,129 342,137" fill="#888"/>
 
-                <!-- Krone klickbar -->
-                <g id="heroCrown" style="cursor:pointer">
-                    <rect x="260" y="-45" width="76" height="55" fill="transparent"/>
-                </g>
 
                 <!-- Geheimer Pixel -->
                 <rect x="296" y="298" width="4" height="4" fill="transparent" style="cursor:pointer" onclick="document.getElementById('trainingPopup').classList.add('show'); document.getElementById('trainingOverlay').classList.add('show'); if(typeof unlockAchievement==='function') unlockAchievement('pixel')"/>
