@@ -2973,7 +2973,7 @@
                         <line x1="32" y1="11" x2="36" y2="10" class="sketch-line" stroke-width="1.5"/>
                     </g>
                     <!-- Mund -->
-                    <path id="runnerMouth" d="M26,20 Q30,18 34,20" class="sketch-line" fill="none" stroke-width="1.5"/>
+                    <path id="runnerMouth" d="M26,20 Q30,23 34,20" class="sketch-line" fill="none" stroke-width="1.5"/>
                     <!-- Zunge (versteckt, erscheint bei Erschöpfung) -->
                     <ellipse id="runnerTongue" cx="31" cy="22" rx="2.5" ry="2" fill="#e74c3c" opacity="0"/>
                     <!-- Röte (Wangen, bei Erschöpfung) -->
@@ -3789,13 +3789,13 @@
             }
 
             var stages = [
-                /* 0: Frisch      */ { mouth: 'M26,20 Q30,17 34,20', eyes: null, brows: null },
-                /* 1: Gut          */ { mouth: 'M26,20 Q30,18 34,20', eyes: null, brows: null },
+                /* 0: Frisch      */ { mouth: 'M26,20 Q30,23 34,20', eyes: null, brows: null },
+                /* 1: Gut          */ { mouth: 'M26,20 Q30,22 34,20', eyes: null, brows: null },
                 /* 2: Schwitzen    */ { mouth: 'M27,20 L33,20', sweat1: '0.7', brows: null },
-                /* 3: Angestrengt  */ { mouth: 'M27,20 Q30,22 33,20', sweat1: '1', sweat2: '0.7', brows: worriedBrows },
-                /* 4: Keuchend     */ { mouth: 'M27,20 Q30,22 33,20', sweat1: '1', sweat2: '1', sweat3: '0.7', brows: worriedBrows },
-                /* 5: Erschöpft    */ { mouth: 'M27,19 Q30,22 33,19', tongue: '0.7', sweat1: '1', sweat2: '1', sweat3: '1', blush: '0.15', brows: worriedBrows },
-                /* 6: Am Limit     */ { mouth: 'M26,19 Q30,23 34,19', tongue: '1', sweat1: '1', sweat2: '1', sweat3: '1', blush: '0.3', eyes: tiredEyes, brows: worriedBrows }
+                /* 3: Angestrengt  */ { mouth: 'M27,20 Q30,18 33,20', sweat1: '1', sweat2: '0.7', brows: worriedBrows },
+                /* 4: Keuchend     */ { mouth: 'M27,20 Q30,17 33,20', sweat1: '1', sweat2: '1', sweat3: '0.7', brows: worriedBrows },
+                /* 5: Erschöpft    */ { mouth: 'M27,20 Q30,17 33,20', tongue: '0.7', sweat1: '1', sweat2: '1', sweat3: '1', blush: '0.15', brows: worriedBrows },
+                /* 6: Am Limit     */ { mouth: 'M26,20 Q30,16 34,20', tongue: '1', sweat1: '1', sweat2: '1', sweat3: '1', blush: '0.3', eyes: tiredEyes, brows: worriedBrows }
             ];
 
             function applyExhaustion(scrollPct) {
@@ -3814,12 +3814,12 @@
                     if (frame % sweatFreq === 0) spawnFlyingSweat();
                 }
 
-                // Animierte Elemente per-frame
+                // Animierte Elemente per-frame: keuchender Mund (öffnet sich nach oben = Stöhnen)
                 if (stage >= 4 && stage <= 6) {
                     var mouthOpen = (stage - 3) + Math.sin(frame * 0.15) * 0.8;
-                    mouth.setAttribute('d', 'M27,19 Q30,' + (20 + mouthOpen).toFixed(1) + ' 33,19');
+                    mouth.setAttribute('d', 'M27,20 Q30,' + (20 - mouthOpen).toFixed(1) + ' 33,20');
                     if (stages[stage].tongue) {
-                        tongue.setAttribute('cy', (21 + mouthOpen * 0.3).toFixed(1));
+                        tongue.setAttribute('cy', (20 - mouthOpen * 0.4).toFixed(1));
                     }
                 }
                 if (stage === 6) {
@@ -3859,7 +3859,7 @@
 
                 // Sanftes Gesicht: müde Augen (nicht X-Augen), leichter Seufzer
                 applyFullState({
-                    mouth: 'M27,20 Q30,23 33,20',
+                    mouth: 'M27,20 Q30,16 33,20',
                     tongue: '0.6',
                     blush: '0.3',
                     sweat1: '1', sweat2: '1', sweat3: '1',
