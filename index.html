@@ -6325,18 +6325,19 @@
             let running = false;
             let animId = null;
             const W = 500, H = 320;
-            const PADDLE_H = 60, PADDLE_W = 10;
-            const BALL_R = 7;
+            const PADDLE_H = 45, PADDLE_W = 10;
+            const JONAS_PADDLE_H = 70;
+            const BALL_R = 6;
             const WIN_SCORE = 3;
 
             let ball, playerY, jonasY, playerScore, jonasScore, ballSpeed;
 
             function reset() {
                 playerScore = 0; jonasScore = 0;
-                ball = { x: W/2, y: H/2, vx: 5, vy: 3 };
+                ball = { x: W/2, y: H/2, vx: 6, vy: 4 };
                 playerY = H/2 - PADDLE_H/2;
-                jonasY = H/2 - PADDLE_H/2;
-                ballSpeed = 6;
+                jonasY = H/2 - JONAS_PADDLE_H/2;
+                ballSpeed = 7;
                 resultEl.textContent = '';
                 updateScore();
             }
@@ -6347,7 +6348,7 @@
 
             function resetBall(dir) {
                 ball.x = W/2; ball.y = H/2;
-                ballSpeed = Math.min(ballSpeed + 0.4, 11);
+                ballSpeed = Math.min(ballSpeed + 0.6, 14);
                 const angle = (Math.random() - 0.5) * 1.2;
                 ball.vx = dir * ballSpeed * Math.cos(angle);
                 ball.vy = ballSpeed * Math.sin(angle);
@@ -6369,23 +6370,23 @@
                     ball.y >= playerY && ball.y <= playerY + PADDLE_H) {
                     ball.vx = Math.abs(ball.vx);
                     const rel = (ball.y - playerY - PADDLE_H/2) / (PADDLE_H/2);
-                    ball.vy += rel * 1.5;
-                    ball.vy = Math.max(-6, Math.min(6, ball.vy));
+                    ball.vy += rel * 2.0;
+                    ball.vy = Math.max(-8, Math.min(8, ball.vy));
                 }
 
                 // Jonas-Paddle (rechts) - KI: fast perfekt
-                const jonasTarget = ball.y - PADDLE_H/2;
-                const jonasSpeed = ball.vx > 0 ? 6 : 3;
-                if (jonasY < jonasTarget - 2) jonasY += jonasSpeed;
-                else if (jonasY > jonasTarget + 2) jonasY -= jonasSpeed;
-                jonasY = Math.max(0, Math.min(H - PADDLE_H, jonasY));
+                const jonasTarget = ball.y - JONAS_PADDLE_H/2;
+                const jonasSpeed = ball.vx > 0 ? 8 : 4;
+                if (jonasY < jonasTarget - 1) jonasY += jonasSpeed;
+                else if (jonasY > jonasTarget + 1) jonasY -= jonasSpeed;
+                jonasY = Math.max(0, Math.min(H - JONAS_PADDLE_H, jonasY));
 
                 if (ball.x + BALL_R >= W - PADDLE_W - 15 && ball.x + BALL_R <= W - 12 &&
-                    ball.y >= jonasY && ball.y <= jonasY + PADDLE_H) {
+                    ball.y >= jonasY && ball.y <= jonasY + JONAS_PADDLE_H) {
                     ball.vx = -Math.abs(ball.vx);
-                    const rel = (ball.y - jonasY - PADDLE_H/2) / (PADDLE_H/2);
-                    ball.vy += rel * 1.5;
-                    ball.vy = Math.max(-6, Math.min(6, ball.vy));
+                    const rel = (ball.y - jonasY - JONAS_PADDLE_H/2) / (JONAS_PADDLE_H/2);
+                    ball.vy += rel * 2.5;
+                    ball.vy = Math.max(-8, Math.min(8, ball.vy));
                 }
 
                 // Punkt für Jonas (Ball links raus)
@@ -6429,7 +6430,7 @@
                 // Paddles
                 ctx.fillStyle = '#1a1a1a';
                 ctx.fillRect(15, playerY, PADDLE_W, PADDLE_H);
-                ctx.fillRect(W - 15 - PADDLE_W, jonasY, PADDLE_W, PADDLE_H);
+                ctx.fillRect(W - 15 - PADDLE_W, jonasY, PADDLE_W, JONAS_PADDLE_H);
 
                 // Ball
                 ctx.beginPath();
