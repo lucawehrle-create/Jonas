@@ -2886,6 +2886,39 @@
         .section-title::after {
             box-shadow: 0 0 8px rgba(232,184,0,0.2);
         }
+
+        /* ============================================
+           PERFORMANCE: will-change für animierte Elemente
+           ============================================ */
+        .cursor-dot {
+            will-change: opacity, transform;
+        }
+        .hero-illustration {
+            will-change: transform;
+        }
+
+        /* ============================================
+           BARRIEREFREIHEIT: Reduzierte Bewegung
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .hero-title span {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .hero-subtitle, .hero-credit, .scroll-hint {
+                opacity: 1 !important;
+            }
+            .reveal {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2947,11 +2980,8 @@
         <source src="musik/der-letzte-tag.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- 🎵 Jubel-Soundeffekt beim Laden -->
-    <audio id="applauseSound" preload="auto">
-        <!-- 🎵 APPLAUS: Kurzer Jubel/Applaus-Sound hier einfügen -->
-        <source src="sounds/applause.mp3" type="audio/mpeg">
-    </audio>
+    <!-- 🎵 Jubel-Soundeffekt beim Laden (deaktiviert – Datei fehlt) -->
+    <audio id="applauseSound" preload="none"></audio>
 
     <!-- Musik Play/Pause Button -->
     <button class="music-btn" id="musicBtn" title="Musik abspielen/pausieren">&#9835;</button>
@@ -3327,9 +3357,9 @@
                     <div class="video-exhibit-badge">Unannehmbar</div>
                 </div>
                 <div class="video-wrapper" id="videoWrapperA">
-                    <video id="videoA" preload="metadata" playsinline loop>
-                        <source src="videos/starkes_anspiel.MOV" type="video/quicktime">
+                    <video id="videoA" preload="none" playsinline loop>
                         <source src="videos/starkes_anspiel.MOV" type="video/mp4">
+                        <source src="videos/starkes_anspiel.MOV" type="video/quicktime">
                         Dein Browser unterstützt dieses Video nicht.
                     </video>
                     <div class="video-play-overlay">
@@ -3358,9 +3388,9 @@
                     <div class="video-exhibit-badge">Tragisch</div>
                 </div>
                 <div class="video-wrapper" id="videoWrapperB">
-                    <video id="videoB" preload="metadata" playsinline loop>
-                        <source src="videos/matchball.MOV" type="video/quicktime">
+                    <video id="videoB" preload="none" playsinline loop>
                         <source src="videos/matchball.MOV" type="video/mp4">
+                        <source src="videos/matchball.MOV" type="video/quicktime">
                         Dein Browser unterstützt dieses Video nicht.
                     </video>
                     <div class="video-play-overlay">
@@ -3956,14 +3986,18 @@
                 if (!src || el.dataset.svgLoaded) return;
                 el.dataset.svgLoaded = '1';
                 fetch(src)
-                    .then(function(r) { return r.text(); })
+                    .then(function(r) {
+                        if (!r.ok) throw new Error('SVG load failed: ' + src);
+                        return r.text();
+                    })
                     .then(function(svgText) {
                         // Remove XML declaration if present
                         svgText = svgText.replace(/<\?xml[^?]*\?>\s*/g, '');
                         el.innerHTML = svgText;
                         // Notify that SVG has been injected (for JS that depends on SVG content)
                         document.dispatchEvent(new CustomEvent('svg-loaded', { detail: { src: src, el: el } }));
-                    });
+                    })
+                    .catch(function(err) { console.warn(err.message); });
             }
 
             // Eager: load immediately (popup SVGs etc.)
@@ -4746,12 +4780,18 @@
                 var vx = (Math.random() - 0.7) * 2;
                 var vy = -Math.random() * 0.5;
                 var maxLife = 15 + Math.random() * 10;
+                var dustCx = parseFloat(dust.getAttribute('cx'));
+                var dustCy = parseFloat(dust.getAttribute('cy'));
+                var dustR = parseFloat(dust.getAttribute('r'));
 
                 function animDust() {
                     life++;
-                    dust.setAttribute('cx', parseFloat(dust.getAttribute('cx')) + vx);
-                    dust.setAttribute('cy', parseFloat(dust.getAttribute('cy')) + vy);
-                    dust.setAttribute('r', parseFloat(dust.getAttribute('r')) + 0.15);
+                    dustCx += vx;
+                    dustCy += vy;
+                    dustR += 0.15;
+                    dust.setAttribute('cx', dustCx);
+                    dust.setAttribute('cy', dustCy);
+                    dust.setAttribute('r', dustR);
                     dust.setAttribute('opacity', (0.15 * (1 - life / maxLife)).toFixed(3));
                     if (life < maxLife) {
                         requestAnimationFrame(animDust);
@@ -5033,48 +5073,54 @@
                 requestAnimationFrame(doRecover);
             }
 
-            // ---- SCROLL-HANDLER ----
+            // ---- SCROLL-HANDLER (throttled via rAF) ----
+            var scrollTicking = false;
             window.addEventListener('scroll', function() {
-                var now = Date.now();
-                var dt = now - lastScrollTime || 16;
-                var dy = Math.abs(window.scrollY - lastScrollY);
-                scrollSpeed = scrollSpeed * 0.7 + (dy / dt * 1000) * 0.3;
-                lastScrollTime = now;
-                lastScrollY = window.scrollY;
+                if (scrollTicking) return;
+                scrollTicking = true;
+                requestAnimationFrame(function() {
+                    scrollTicking = false;
+                    var now = Date.now();
+                    var dt = now - lastScrollTime || 16;
+                    var dy = Math.abs(window.scrollY - lastScrollY);
+                    scrollSpeed = scrollSpeed * 0.7 + (dy / dt * 1000) * 0.3;
+                    lastScrollTime = now;
+                    lastScrollY = window.scrollY;
 
-                var scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+                    var scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
 
-                // Hochscrollen aus Collapse: sofort aufstehen
-                if (collapsed && scrollPct < 0.8) {
-                    clearTimeout(collapseTimer);
-                    recoverFromCollapse();
-                    return;
-                }
-                // Während Recovery oder Collapse: nicht stören
-                if (collapsed || recovering) return;
+                    // Hochscrollen aus Collapse: sofort aufstehen
+                    if (collapsed && scrollPct < 0.8) {
+                        clearTimeout(collapseTimer);
+                        recoverFromCollapse();
+                        return;
+                    }
+                    // Während Recovery oder Collapse: nicht stören
+                    if (collapsed || recovering) return;
 
-                // Collapse bei ganz unten
-                if (scrollPct >= 0.92) {
-                    triggerCollapse();
-                    clearTimeout(collapseTimer);
-                    collapseTimer = setTimeout(recoverFromCollapse, 3500);
-                    return;
-                }
+                    // Collapse bei ganz unten
+                    if (scrollPct >= 0.92) {
+                        triggerCollapse();
+                        clearTimeout(collapseTimer);
+                        collapseTimer = setTimeout(recoverFromCollapse, 3500);
+                        return;
+                    }
 
-                applyExhaustion(scrollPct);
+                    applyExhaustion(scrollPct);
 
-                if (!isScrolling) {
-                    isScrolling = true;
-                    runner.style.opacity = '1';
-                    animateRun();
-                }
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(function() {
-                    isScrolling = false;
-                    runner.style.opacity = '0.3';
-                    scrollSpeed = 0;
-                }, 200);
-            });
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        runner.style.opacity = '1';
+                        animateRun();
+                    }
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        isScrolling = false;
+                        runner.style.opacity = '0.3';
+                        scrollSpeed = 0;
+                    }, 200);
+                });
+            }, { passive: true });
         })();
 
         /* ============================================
@@ -5099,7 +5145,11 @@
                     dots.push(dot);
 
                     setTimeout(() => { dot.style.opacity = '0'; }, 100);
-                    setTimeout(() => { dot.remove(); dots.shift(); }, 500);
+                    setTimeout(() => {
+                        dot.remove();
+                        const idx = dots.indexOf(dot);
+                        if (idx > -1) dots.splice(idx, 1);
+                    }, 500);
 
                     // Zuviele? Aelteste entfernen
                     while (dots.length > maxDots) {
@@ -5723,29 +5773,35 @@
                 return positions[idx];
             }
 
-            // Augen folgen dem Mauszeiger
+            // Augen folgen dem Mauszeiger (rAF statt setInterval für Performance)
+            var eyeTrackingActive = false;
             function startEyeTracking() {
                 clearInterval(eyeTrackInterval);
-                eyeTrackInterval = setInterval(() => {
-                    if (!isVisible || mouseX < 0) return;
-                    const rect = figure.getBoundingClientRect();
-                    // Mitte des Kopfes in Screen-Koordinaten
-                    const headX = rect.left + 35;
-                    const headY = rect.top + 18;
-                    const dx = mouseX - headX;
-                    const dy = mouseY - headY;
-                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                    const normX = (dx / dist) * Math.min(eyeRange, dist * 0.02);
-                    const normY = (dy / dist) * Math.min(eyeRange * 0.6, dist * 0.01);
+                eyeTrackingActive = true;
+                function trackEyes() {
+                    if (!eyeTrackingActive) return;
+                    if (isVisible && mouseX >= 0) {
+                        const rect = figure.getBoundingClientRect();
+                        const headX = rect.left + 35;
+                        const headY = rect.top + 18;
+                        const dx = mouseX - headX;
+                        const dy = mouseY - headY;
+                        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                        const normX = (dx / dist) * Math.min(eyeRange, dist * 0.02);
+                        const normY = (dy / dist) * Math.min(eyeRange * 0.6, dist * 0.01);
 
-                    eyeL.setAttribute('cx', eyeLBase.cx + normX);
-                    eyeL.setAttribute('cy', eyeLBase.cy + normY);
-                    eyeR.setAttribute('cx', eyeRBase.cx + normX);
-                    eyeR.setAttribute('cy', eyeRBase.cy + normY);
-                }, 50);
+                        eyeL.setAttribute('cx', eyeLBase.cx + normX);
+                        eyeL.setAttribute('cy', eyeLBase.cy + normY);
+                        eyeR.setAttribute('cx', eyeRBase.cx + normX);
+                        eyeR.setAttribute('cy', eyeRBase.cy + normY);
+                    }
+                    requestAnimationFrame(trackEyes);
+                }
+                requestAnimationFrame(trackEyes);
             }
 
             function resetEyes() {
+                eyeTrackingActive = false;
                 clearInterval(eyeTrackInterval);
                 eyeL.setAttribute('cx', eyeLBase.cx);
                 eyeL.setAttribute('cy', eyeLBase.cy);
@@ -5946,9 +6002,9 @@
                 }
             }
 
-            document.addEventListener('mousemove', onUserActivity);
-            document.addEventListener('keydown', onUserActivity);
-            document.addEventListener('click', onUserActivity);
+            document.addEventListener('mousemove', onUserActivity, { passive: true });
+            document.addEventListener('keydown', onUserActivity, { passive: true });
+            document.addEventListener('click', onUserActivity, { passive: true });
             document.addEventListener('touchstart', onUserActivity, { passive: true });
             document.addEventListener('scroll', onUserActivity, { passive: true });
 
@@ -5957,6 +6013,7 @@
                 if (document.hidden) {
                     clearTimeout(idleTimer);
                     clearTimeout(escalateTimer);
+                    eyeTrackingActive = false;
                     clearInterval(eyeTrackInterval);
                     clearInterval(tapInterval);
                     clearInterval(shakeInterval);
@@ -6792,7 +6849,7 @@
                 active = true;
                 if (typeof unlockAchievement === 'function') unlockAchievement('butterfly');
 
-                const count = 50;
+                const count = 25;
                 for (let i = 0; i < count; i++) {
                     setTimeout(() => {
                         const el = document.createElement('div');
@@ -7252,7 +7309,7 @@
             }
 
             function spawnStars(parent) {
-                for (let i = 0; i < 80; i++) {
+                for (let i = 0; i < 35; i++) {
                     const star = document.createElement('div');
                     const x = Math.random() * 100;
                     const y = Math.random() * 100;
@@ -7268,7 +7325,7 @@
             }
 
             function spawnGoldenRain(parent) {
-                for (let i = 0; i < 100; i++) {
+                for (let i = 0; i < 40; i++) {
                     setTimeout(() => {
                         const drop = document.createElement('div');
                         const x = Math.random() * 100;
@@ -7972,10 +8029,10 @@
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const pixels = imageData.data;
                 let transparent = 0;
-                for (let i = 3; i < pixels.length; i += 16) { // Sample every 4th pixel
+                for (let i = 3; i < pixels.length; i += 64) { // Sample every 16th pixel for performance
                     if (pixels[i] < 128) transparent++;
                 }
-                const total = pixels.length / 16;
+                const total = pixels.length / 64;
                 if (transparent / total > 0.45) {
                     revealed = true;
                     card.classList.add('revealed');
@@ -8003,10 +8060,12 @@
             }, { threshold: 0.1 });
             observer.observe(card);
 
-            // Resize handler
-            window.addEventListener('resize', () => {
+            // Resize handler (mit Cleanup nach Reveal)
+            function onResize() {
                 if (!revealed) initCanvas();
-            });
+                else window.removeEventListener('resize', onResize);
+            }
+            window.addEventListener('resize', onResize);
         });
     })();
 
