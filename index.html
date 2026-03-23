@@ -2629,6 +2629,224 @@
             font-size: 0.75rem;
             margin: 0 2px;
         }
+
+        /* ============================================
+           VIDEO BEWEISMATERIAL SEKTION
+           ============================================ */
+        .video-evidence-section {
+            padding: 60px 20px 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .video-evidence-section .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .video-evidence-stamp {
+            display: inline-block;
+            border: 3px solid #c0392b;
+            color: #c0392b;
+            padding: 6px 22px;
+            font-family: var(--font-label);
+            font-size: clamp(0.7rem, 2vw, 0.95rem);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transform: rotate(-3deg);
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .video-evidence-stamp::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border: 1.5px dashed #c0392b;
+            opacity: 0.4;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+        .video-exhibit {
+            position: relative;
+            background: var(--off-white);
+            border: var(--line-width) solid var(--black);
+            border-radius: var(--radius-md);
+            padding: 20px 20px 24px;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .video-exhibit:hover {
+            transform: translateY(-3px) rotate(var(--rotation, 0deg));
+            box-shadow: var(--shadow-hover);
+        }
+        .video-exhibit-number {
+            position: absolute;
+            top: -18px;
+            left: 24px;
+            background: var(--black);
+            color: var(--white);
+            font-family: var(--font-label);
+            font-size: 0.75rem;
+            padding: 4px 14px;
+            letter-spacing: 2px;
+            border-radius: var(--radius-sm);
+        }
+        .video-exhibit-badge {
+            position: absolute;
+            top: -14px;
+            right: 20px;
+            background: var(--gold);
+            color: var(--black);
+            font-family: var(--font-label);
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            transform: rotate(3deg);
+            box-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+            z-index: 2;
+        }
+        .video-wrapper {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1.5px solid var(--light-grey);
+            background: #000;
+            cursor: pointer;
+        }
+        .video-wrapper video {
+            width: 100%;
+            display: block;
+            border-radius: 3px;
+        }
+        .video-play-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.35);
+            transition: opacity 0.3s ease, background 0.3s ease;
+            pointer-events: none;
+        }
+        .video-wrapper.playing .video-play-overlay {
+            opacity: 0;
+        }
+        .video-play-btn {
+            width: 70px;
+            height: 70px;
+            background: rgba(255,255,255,0.92);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s var(--ease);
+        }
+        .video-wrapper:hover .video-play-btn {
+            transform: scale(1.1);
+        }
+        .video-play-btn svg {
+            width: 28px;
+            height: 28px;
+            margin-left: 4px;
+        }
+        .video-exhibit-caption {
+            margin-top: 16px;
+            text-align: center;
+        }
+        .video-exhibit-title {
+            font-family: var(--font-label);
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            margin-bottom: 6px;
+        }
+        .video-exhibit-desc {
+            font-family: var(--font-hand);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: var(--grey);
+            line-height: 1.5;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+        .video-exhibit-desc em {
+            color: var(--black);
+            font-style: italic;
+        }
+        /* Handschriftliche Anmerkungen neben Videos */
+        .video-annotation {
+            position: absolute;
+            font-family: var(--font-hand);
+            font-size: clamp(0.85rem, 2vw, 1.05rem);
+            color: #c0392b;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .video-annotation-arrow {
+            position: absolute;
+            pointer-events: none;
+        }
+        .video-annotation.top-right {
+            top: -30px;
+            right: -10px;
+            transform: rotate(2deg);
+        }
+        .video-annotation.bottom-left {
+            bottom: -28px;
+            left: 10px;
+            transform: rotate(-2deg);
+        }
+        /* Slow-mo Replay Animation */
+        @keyframes vhsFlicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.8; transform: translateX(1px); }
+            94% { opacity: 1; transform: translateX(0); }
+            97% { opacity: 0.9; }
+            98% { opacity: 1; }
+        }
+        .video-exhibit:nth-child(1) .video-wrapper {
+            animation: vhsFlicker 8s infinite;
+        }
+        /* REC Blinker */
+        .video-rec-dot {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-label);
+            font-size: 0.65rem;
+            color: #fff;
+            letter-spacing: 2px;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .video-wrapper.playing .video-rec-dot {
+            opacity: 1;
+        }
+        .video-rec-dot::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #c0392b;
+            border-radius: 50%;
+            animation: recBlink 1.2s ease-in-out infinite;
+        }
+        @keyframes recBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        /* Mobile Anpassung */
+        @media (max-width: 600px) {
+            .video-evidence-section { padding: 40px 12px 30px; }
+            .video-exhibit { padding: 14px 14px 18px; }
+            .video-play-btn { width: 54px; height: 54px; }
+            .video-play-btn svg { width: 22px; height: 22px; }
+            .video-annotation { display: none; }
+            .video-grid { gap: 40px; }
+        }
     </style>
 </head>
 <body>
@@ -3041,6 +3259,89 @@
         <div class="countdown-unit">Tage</div>
         <div class="countdown-sub" id="countdownDetail"></div>
     </div>
+
+    <!-- Trenner -->
+    <div class="divider">
+        <svg viewBox="0 0 300 30" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,15 Q20,5 40,15 Q60,25 80,15 Q100,5 120,15 L125,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M135,8 L142,15 L135,22 L128,15 Z" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
+            <circle cx="135" cy="15" r="2" fill="#f1c40f"/>
+            <path d="M145,15 Q165,5 185,15 Q205,25 225,15 Q245,5 265,15 Q285,25 300,15" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <!-- ================================================
+         BEWEISMATERIAL: Die Video-Akten
+         ================================================ -->
+    <section class="video-evidence-section">
+        <div class="section-header reveal">
+            <div class="video-evidence-stamp">Geheim &mdash; Akte Jonas</div>
+            <h2 class="section-title">Corpus Delicti</h2>
+            <p class="section-subtitle">Videobeweis der absoluten Dominanz</p>
+        </div>
+
+        <div class="video-grid">
+            <!-- EXHIBIT A: Das Anspiel -->
+            <div class="video-exhibit reveal" style="--rotation: -0.4deg;">
+                <div class="video-exhibit-number">BEWEISSTÜCK A</div>
+                <div class="video-exhibit-badge">Unannehmbar</div>
+                <span class="video-annotation top-right">Keine Chance. Null. &darr;</span>
+                <div class="video-wrapper" id="videoWrapperA">
+                    <video id="videoA" preload="metadata" playsinline loop>
+                        <source src="videos/starkes_anspiel.MOV" type="video/quicktime">
+                        <source src="videos/starkes_anspiel.MOV" type="video/mp4">
+                        Dein Browser unterstützt dieses Video nicht.
+                    </video>
+                    <div class="video-play-overlay">
+                        <div class="video-play-btn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 4L20 12L6 20V4Z" fill="#1a1a1a"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-rec-dot">REC</div>
+                </div>
+                <div class="video-exhibit-caption">
+                    <div class="video-exhibit-title">Das Anspiel des Jahrhunderts</div>
+                    <p class="video-exhibit-desc">
+                        Jonas serviert mit einer Präzision, die an <em>göttliche Intervention</em> grenzt.
+                        Luca steht daneben wie ein Zuschauer bei seinem eigenen Begräbnis.
+                    </p>
+                </div>
+            </div>
+
+            <!-- EXHIBIT B: Der Matchball -->
+            <div class="video-exhibit reveal" style="--rotation: 0.5deg;">
+                <div class="video-exhibit-number">BEWEISSTÜCK B</div>
+                <div class="video-exhibit-badge">Tragisch</div>
+                <span class="video-annotation top-right">Tja. Selbst schuld. &darr;</span>
+                <div class="video-wrapper" id="videoWrapperB">
+                    <video id="videoB" preload="metadata" playsinline loop>
+                        <source src="videos/matchball.MOV" type="video/quicktime">
+                        <source src="videos/matchball.MOV" type="video/mp4">
+                        Dein Browser unterstützt dieses Video nicht.
+                    </video>
+                    <div class="video-play-overlay">
+                        <div class="video-play-btn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 4L20 12L6 20V4Z" fill="#1a1a1a"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-rec-dot">REC</div>
+                </div>
+                <div class="video-exhibit-caption">
+                    <div class="video-exhibit-title">Der Matchball &mdash; Eigentor des Jahres</div>
+                    <p class="video-exhibit-desc">
+                        Luca braucht keinen Gegner. Er spielt den entscheidenden Ball
+                        <em>selbst ins Netz</em>. Jonas musste nicht mal den Schläger heben.
+                        Mitleid wäre hier fehl am Platz.
+                    </p>
+                </div>
+                <span class="video-annotation bottom-left">&uarr; Man beachte die Verzweiflung</span>
+            </div>
+        </div>
+    </section>
 
     <!-- Trenner -->
     <div class="divider">
@@ -3567,6 +3868,37 @@
          JAVASCRIPT
          ================================================ -->
     <script>
+        /* ============================================
+           VIDEO EXHIBIT – Play/Pause Steuerung
+           ============================================ */
+        (() => {
+            document.querySelectorAll('.video-wrapper').forEach(wrapper => {
+                const video = wrapper.querySelector('video');
+                if (!video) return;
+
+                wrapper.addEventListener('click', () => {
+                    if (video.paused) {
+                        // Pause alle anderen Videos
+                        document.querySelectorAll('.video-wrapper video').forEach(v => {
+                            if (v !== video && !v.paused) {
+                                v.pause();
+                                v.closest('.video-wrapper').classList.remove('playing');
+                            }
+                        });
+                        video.play();
+                        wrapper.classList.add('playing');
+                    } else {
+                        video.pause();
+                        wrapper.classList.remove('playing');
+                    }
+                });
+
+                video.addEventListener('ended', () => {
+                    wrapper.classList.remove('playing');
+                });
+            });
+        })();
+
         /* ============================================
            SVG LAZY LOADER – lädt ausgelagerte SVGs
            ============================================ */
