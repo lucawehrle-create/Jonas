@@ -2634,13 +2634,13 @@
            VIDEO BEWEISMATERIAL SEKTION
            ============================================ */
         .video-evidence-section {
-            padding: 60px 20px 40px;
-            max-width: 1100px;
+            padding: 40px 20px 30px;
+            max-width: 860px;
             margin: 0 auto;
         }
         .video-evidence-section .section-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
         .video-evidence-stamp {
             display: inline-block;
@@ -2664,15 +2664,15 @@
         }
         .video-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 60px;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
         }
         .video-exhibit {
             position: relative;
             background: var(--off-white);
             border: var(--line-width) solid var(--black);
             border-radius: var(--radius-md);
-            padding: 20px 20px 24px;
+            padding: 14px 14px 18px;
             box-shadow: var(--shadow);
             transition: transform var(--transition), box-shadow var(--transition);
         }
@@ -2733,8 +2733,8 @@
             opacity: 0;
         }
         .video-play-btn {
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             background: rgba(255,255,255,0.92);
             border-radius: 50%;
             display: flex;
@@ -2752,20 +2752,19 @@
             margin-left: 4px;
         }
         .video-exhibit-caption {
-            margin-top: 16px;
+            margin-top: 10px;
             text-align: center;
         }
         .video-exhibit-title {
             font-family: var(--font-label);
-            font-size: clamp(1rem, 3vw, 1.3rem);
-            margin-bottom: 6px;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            margin-bottom: 4px;
         }
         .video-exhibit-desc {
             font-family: var(--font-hand);
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-size: clamp(0.85rem, 2vw, 1rem);
             color: var(--grey);
-            line-height: 1.5;
-            max-width: 550px;
+            line-height: 1.4;
             margin: 0 auto;
         }
         .video-exhibit-desc em {
@@ -2839,13 +2838,13 @@
             50% { opacity: 0.2; }
         }
         /* Mobile Anpassung */
-        @media (max-width: 600px) {
-            .video-evidence-section { padding: 40px 12px 30px; }
-            .video-exhibit { padding: 14px 14px 18px; }
-            .video-play-btn { width: 54px; height: 54px; }
-            .video-play-btn svg { width: 22px; height: 22px; }
+        @media (max-width: 700px) {
+            .video-evidence-section { padding: 30px 12px 20px; }
+            .video-grid { grid-template-columns: 1fr; gap: 30px; }
+            .video-exhibit { padding: 12px 12px 14px; }
+            .video-play-btn { width: 44px; height: 44px; }
+            .video-play-btn svg { width: 20px; height: 20px; }
             .video-annotation { display: none; }
-            .video-grid { gap: 40px; }
         }
     </style>
 </head>
