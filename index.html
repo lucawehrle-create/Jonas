@@ -2680,31 +2680,30 @@
             transform: translateY(-3px) rotate(var(--rotation, 0deg));
             box-shadow: var(--shadow-hover);
         }
+        .video-exhibit-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
         .video-exhibit-number {
-            position: absolute;
-            top: -18px;
-            left: 24px;
             background: var(--black);
             color: var(--white);
             font-family: var(--font-label);
-            font-size: 0.75rem;
-            padding: 4px 14px;
+            font-size: 0.65rem;
+            padding: 3px 10px;
             letter-spacing: 2px;
             border-radius: var(--radius-sm);
         }
         .video-exhibit-badge {
-            position: absolute;
-            top: -14px;
-            right: 20px;
             background: var(--gold);
             color: var(--black);
             font-family: var(--font-label);
-            font-size: 0.65rem;
-            padding: 4px 10px;
+            font-size: 0.6rem;
+            padding: 3px 9px;
             border-radius: var(--radius-pill);
-            transform: rotate(3deg);
+            transform: rotate(2deg);
             box-shadow: 1px 1px 0 rgba(0,0,0,0.15);
-            z-index: 2;
         }
         .video-wrapper {
             position: relative;
@@ -2771,28 +2770,12 @@
             color: var(--black);
             font-style: italic;
         }
-        /* Handschriftliche Anmerkungen neben Videos */
+        /* Handschriftliche Anmerkung unter Beschreibung */
         .video-annotation {
-            position: absolute;
             font-family: var(--font-hand);
-            font-size: clamp(0.85rem, 2vw, 1.05rem);
+            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
             color: #c0392b;
-            pointer-events: none;
-            white-space: nowrap;
-        }
-        .video-annotation-arrow {
-            position: absolute;
-            pointer-events: none;
-        }
-        .video-annotation.top-right {
-            top: -30px;
-            right: -10px;
-            transform: rotate(2deg);
-        }
-        .video-annotation.bottom-left {
-            bottom: -28px;
-            left: 10px;
-            transform: rotate(-2deg);
+            margin-top: 6px;
         }
         /* Slow-mo Replay Animation */
         @keyframes vhsFlicker {
@@ -2844,7 +2827,6 @@
             .video-exhibit { padding: 12px 12px 14px; }
             .video-play-btn { width: 44px; height: 44px; }
             .video-play-btn svg { width: 20px; height: 20px; }
-            .video-annotation { display: none; }
         }
     </style>
 </head>
@@ -3282,9 +3264,10 @@
         <div class="video-grid">
             <!-- EXHIBIT A: Das Anspiel -->
             <div class="video-exhibit reveal" style="--rotation: -0.4deg;">
-                <div class="video-exhibit-number">BEWEISSTÜCK A</div>
-                <div class="video-exhibit-badge">Unannehmbar</div>
-                <span class="video-annotation top-right">Keine Chance. Null. &darr;</span>
+                <div class="video-exhibit-top">
+                    <div class="video-exhibit-number">BEWEISSTÜCK A</div>
+                    <div class="video-exhibit-badge">Unannehmbar</div>
+                </div>
                 <div class="video-wrapper" id="videoWrapperA">
                     <video id="videoA" preload="metadata" playsinline loop>
                         <source src="videos/starkes_anspiel.MOV" type="video/quicktime">
@@ -3306,14 +3289,16 @@
                         Jonas serviert mit einer Präzision, die an <em>göttliche Intervention</em> grenzt.
                         Luca steht daneben wie ein Zuschauer bei seinem eigenen Begräbnis.
                     </p>
+                    <p class="video-annotation">Keine Chance. Null.</p>
                 </div>
             </div>
 
             <!-- EXHIBIT B: Der Matchball -->
             <div class="video-exhibit reveal" style="--rotation: 0.5deg;">
-                <div class="video-exhibit-number">BEWEISSTÜCK B</div>
-                <div class="video-exhibit-badge">Tragisch</div>
-                <span class="video-annotation top-right">Tja. Selbst schuld. &darr;</span>
+                <div class="video-exhibit-top">
+                    <div class="video-exhibit-number">BEWEISSTÜCK B</div>
+                    <div class="video-exhibit-badge">Tragisch</div>
+                </div>
                 <div class="video-wrapper" id="videoWrapperB">
                     <video id="videoB" preload="metadata" playsinline loop>
                         <source src="videos/matchball.MOV" type="video/quicktime">
@@ -3334,10 +3319,9 @@
                     <p class="video-exhibit-desc">
                         Luca braucht keinen Gegner. Er spielt den entscheidenden Ball
                         <em>selbst ins Netz</em>. Jonas musste nicht mal den Schläger heben.
-                        Mitleid wäre hier fehl am Platz.
                     </p>
+                    <p class="video-annotation">Man beachte die Verzweiflung.</p>
                 </div>
-                <span class="video-annotation bottom-left">&uarr; Man beachte die Verzweiflung</span>
             </div>
         </div>
     </section>
