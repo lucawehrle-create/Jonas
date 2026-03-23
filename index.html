@@ -3909,6 +3909,10 @@
          JAVASCRIPT
          ================================================ -->
     <script>
+        /* Bei Neuladen immer oben starten */
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+
         /* ============================================
            VIDEO EXHIBIT – Play/Pause Steuerung
            ============================================ */
